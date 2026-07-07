@@ -5,7 +5,8 @@ const crypto = require("crypto");
 const libraryNamePattern = /^(?![._-])(?!.*[._-]{2})[A-Za-z0-9._-]+(?<![._-])$/;
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 8080;
+// const PORT = 3000;
 
 app.use(express.static("public"));
 app.use("/components", express.static(path.join(__dirname, "components")));
