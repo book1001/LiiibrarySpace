@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>hi Liiibrary.Space</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link rel="stylesheet" href="/0_font/font.css">
+    <link rel="stylesheet" href="/1_local/local.css">
+  </head>
+
+  <body style="background: #d35838;">
+    <div id="libraryHeader" contenteditable="true" spellcheck="false" can-mirror>hi Liiibrary</div>
+
+    <div data-component="book-card"></div>
+
+    <div id="toolbox">
+      <button type="button" data-tool="note">Note</button>
+      <button type="button" data-tool="lineH">Shelf</button>
+      <button type="button" data-tool="lineV">Column</button>
+      <button type="button" data-tool="light">Light</button>
+      <button type="button" data-tool="radio">Radio</button>
+    </div>
+
+    <div id="floor">
+      <div data-component="book-list" data-mode="currentLibrary"></div>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- JS -->
+    <!-- ====================================================== -->
+    <script>window.CURRENT_LIBRARY = "hi";</script>
+
+    <script type="module" src="/index.js"></script>
+    <script type="module" src="/1_local/local.js"></script>
+  </body>
+</html>

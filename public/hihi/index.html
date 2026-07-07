@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>hihi Liiibrary.Space</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+  <link rel="stylesheet" href="/0_font/font.css">
+  <link rel="stylesheet" href="/library-page.css">
+</head>
+<body style="background: #d35838;">
+  <h1 style="font-family: 'AmericanTypewriter'; font-weight: normal; position: fixed; bottom: 0; margin: 0; left: 10px;">hihi Liiibrary</h1>
+
+  <div style="position: fixed; top: 10px; right: 10px;">
+    <input id="itemPathInput" type="text" placeholder="item URL here">
+    <button id="addItemBtn" type="button">add</button>
+  </div>
+
+  <div id="bookList"></div>
+  
+  <div id="bookCard" style="display:none;">
+    <button id="closeBookCardBtn" type="button">Close</button>
+
+    <h2 id="cardTitle"></h2>
+    <p><strong>Author:</strong> <span id="cardAuthor"></span></p>
+    <p><strong>Library:</strong> <span id="cardLibrary"></span></p>
+
+    <hr>
+    <div>
+      <div><span id="liveNoteDate"></span></div>
+      <input type="text" id="noteBorrowerInput" placeholder="borrower">
+      <input type="text" id="noteCommentInput" placeholder="comment">
+      <button id="addNoteSubmitBtn" type="button">add note</button>
+    </div>
+
+    <hr>
+    <div id="cardNote"></div>
+
+    <button id="openBookBtn" type="button">open book</button>
+  </div>
+
+  <img id="owl_1" style="width: 300px; mix-blend-mode: multiply;" src="/1_img/owl_1.png" can-move>
+
+  <!-- <img id="shelf_1" style="position: fixed; z-index: -1;" src="/1_img/shelf_1.png" can-move> -->
+  
+  <style>
+    .__playhtml-loading {
+      animation: none;
+    }
+    .ph-inspect-highlight {
+
+    }
+    
+    .ph-inspect-highlight-hover {
+      outline-color: none;
+      box-shadow: 0 0 0 4px rgba(196, 114, 78, 0.15);
+    }
+
+    .book {
+      writing-mode: horizontal-tb;
+      height: 120px;
+      width: 100px;
+      text-align: center;
+      /* cursor: alias; */
+      background: #f2edcb;
+      font-family: monospace;
+      border: 3px double;
+    }
+
+
+    .can-drag {
+      position: absolute;
+      width: fit-content;
+    }
+
+    .can-drag2 {
+      position: absolute; 
+      top: 200px; 
+      left: 200px;
+    }
+
+    .drag-handle {
+      width: 100%;
+      height: 10px;
+      /* background: red; */
+      cursor: grab;
+      box-sizing: border-box;
+    }
+
+    #sticker_1 {
+      display: block;
+      resize: both;
+      box-sizing: border-box;
+    }
+
+    .stickers {
+      background: none;
+      border: none;
+    }
+  </style>
+
+<!-- <div id="drag_1" class="sticker" can-move></div>
+<textarea id="sticker_1" can-mirror></textarea>
+
+<textarea id="sticker_2" class="can-drag" can-mirror></textarea> -->
+
+<!-- <iframe class="book" src="https://www.wrecka.ge/against-the-dark-forest/"></iframe> -->
+
+<div class="book" style="background: #ffffff; font-family: monospace; border: 3px double;" contenteditable="true" spellcheck="false"></div>
+
+<div id="drag_1" class="can-drag" can-mirror>
+  <div class="drag-handle"></div>
+  <textarea id="sticker_1" class="stickers" can-mirror></textarea>
+</div>
+
+
+<div id="drag_2" class="can-drag" can-mirror>
+  <div class="drag-handle"></div>
+  <textarea id="sticker_2" class="stickers" can-mirror></textarea>
+</div>
+
+<div id="drag_3" class="can-drag" can-mirror>
+  <div class="drag-handle"></div>
+  <textarea id="sticker_3" class="stickers" can-mirror></textarea>
+</div>
+
+<div id="drag_4" class="can-drag" can-mirror>
+  <div class="drag-handle"></div>
+  <textarea id="sticker_4" class="stickers" can-mirror></textarea>
+</div>
+
+<div class="can-drag2" style="position: absolute; top: 200px; left: 200px; width: 100px; height: 100px; background: green;"></div>
+<button id="clone-line">clone bunny</button>
+<button id="remove-line">remove bunny</button>
+<div can-mirror id="bunny-line"></div>
+
+<script>
+  const pen = document.getElementById('bunny-line');
+  const btnClone = document.getElementById('clone-line');
+  const btnRemove = document.getElementById('remove-line');
+
+  btnClone.onclick = () => {
+    const bunny = document.createElement('div');
+    bunny.id = 'line-' + pen.children.length;
+    bunny.style.width = '100px';
+    bunny.style.height = '2px';
+    bunny.style.background = 'black';
+    bunny.setAttribute("can-mirror", "");
+    bunny.classList.add('can-drag2');
+    document.body.appendChild(bunny);
+  };
+
+  btnRemove.onclick = () => {
+    pen.lastChild.remove();
+  };
+
+</script>
+
+  <!-- <div class="can-drag" id="drag_1" can-move></div>>
+    <textarea id="sticker_1" style="cursor:text;" can-mirror></textarea>
+  </div> -->
+  <!-- <div class="can-drag" style="width: 50px; height: 50px; background: red;" can-mirror>
+    <textarea id="sticker_1" style="cursor:text;" can-mirror></textarea>
+  </div>
+
+  <div id="sticker_3" class="can-drag" style="width:100px; height: 50px; background: red;" contenteditable="true" spellcheck="false" can-mirror></div>
+
+  
+
+   <textarea id="sticker_2" class="can-drag" can-mirror></textarea> -->
+  <div id="itemImages"></div>
+
+  <script>
+
+document.querySelectorAll(".can-drag").forEach((item) => {
+  const handle = item.querySelector(".drag-handle");
+
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  handle.addEventListener("mousedown", (e) => {
+    isDragging = true;
+
+    offsetX = e.clientX - item.offsetLeft;
+    offsetY = e.clientY - item.offsetTop;
+
+    item.style.position = "absolute";
+    handle.style.cursor = "grabbing";
+
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    item.style.left = `${e.clientX - offsetX}px`;
+    item.style.top = `${e.clientY - offsetY}px`;
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (!isDragging) return;
+
+    isDragging = false;
+    handle.style.cursor = "grab";
+  });
+});
+// const drag = document.getElementById("drag_1");
+// const sticker = document.getElementById("sticker_1");
+
+// function syncPosition() {
+//   const rect = drag.getBoundingClientRect();
+
+//   sticker.style.position = "fixed";
+//   sticker.style.left = `${rect.left}px`;
+//   sticker.style.top = `${rect.bottom}px`;
+
+//   requestAnimationFrame(syncPosition);
+// }
+
+// syncPosition();
+
+// document.querySelectorAll(".can-drag").forEach((item) => {
+//   let isDragging = false;
+//   let offsetX = 0;
+//   let offsetY = 0;
+
+//   item.addEventListener("mousedown", (e) => {
+//     // 위쪽 10px에서만 드래그 시작
+//     if (e.offsetY > 10) return;
+
+//     isDragging = true;
+
+//     offsetX = e.clientX - item.offsetLeft;
+//     offsetY = e.clientY - item.offsetTop;
+
+//     item.style.position = "absolute";
+//     item.style.cursor = "grabbing";
+
+//     e.preventDefault();
+//   });
+
+//   document.addEventListener("mousemove", (e) => {
+//     if (!isDragging) return;
+
+//     item.style.left = `${e.clientX - offsetX}px`;
+//     item.style.top = `${e.clientY - offsetY}px`;
+//   });
+
+//   document.addEventListener("mouseup", () => {
+//     isDragging = false;
+//     item.style.cursor = "grab";
+//   });
+// });
+
+
+document.querySelectorAll(".can-drag2").forEach((item) => {
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  item.addEventListener("mousedown", (e) => {
+    isDragging = true;
+
+    offsetX = e.clientX - item.offsetLeft;
+    offsetY = e.clientY - item.offsetTop;
+
+    item.style.position = "absolute";
+    item.style.cursor = "grabbing";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    item.style.left = `${e.clientX - offsetX}px`;
+    item.style.top = `${e.clientY - offsetY}px`;
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    item.style.cursor = "text";
+  });
+});
+  </script>
+
+  <script>
+    window.CURRENT_LIBRARY = "hihi";
+  </script>
+  <script src="/library-page.js"></script>
+  <script type="module">
+    import { playhtml } from 'https://unpkg.com/playhtml';
+    // playhtml.init();
+    playhtml.init({ developmentMode: true });
+  </script>
+</body>
+</html>

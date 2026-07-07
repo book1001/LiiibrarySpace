@@ -1,0 +1,428 @@
+/* =================================== */
+/* Root */
+/* =================================== */
+:root {
+  --floor-size: 5000px;
+  --floor-half: calc((var(--floor-size)) / 2);
+}
+
+/* =================================== */
+/* Default */
+/* =================================== */
+html,body {
+  overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* =================================== */
+/* Floor */
+/* =================================== */
+#floor {
+  position: absolute;
+  top: calc(50vh - var(--floor-half));
+  left: calc(50vw - var(--floor-half));
+  width: var(--floor-size);
+  height: var(--floor-size);
+  touch-action: none;
+  /* background: green; */
+  cursor: move;
+}
+
+/* =================================== */
+/* Toolbox */
+/* =================================== */
+#toolbox {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+}
+
+
+/* =================================== */
+/* Toolbox */
+/* =================================== */
+.local-addbook {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+}
+
+#addbook-submitField {
+  display: none;
+  width: 270px;
+  margin: 10px auto;
+  padding: 0 20px;
+  border: 3px double gray;
+  background: white;
+}
+
+#addbook-submitField.is-open {
+  display: block;
+}
+
+/* =================================== */
+/* library Header */
+/* =================================== */
+#libraryHeader {
+  display: inline-block;
+  position: fixed; 
+  bottom: 0; 
+  left: 10px;
+  width: fit-content;
+  min-width: 1ch;
+  max-width: 350px;
+  height: 40px;
+  /* background: none; */
+  border: none;
+  outline: none;
+  font-family: 'AmericanTypewriter';
+  font-size: 28px;
+  z-index: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+/* =================================== */
+/* Items: Drag */
+/* =================================== */
+.can-drag {
+  position: absolute;
+  top: var(--floor-half);
+  left: var(--floor-half);
+  /* width: fit-content; */
+}
+
+.drag-handle {
+  width: 100%;
+  height: 12px;
+  /* background: red; */
+  cursor: grab;
+  touch-action: none;
+  box-sizing: border-box;
+  opacity: 0;
+  background-image:
+    url("/1_local_object/lineH_1.svg");
+  background-repeat: repeat-x;
+  background-position: top;
+  background-size: auto 4px;
+}
+
+.can-drag:focus-within .drag-handle {
+  opacity: 1;
+}
+
+body.is-dragging,
+body.is-dragging * {
+  cursor: grabbing !important;
+}
+
+/* =================================== */
+/* Items: Remove */
+/* =================================== */
+.remove {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  font-size: 10px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.remove span {
+  font-size: 12px;
+}
+
+.can-drag:focus-within .remove {
+  display: block;
+}
+
+/* =================================== */
+/* Items: Note & Note_borderless */
+/* =================================== */
+[id^="note_"] {
+  z-index: 2 !important;
+}
+
+.note, 
+.note_borderless {
+  width: 100px;
+  height: 100px;
+  background: none;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  font-family: monospace;
+
+  background-repeat:
+    repeat-x,
+    repeat-x,
+    repeat-y,
+    repeat-y;
+
+  background-position:
+    top,
+    bottom,
+    left,
+    right;
+  
+  background-size:
+    auto 4px,
+    auto 4px,
+    1px auto,
+    1px auto;
+  }
+
+  .note:focus,
+  .note_borderless:focus {
+    resize: both;
+  }
+
+  .note {
+    background-image:
+      url("/1_local_object/lineH_1.svg"),
+      url("/1_local_object/lineH_1.svg"),
+      url("/1_local_object/lineV_1.svg"),
+      url("/1_local_object/lineV_1.svg");
+  }
+  
+  .borderSetting {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 10px;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .can-drag:focus-within .borderSetting {
+    display: block;
+  }
+
+/* =================================== */
+/* Items: Lines */
+/* =================================== */
+[id^="lineH_"] {
+  position:absolute;
+  width: 300px;
+  height: 10px;
+  background-image: url("/1_local_object/lineH_1.svg");
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: auto 4px;
+  z-index: 2 !important;
+}
+
+[id^="lineV_"] {
+  position:absolute;
+  width: 10px;
+  height: 300px;
+  background-image: url("/1_local_object/lineV_1.svg");
+  background-repeat: repeat-y;
+  background-position: center;
+  background-size: 1px auto;
+  z-index: 2 !important;
+}
+
+.resize {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  /* background: yellow; */
+  touch-action: none;
+}
+
+[id^="lineH_"] .resize {
+  top: 50%;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+[id^="lineV_"] .resize {
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+body.is-resizing,
+body.is-resizing * {
+  user-select: none;
+}
+
+/* =================================== */
+/* Items: Toggles > Light */
+/* =================================== */
+[id^="light_"] {
+  position: absolute;
+  width: 140px;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-size: auto 200px;
+  z-index: 4 !important;
+}
+
+[id^="light_"] {
+  background-image: url("/1_local_object/light_1.png");
+}
+
+[id^="light_"][id$="_on"] {
+  background-image: url("/1_local_object/light_1_on.png");
+}
+
+.lightSwitch {
+  position: absolute;
+  top: 50px;
+  right: 30px;
+  width: 10px;
+  height: 80px;
+  background: transparent;
+  cursor: pointer;
+}
+
+
+/* =================================== */
+/* Items: Toggles > Radio*/
+/* =================================== */
+[id^="radio_"] {
+  position: absolute;
+  width: 200px;
+  height: 167px;
+  background-repeat: no-repeat;
+  background-size: 200px auto;
+  z-index: 4 !important;
+}
+
+[id^="radio_"] {
+  background-image: url("/1_local_object/radio_1.png");
+}
+
+/* [id^="radio_"][id$="_on"] {
+  background-image: url("/1_local_object/radio_1.png");
+} */
+
+.radioSwitch {
+  position: absolute;
+  top: 55px;
+  left: 75px;
+  width: 55px;
+  height: 55px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.radioNext {
+  position: absolute;
+  bottom: 17px;
+  left: 19px;
+  width: 10px;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.radioDisplay {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  width: 39px;
+  height: 12px;
+  background: black;
+  color: #b5b5b5;
+  font-size: 9px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* =================================== */
+/* PlayHtml */
+/* =================================== */
+.ph-inspect-highlight-hover {
+  outline-color: transparent !important;
+  box-shadow: none !important;
+}
+.ph-inspect-highlight {
+  outline: none !important;
+  outline-offset: 0 !important;
+  position: absolute !important;
+}
+
+
+
+
+
+
+
+
+/* =================================== */
+#bookList {
+  /* position: fixed;
+  top: 10px;
+  left: 10px; */
+}
+
+.book {
+  writing-mode: horizontal-tb;
+  display: inline-table;
+  width: 100px;
+  height: 120px;
+  text-align: center;
+  cursor: pointer;
+  border: 3px double;
+  background: #f2edcb;
+  font-family: monospace;
+  white-space: normal;
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+  hyphens: none;
+  z-index: 3 !important;
+}
+
+.book-title {
+  outline: none;
+}
+
+#bookCard {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  min-height: 240px;
+  border: 1px solid black;
+  background: #9eff8d;
+  padding: 20px;
+  display: none;
+  z-index: 10;
+}
+
+#openBookBtn {
+  margin-top: 16px;
+  cursor: pointer;
+}

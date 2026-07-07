@@ -1,0 +1,70 @@
+
+<h1>Book Submission</h1>
+
+<form id="bookForm" novalidate>
+<label>
+  Title:
+  <input type="text" name="title" required />
+</label>
+
+<br /><br />
+
+<div>
+  Author:
+  <div id="authorList">
+    <div class="author-row">
+      <input type="text" class="authorInput" required />
+    </div>
+  </div>
+  <button type="button" id="addAuthorBtn">+</button>
+</div>
+
+<br />
+
+<label>
+  URL:
+  <input type="url" name="url" required />
+</label>
+
+<br /><br />
+
+<div>
+  Library:
+  <div class="dropdown" id="libraryDropdown">
+    <button type="button" id="libraryDropdownBtn">Central Library</button>
+
+    <div class="dropdown-content" id="libraryCheckboxList">
+      <label>
+        <input type="checkbox" value="Central Library" checked disabled />
+        Central Library
+      </label>
+      <br />
+    </div>
+  </div>
+</div>
+
+<br /><br />
+
+<div id="duplicateBookCard" style="display:none; border:1px solid black; padding:16px; margin-top:20px;">
+  <h2>This book is already in the central library</h2>
+
+  <p><strong>Title:</strong> <span id="duplicateTitle"></span></p>
+  <p><strong>Author:</strong> <span id="duplicateAuthor"></span></p>
+  <p><strong>URL:</strong> <span id="duplicateUrl"></span></p>
+  <p><strong>Library:</strong> <span id="duplicateLibrary"></span></p>
+
+  <p>이 기존 책에 선택한 library를 추가할까요?</p>
+
+  <button type="button" id="addLibraryToExistingBookBtn">
+    Add Library
+  </button>
+
+  <button type="button" id="cancelDuplicateBtn">
+    Cancel
+  </button>
+</div>
+
+<button id="submitBtn" type="submit" disabled>Submit</button>
+</form>
+
+<p id="message"></p>

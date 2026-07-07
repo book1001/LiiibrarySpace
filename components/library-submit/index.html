@@ -1,0 +1,83 @@
+
+<h1>Build Your Library</h1>
+
+<form id="libraryForm" novalidate>
+  <label>
+    Library Name
+    <input type="text" name="libraryName" id="libraryName" required />
+  </label>
+
+  <div id="nameStatus"></div>
+  <!-- <small>
+    Use only letters, numbers, hyphens (-), underscores (_), and periods (.)<br>
+    Periods may only appear singly between characters
+  </small>
+  <br><br> -->
+  <br>
+
+  <label>
+    Password
+    <input type="password" name="password" required />
+  </label>
+
+  <br><br>
+
+  <label>
+    Library Color
+    <input type="color" id="colorPicker" value="#d35838">
+    <input type="text" name="color" id="colorHex" value="#d35838" required>
+  </label>
+
+  <br><br>
+
+  <div>
+    <div>Building Tyoe:</div>
+
+    <div id="houseOptions">
+      <label style="display: none;">
+        <input type="radio" name="houseExample" value="0">
+        Building 1
+      </label>
+
+      <label style="display: none;">
+        <input type="radio" name="houseExample" value="1">
+        Building 2
+      </label>
+
+      <label>
+        <input type="radio" name="houseExample" value="2">
+        Two Windows
+      </label>
+
+      <label>
+        <input type="radio" name="houseExample" value="3">
+        Bricks
+      </label>
+    </div>
+
+    <div id="houseTextarea" contenteditable="true" spellcheck="false"></div>
+  </div>
+
+  <br><br>
+
+  <fieldset>
+    <legend>Book Submission</legend>
+
+    <label>
+      <input type="radio" name="bookSharing" value="누구나 가능" required />
+      Anyone
+    </label>
+
+    <label>
+      <input type="radio" name="bookSharing" value="패스워드 필요" />
+      Password Required
+    </label>
+  </fieldset>
+
+  <br>
+
+  <button id="submitBtn" type="submit" disabled>Submit</button>
+</form>
+
+<p id="message"></p>
+

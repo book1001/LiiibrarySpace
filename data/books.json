@@ -1,0 +1,82 @@
+[
+  {
+    "id": "3b80acce-91c2-4b08-a45e-e05015819675",
+    "title": "Why the disappearance of digital third spaces matters",
+    "author": [
+      "Nuzhat Tahiya"
+    ],
+    "url": "https://www.thedailystar.net/star-youth/news/why-the-disappearance-digital-third-spaces-matters-4084946",
+    "library": [
+      "Central Library",
+      "SFPC.bbw"
+    ],
+    "note": [
+      {
+        "date": "06/29/2026, 05:54:48 PM",
+        "borrower": "Halim",
+        "comment": "It's cool!"
+      }
+    ]
+  },
+  {
+    "id": "b2125425-fc67-4574-b6dc-be138e4b6ffc",
+    "title": "On Contamination",
+    "author": [
+      "Kim Kleinert"
+    ],
+    "url": "https://www.are.na/editorial/on-contamination",
+    "library": [
+      "Central Library",
+      "SFPC",
+      "SFPC.bbw",
+      "hihi"
+    ],
+    "note": []
+  },
+  {
+    "id": "dbaa8190-a7e2-41a7-83ff-b1a3ad28bb63",
+    "title": "Against the dark forest",
+    "author": [
+      "Erin Kissane"
+    ],
+    "url": "https://www.wrecka.ge/against-the-dark-forest/",
+    "library": [
+      "Central Library",
+      "SFPC",
+      "hihi"
+    ],
+    "note": [
+      {
+        "date": "06/29/2026, 07:58:21 PM",
+        "borrower": "Halim",
+        "comment": "This is so cool!"
+      }
+    ]
+  },
+  {
+    "id": "f99ec99a-9faa-4e31-97b5-36be69e8c28e",
+    "title": "Digital gardens let you cultivate your own little bit of the internet",
+    "author": [
+      "Tanya Basu"
+    ],
+    "url": "https://www.technologyreview.com/2020/09/03/1007716/digital-gardens-let-you-cultivate-your-own-little-bit-of-the-internet",
+    "library": [
+      "Central Library",
+      "test"
+    ],
+    "note": []
+  },
+  {
+    "id": "fbc9a4e3-4785-45a6-9542-47a7b51bb7c8",
+    "title": "How to read a network, or the Internet as unfinished demo",
+    "author": [
+      "Lori Emerson"
+    ],
+    "url": "https://loriemerson.net/wp-content/uploads/2024/02/10.4324_9781003211662-14_chapterpdf.pdf",
+    "library": [
+      "Central Library",
+      "test"
+    ],
+    "note": []
+  }
+]

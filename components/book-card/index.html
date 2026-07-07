@@ -1,0 +1,46 @@
+<div id="bookCard">
+  <button id="closeBookCardBtn" style="position: absolute; top: 10px; right: 10px;">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+
+  
+  <h2 id="cardTitle" style="text-align: center;"></h2>
+  <h4>Author: <span id="cardAuthor"></span></h4>
+  <h4>Library: <span id="cardLibrary"></span></h4>
+  <h4 id="openBookBtn">Open and read</h4>
+  <hr>
+
+  <style>
+    #cardNote {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .list-item {
+      display: grid;
+      grid-template-columns: 80px 100px auto;
+      column-gap: 5px;
+      padding: 0;
+      border-bottom: 1px solid black;
+    }
+  </style>
+
+  <div class="list-item">
+    <div>Date</div>
+    <div>Borrower</div>
+    <div>Comment</div>
+  </div>
+
+  <div class="list-item">
+    <span id="liveNoteDate"></span>
+    <input type="text" id="noteBorrowerInput" placeholder="borrower" />
+    <input type="text" id="noteCommentInput" placeholder="comment" />
+    <button id="addNoteSubmitBtn" type="button"><span class="material-symbols-outlined">add</span></button>
+  </div>
+
+
+  <div id="cardNote"></div>
+
+
+  
+</div>

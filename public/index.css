@@ -1,0 +1,268 @@
+/* ============================================================= */
+/* Variable */
+/* ============================================================= */
+:root {
+  --scrollbar-width: 20px;
+  --scrollbar-right: 0px;
+  --scrollbar-left: 17px;
+}
+
+
+/* ============================================================= */
+/* Basic */
+/* ============================================================= */
+html,body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+::-webkit-scrollbar-track { /* Track */
+  background: transparent;
+}
+::-webkit-scrollbar-thumb { /* Handle */
+  background: rgb(0,0,0,1);
+  background-clip: padding-box;
+  border-top: 0px solid transparent;
+  border-right: var(--scrollbar-right) solid transparent;
+  border-bottom: 0px solid transparent;
+  border-left: var(--scrollbar-left) solid transparent;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid black;
+  background: none;
+}
+
+iframe {
+  width: 400px;
+  height: 480px;
+  border: none;
+  overflow: hidden;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+/* ============================================================= */
+/* Main: Info */
+/* ============================================================= */
+.main-info {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  width: calc(50% - 20px);
+  height: 100%;
+  padding: 0 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: white;
+}
+
+/* ============================================================= */
+/* Main: Info > Library submit  */
+/* ============================================================= */
+.main-submitField {
+  width: 360px;
+  margin: 100px auto;
+  padding: 0 20px;
+  border: 3px double gray;
+}
+
+
+/* ============================================================= */
+/* Main: Shelf */
+/* ============================================================= */
+.main-shelf {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #d6d6d6;
+}
+
+
+
+/* ============================================================= */
+/* Books */
+/* ============================================================= */
+#bookList {
+  display: grid;
+  grid-template-columns: repeat(var(--side-count), 33px) 1fr repeat(var(--side-count), 33px);
+  align-content: flex-start;
+  align-items: flex-end;
+  gap: 8px;
+  --side-count: 3;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 20px);
+  height: calc(100% - 10px);
+  padding: 10px 10px 0 10px;
+}
+
+
+@media (min-width: 700px) {
+  #bookList {
+    --side-count: 4;
+  }
+}
+
+@media (min-width: 1000px) {
+  #bookList {
+    --side-count: 5;
+  }
+}
+
+#bookList a {
+  display: block;
+  max-height: 200px;
+  margin-bottom: 8px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  background: #9eff8d;
+  padding: 14px 5px;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#bookList a:hover {
+  text-decoration: underline;
+}
+
+#bookCard {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  min-height: 240px;
+  border: 1px solid black;
+  background: #9eff8d;
+  padding: 20px;
+  display: none;
+  z-index: 10;
+}
+
+#bookCard button {
+  padding: 0;
+  margin: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  border: none;
+  line-height: 0;
+  background: none;
+  cursor: pointer;
+}
+
+#openBookBtn {
+  cursor: pointer;
+}
+
+
+/* ============================================================= */
+/* Book: Submit */
+/* ============================================================= */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid black;
+  padding: 12px;
+  min-width: 220px;
+  z-index: 10;
+}
+
+.dropdown.open .dropdown-content {
+  display: block;
+}
+
+.author-row,
+.note-row {
+  margin-bottom: 8px;
+}
+
+/* ============================================================= */
+/* Library: List */
+/* ============================================================= */
+#libraryList {
+  display: none !important;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#libraryStreet {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  /* flex-direction: row-reverse; */
+  align-items: flex-end;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.library-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10px;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.library-house {
+  font-family: monospace;
+  white-space: pre;
+  line-height: 1;
+  margin: 0;
+  color: #d35838;
+}
+
+.library-name {
+  margin: 0;
+}
+
+#houseTextarea {
+  margin: 0;
+  padding: 0;
+  width: 100px;
+  outline: none;
+  text-align: center;
+  white-space: pre;
+  font-family: monospace;
+  line-height: 1;
+  color: #d35838;
+  /* color: #fd6161; */
+}

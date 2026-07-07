@@ -1,0 +1,134 @@
+[
+  {
+    "id": "cad8a9ed-1a79-47e2-af31-b5a9c817ec02",
+    "libraryName": "SFPC.bbw",
+    "password": "123",
+    "color": "#ebf8ff",
+    "bookSharing": "패스워드 필요",
+    "createdAt": "2026-06-29T21:38:30.168Z",
+    "note": [],
+    "lineH": [],
+    "lineV": [],
+    "light": [],
+    "radio": [],
+    "item": [],
+    "house": "     A\n    / \\\n   /___\\\n  |     |\n  | *[]*|\n  |_____|"
+  },
+  {
+    "id": "e8cf8fb2-0bc3-4957-b588-cbd1439e33c2",
+    "libraryName": "Halim",
+    "password": "123",
+    "color": "#ffffe5",
+    "bookSharing": "누구나 가능",
+    "createdAt": "2026-06-29T21:39:14.639Z",
+    "note": [],
+    "lineH": [],
+    "lineV": [],
+    "light": [],
+    "radio": [],
+    "item": [],
+    "house": "     A\n    / \\\n   /___\\\n  |     |\n  | *[]*|\n  |_____|"
+  },
+  {
+    "id": "05977bec-c65b-4772-bdc8-779b444d339f",
+    "libraryName": "ThreeCats",
+    "password": "123",
+    "color": "#ffffff",
+    "bookSharing": "누구나 가능",
+    "createdAt": "2026-06-29T21:43:43.757Z",
+    "note": [],
+    "lineH": [],
+    "lineV": [],
+    "light": [],
+    "radio": [],
+    "item": [],
+    "house": "     A\n    / \\\n   /___\\\n  |     |\n  | *[]*|\n  |_____|"
+  },
+  {
+    "id": "eef095fc-881d-433c-93ba-aee592f9facd",
+    "libraryName": "SFPC",
+    "password": "123",
+    "color": "#dbfff8",
+    "bookSharing": "누구나 가능",
+    "createdAt": "2026-06-29T23:56:32.286Z",
+    "note": [
+      "note_0",
+      "note_1"
+    ],
+    "lineH": [
+      "lineH_0"
+    ],
+    "lineV": [
+      "lineV_0",
+      "lineV_1"
+    ],
+    "light": [
+      "light_0"
+    ],
+    "radio": [
+      "radio_0"
+    ],
+    "item": [
+      {
+        "id": "item_0",
+        "url": "https://leehalim.com/image_details/Detail_2024_RadioClub_favicon.gif"
+      }
+    ],
+    "house": "\n ▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█\n"
+  },
+  {
+    "id": "da84b841-7793-494b-beac-a28c61500f4c",
+    "libraryName": "hihi",
+    "password": "123",
+    "color": "#ffffff",
+    "bookSharing": "누구나 가능",
+    "createdAt": "2026-07-02T00:57:13.721Z",
+    "note": [],
+    "lineH": [],
+    "lineV": [],
+    "light": [],
+    "radio": [],
+    "item": [],
+    "house": "\n▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n████████████\n█░░██████░░█\n████░░░░████\n████░░░░████\n"
+  },
+  {
+    "id": "840900a3-784c-4828-8986-5cc9839ef24c",
+    "libraryName": "test",
+    "password": "123",
+    "color": "#d35838",
+    "bookSharing": "누구나 가능",
+    "createdAt": "2026-07-06T06:48:28.064Z",
+    "note": [
+      "note_0",
+      "note_1"
+    ],
+    "lineH": [
+      "lineH_0",
+      "lineH_1"
+    ],
+    "lineV": [],
+    "light": [
+      "light_0"
+    ],
+    "radio": [
+      "radio_0"
+    ],
+    "item": [],
+    "house": "\n▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n████████████\n█░░██████░░█\n████░░░░████\n████░░░░████\n"
+  },
+  {
+    "id": "c606830e-16e6-4e9b-b2a5-8e3717a26b12",
+    "libraryName": "hi",
+    "password": "123",
+    "color": "#d35838",
+    "bookSharing": "누구나 가능",
+    "createdAt": "2026-07-06T07:11:39.187Z",
+    "note": [],
+    "lineH": [],
+    "lineV": [],
+    "light": [],
+    "radio": [],
+    "item": [],
+    "house": "\n▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n████████████\n█░░█SFPC█░░█\n████░░░░████\n████░░░░████\n"
+  }
+]
