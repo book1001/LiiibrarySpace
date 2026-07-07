@@ -652,6 +652,9 @@ app.get("/books", (req, res) => {
 // ======================================================================
 // 서버 시작
 // ======================================================================
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });
+// app.listen(PORT, () => {
+//   console.log(`Server running at http://localhost:${PORT}`);
+// });
