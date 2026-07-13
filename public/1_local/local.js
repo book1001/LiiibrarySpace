@@ -84,10 +84,8 @@ addBookBtn.addEventListener("click", () => {
 
   if (isClosed) {
     addBookBtn.textContent = "add";
-    addBookBtn.style.color = "black";
   } else {
-    addBookBtn.textContent = "collapse_content";
-    addBookBtn.style.color = "gray";
+    addBookBtn.textContent = "close";
   }
 });
 
@@ -696,9 +694,9 @@ window.deletePlayhtmlElementData = function (type, id) {
 
 await window.loadLibraryTools();
 
-// playhtml.init();
-playhtml.init({
-  developmentMode: true
-});
+playhtml.init();
+// playhtml.init({
+//   developmentMode: true
+// });
 
 setInterval(window.loadLibraryTools, 1000);

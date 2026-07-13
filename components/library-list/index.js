@@ -34,13 +34,13 @@ async function loadLibraries() {
 
     if (!libraryResponse.ok) {
       throw new Error(
-        "Library 목록을 불러오지 못했습니다."
+        "Failed to load the library list"
       );
     }
 
     if (!bookResponse.ok) {
       throw new Error(
-        "책 목록을 불러오지 못했습니다."
+        "Failed to load the book list"
       );
     }
 
@@ -108,22 +108,9 @@ async function loadLibraries() {
         name.className = "library-name";
         name.textContent = libraryName;
 
-        const count =
-          document.createElement("span");
-
-        count.className = "library-book-count";
-
-        count.textContent =
-          `${bookCount} ${
-            bookCount === 1
-              ? "book"
-              : "books"
-          }`;
-
         link.append(
           house,
-          name,
-          count
+          name
         );
 
         container.appendChild(link);
@@ -294,6 +281,21 @@ function getColorBrightness(hex) {
 // 최초 로드
 // ======================================================
 loadLibraries();
+
+
+// ======================================================
+// libraryStreet: 스크롤
+// ======================================================
+// const libraryStreet = document.getElementById("libraryStreet");
+
+libraryStreet.addEventListener("wheel", (e) => {
+  e.preventDefault();
+
+  libraryStreet.scrollLeft +=
+    Math.abs(e.deltaX) > Math.abs(e.deltaY)
+      ? e.deltaX
+      : e.deltaY;
+}, { passive: false });
 
 // const libraryList = document.getElementById("libraryList");
 // const libraryStreet = document.getElementById("libraryStreet");

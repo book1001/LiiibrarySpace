@@ -1,52 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>SFPC.bbw Liiibrary.Space</title>
-  <link rel="stylesheet" href="/0_font/font.css">
-  <link rel="stylesheet" href="/library-page.css">
-</head>
-<body style="background: #ebf8ff;">
-  <h1>SFPC.bbw Liiibrary</h1>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>SFPC.bbw Liiibrary.Space</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/0_font/font.css">
+    <link rel="stylesheet" href="/1_local/local.css">
+  </head>
 
-  <div style="position: fixed; top: 30px; right: 20px;">
-    <input id="itemPathInput" type="text" placeholder="item URL here">
-    <button id="addItemBtn" type="button">add</button>
-  </div>
+  <body style="background: #d35838;">
+    <div id="libraryHeader" contenteditable="true" spellcheck="false" can-mirror>SFPC.bbw Liiibrary.Space</div>
 
-  <div id="bookList"></div>
+    <div data-component="book-card"></div>
 
-  <div id="bookCard" style="display:none;">
-    <button id="closeBookCardBtn" type="button">Close</button>
-
-    <h2 id="cardTitle"></h2>
-    <p><strong>Author:</strong> <span id="cardAuthor"></span></p>
-    <p><strong>Library:</strong> <span id="cardLibrary"></span></p>
-
-    <hr>
-    <div>
-      <div><span id="liveNoteDate"></span></div>
-      <input type="text" id="noteBorrowerInput" placeholder="borrower">
-      <input type="text" id="noteCommentInput" placeholder="comment">
-      <button id="addNoteSubmitBtn" type="button">add note</button>
+    <div id="toolbox">
+      <button type="button" data-tool="note">Note</button>
+      <button type="button" data-tool="lineH">Shelf</button>
+      <button type="button" data-tool="lineV">Column</button>
+      <button type="button" data-tool="light">Light</button>
+      <button type="button" data-tool="radio">Radio</button>
     </div>
 
-    <hr>
-    <div id="cardNote"></div>
+    <div class="local-addbook">
+      <button id="addbook" class="material-symbols-outlined">close</button>
+      <div data-component="book-submit" id="addbook-submitField"></div>
+    </div>
 
-    <button id="openBookBtn" type="button">open book</button>
-  </div>
+    <div id="floor">
+      <div data-component="book-list" data-mode="currentLibrary"></div>
+    </div>
 
-  <img id="shelf_1" style="position: fixed; z-index: -1;" src="/1_img/shelf_1.png" can-move>
-  <div id="itemImages"></div>
+    <!-- ====================================================== -->
+    <!-- JS -->
+    <!-- ====================================================== -->
+    <script>window.CURRENT_LIBRARY = "SFPC.bbw";</script>
 
-  <script>
-    window.CURRENT_LIBRARY = "SFPC.bbw";
-  </script>
-  <script src="/library-page.js"></script>
-  <script type="module">
-    import { playhtml } from 'https://unpkg.com/playhtml';
-    playhtml.init();
-  </script>
-</body>
+    <script type="module" src="/index.js"></script>
+    <script type="module" src="/1_local/local.js"></script>
+  </body>
 </html>

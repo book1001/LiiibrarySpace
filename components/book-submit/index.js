@@ -86,7 +86,8 @@ function createAuthorRow({ removable = true } = {}) {
 
     removeButton.type = "button";
     removeButton.className = "removeAuthorBtn";
-    removeButton.textContent = "-";
+    removeButton.classList.add("material-symbols-outlined");
+    removeButton.textContent = "do_not_disturb_on";
 
     removeButton.addEventListener("click", () => {
       row.remove();
@@ -208,7 +209,7 @@ async function addCurrentLibraryToBook(bookId, password) {
   if (!response.ok) {
     throw new Error(
       result.message ||
-      `${CURRENT_LIBRARY}에 책을 추가하지 못했습니다.`
+      `Failed to add the book to ${CURRENT_LIBRARY}`
     );
   }
 
@@ -247,7 +248,7 @@ async function registerNewBook({
   if (!response.ok) {
     throw new Error(
       result.message ||
-      "책을 등록하지 못했습니다."
+      "Failed to register the book"
     );
   }
 
@@ -270,7 +271,7 @@ form.addEventListener("submit", async (e) => {
     .filter(Boolean);
 
   if (!title || !url || author.length === 0) {
-    alert("Title, Author, URL을 모두 입력해주세요.");
+    alert("Please enter the title, author, and URL");
     return;
   }
 
@@ -307,7 +308,7 @@ form.addEventListener("submit", async (e) => {
     if (!checkResponse.ok) {
       throw new Error(
         checkResult.message ||
-        "책의 중복 여부를 확인하지 못했습니다."
+        "Failed to check whether the book already exists"
       );
     }
 
@@ -344,7 +345,7 @@ form.addEventListener("submit", async (e) => {
       // });
 
       alert(
-        `${CURRENT_LIBRARY}에 기존 책이 추가되었습니다.`
+        `The existing book has been added to ${CURRENT_LIBRARY}`
       );
 
       resetBookForm();
@@ -383,7 +384,7 @@ form.addEventListener("submit", async (e) => {
     // });
 
     alert(
-      `${CURRENT_LIBRARY}에 새 책이 등록되었습니다.`
+      `A new book has been registered in ${CURRENT_LIBRARY}`
     );
 
     resetBookForm();

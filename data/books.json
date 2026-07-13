@@ -10,13 +10,7 @@
       "Central Library",
       "SFPC.bbw"
     ],
-    "note": [
-      {
-        "date": "06/29/2026, 05:54:48 PM",
-        "borrower": "Halim",
-        "comment": "It's cool!"
-      }
-    ]
+    "note": []
   },
   {
     "id": "b2125425-fc67-4574-b6dc-be138e4b6ffc",
@@ -27,10 +21,7 @@
     "url": "https://www.are.na/editorial/on-contamination",
     "library": [
       "Central Library",
-      "SFPC",
-      "SFPC.bbw",
-      "hihi",
-      "Test3"
+      "SFPC.bbw"
     ],
     "note": []
   },
@@ -43,17 +34,9 @@
     "url": "https://www.wrecka.ge/against-the-dark-forest/",
     "library": [
       "Central Library",
-      "SFPC",
-      "hihi",
-      "Test3"
+      "SFPC.bbw"
     ],
-    "note": [
-      {
-        "date": "06/29/2026, 07:58:21 PM",
-        "borrower": "Halim",
-        "comment": "This is so cool!"
-      }
-    ]
+    "note": []
   },
   {
     "id": "f99ec99a-9faa-4e31-97b5-36be69e8c28e",
@@ -64,8 +47,7 @@
     "url": "https://www.technologyreview.com/2020/09/03/1007716/digital-gardens-let-you-cultivate-your-own-little-bit-of-the-internet",
     "library": [
       "Central Library",
-      "test",
-      "Test3"
+      "Halim"
     ],
     "note": []
   },
@@ -78,20 +60,9 @@
     "url": "https://loriemerson.net/wp-content/uploads/2024/02/10.4324_9781003211662-14_chapterpdf.pdf",
     "library": [
       "Central Library",
-      "Test3"
+      "Halim"
     ],
-    "note": [
-      {
-        "date": "07/12/2026, 08:04:09 PM",
-        "borrower": "haha",
-        "comment": "It was great"
-      },
-      {
-        "date": "07/12/2026, 08:04:33 PM",
-        "borrower": "Test",
-        "comment": "How many words I can type? I don't know. Let's try..."
-      }
-    ]
+    "note": []
   },
   {
     "id": "3e64995e-8692-47b5-b3ef-f91f1dba376f",
@@ -103,7 +74,7 @@
     "url": "https://www.are.na/editorial/reimagining-privacy-online-through-gradients-of-intimacy",
     "library": [
       "Central Library",
-      "Test3"
+      "SFPC.bbw"
     ],
     "note": []
   }

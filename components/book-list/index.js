@@ -132,7 +132,7 @@ export async function initBookList({
       const res = await fetch("/books");
 
       if (!res.ok) {
-        throw new Error("책 목록을 불러오지 못했습니다.");
+        throw new Error("Failed to load the book list");
       }
 
       const books = await res.json();

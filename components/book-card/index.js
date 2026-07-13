@@ -5,6 +5,7 @@ export function initBookCard() {
   const cardLibrary = document.getElementById("cardLibrary");
   const cardNote = document.getElementById("cardNote");
   const openBookBtn = document.getElementById("openBookBtn");
+  const copyBookURL = document.getElementById("copyBookURL");
   const liveNoteDate = document.getElementById("liveNoteDate");
   const noteBorrowerInput = document.getElementById("noteBorrowerInput");
   const noteCommentInput = document.getElementById("noteCommentInput");
@@ -78,11 +79,10 @@ export function initBookCard() {
       cardNote.innerHTML = [...notes].reverse().map(note => {
         return `
           <div class="list-item">
-            <div>${escapeHtml(note.date.split(",")[0])}</div>
+            <div class="list-date">${escapeHtml(note.date.split(",")[0])}</div>
             <div>${escapeHtml(note.borrower)}</div>
             <div>${escapeHtml(note.comment)}</div>
           </div>
-          <br />
         `;
       }).join("");
     } else {
@@ -110,7 +110,7 @@ export function initBookCard() {
       const response = await fetch("/libraries");
 
       if (!response.ok) {
-        throw new Error("라이브러리 목록을 불러오지 못했습니다.");
+        throw new Error("Failed to load the library list");
       }
 
       const result = await response.json();
@@ -124,7 +124,7 @@ export function initBookCard() {
       console.error(error);
 
       libraryCheckboxList.textContent =
-        "라이브러리 목록을 불러오지 못했습니다.";
+        "Failed to load the library list";
     }
   }
 
@@ -197,8 +197,8 @@ export function initBookCard() {
 
       if (library.bookSharing === "패스워드 필요") {
         const lockMark = document.createElement("span");
-        lockMark.textContent = "🔒";
-        lockMark.title = "등록 또는 제거할 때 패스워드가 필요합니다.";
+        lockMark.textContent = "❋";
+        lockMark.title = "Password required to add or remove this library";
 
         label.append(" ", lockMark);
       }
@@ -236,11 +236,11 @@ export function initBookCard() {
 
     if (library.bookSharing === "패스워드 필요") {
       const actionText = shouldAdd
-        ? "등록"
-        : "제거";
+        ? "add"
+        : "remove";
 
       const enteredPassword = window.prompt(
-        `${libraryName}을(를) ${actionText}하려면 패스워드를 입력해주세요.`
+        `Please enter the password to ${actionText} ${libraryName}`
       );
 
       // Cancel을 누른 경우 기존 상태로 되돌리기
@@ -276,7 +276,7 @@ export function initBookCard() {
       if (!response.ok || !result.success) {
         throw new Error(
           result.message ||
-          "라이브러리 정보를 변경하지 못했습니다."
+          "Failed to update the library information"
         );
       }
 
@@ -304,6 +304,7 @@ export function initBookCard() {
     currentBook = book;
     currentBookId = book.id;
     currentBookUrl = book.url;
+    // openBookBtn.textContent = book.url || "";
 
     noteBorrowerInput.value = "";
     noteCommentInput.value = "";
@@ -325,6 +326,8 @@ export function initBookCard() {
 
     libraryDropdown.classList.remove("is-open");
     bookCard.style.display = "block";
+
+    noteBorrowerInput.focus();
   }
 
 // ===========================
@@ -337,7 +340,7 @@ export function initBookCard() {
     const comment = noteCommentInput.value.trim();
 
     if (!borrower && !comment) {
-      alert("borrower 또는 comment를 입력해주세요.");
+      alert("Please enter a borrower or a comment");
       return;
     }
 
@@ -362,7 +365,7 @@ export function initBookCard() {
       if (!response.ok || !result.success) {
         throw new Error(
           result.message ||
-          "노트를 저장하지 못했습니다."
+          "Failed to save the note"
         );
       }
 
@@ -468,41 +471,9 @@ export function initBookCard() {
     });
   });
 
-  // addNoteSubmitBtn.addEventListener("click", async () => {
-  //   if (!currentBookId) return;
-
-  //   const borrower = noteBorrowerInput.value.trim();
-  //   const comment = noteCommentInput.value.trim();
-
-  //   if (!borrower && !comment) {
-  //     alert("borrower 또는 comment를 입력해주세요.");
-  //     return;
-  //   }
-
-  //   const response = await fetch(`/books/${currentBookId}/notes`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json;charset=UTF-8"
-  //     },
-  //     body: JSON.stringify({
-  //       date: getLocalTimeText(),
-  //       borrower,
-  //       comment
-  //     })
-  //   });
-
-  //   const result = await response.json();
-
-  //   if (result.success) {
-  //     currentBook = result.book;
-
-  //     noteBorrowerInput.value = "";
-  //     noteCommentInput.value = "";
-
-  //     renderNotes(currentBook.note);
-  //   } else {
-  //     alert(result.message);
-  //   }
+  // openBookBtn.addEventListener("click", () => {
+  //   if (!currentBookUrl) return;
+  //   window.open(currentBookUrl, "_blank", "noopener,noreferrer");
   // });
 
   openBookBtn.addEventListener("click", () => {
@@ -510,6 +481,48 @@ export function initBookCard() {
       window.open(currentBookUrl, "_blank", "noopener,noreferrer");
     }
   });
+
+  // ==============================================
+  // 토스트팝업
+  // ==============================================
+  function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.add("show"));
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+      toast.addEventListener("transitionend", () => toast.remove(), { once: true });
+    }, 1800);
+  }
+
+  copyBookURL.addEventListener("click", async () => {
+    if (!currentBookUrl) return;
+
+    try {
+      await navigator.clipboard.writeText(currentBookUrl);
+      showToast("Book URL copied!");
+    } catch (err) {
+      showToast("Failed to copy URL.");
+    }
+  });
+
+  // copyBookURL.addEventListener("click", async () => {
+  //   if (!currentBookUrl) return;
+
+  //   try {
+  //     await navigator.clipboard.writeText(currentBookUrl);
+  //     // 필요하면 alert 대신 토스트 등으로 변경
+  //     alert("Book URL copied!");
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Failed to copy URL.");
+  //   }
+  // });
 
   closeBookCardBtn.addEventListener("click", () => {
     bookCard.style.display = "none";

@@ -26,6 +26,23 @@
 }
 
 
+
+/* text: drag color ================================================ */
+::selection {
+  color: #9eff8d;
+  /* background: black; */
+  text-shadow: 0 0px 6px black;
+  text-decoration: none;
+}
+
+::-moz-selection { 
+  color: #9eff8d;
+  /* background: black; */
+  text-shadow: 0 0px 6px black;
+  text-decoration: none;
+}
+
+
 /* default ================================================ */
 /* a {
   text-decoration: none;

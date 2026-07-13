@@ -34,6 +34,70 @@ const houseExamples = [
 `
 ];
 
+const HOUSE_MAX_COLUMNS = 12;
+const HOUSE_MAX_ROWS = 6;
+
+function normalizeHouseText(text) {
+  return text
+    .replace(/\r\n?/g, "\n")
+    .split("\n")
+    .slice(0, HOUSE_MAX_ROWS)
+    .map(line =>
+      Array.from(line)
+        .slice(0, HOUSE_MAX_COLUMNS)
+        .join("")
+    )
+    .join("\n");
+}
+
+houseTextarea.addEventListener("input", () => {
+  const start = houseTextarea.selectionStart;
+  const before = houseTextarea.value;
+
+  const normalized = normalizeHouseText(before);
+
+  if (before !== normalized) {
+    houseTextarea.value = normalized;
+
+    const nextPosition = Math.min(
+      start,
+      houseTextarea.value.length
+    );
+
+    houseTextarea.setSelectionRange(
+      nextPosition,
+      nextPosition
+    );
+  }
+});
+
+houseTextarea.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter") {
+    return;
+  }
+
+  const value = houseTextarea.value;
+  const selectionStart = houseTextarea.selectionStart;
+  const selectionEnd = houseTextarea.selectionEnd;
+
+  const lines = value.split("\n");
+
+  // 선택 영역에 줄바꿈이 포함되면 새 줄 수가 줄어들 수 있으므로 허용
+  const selectedText = value.slice(
+    selectionStart,
+    selectionEnd
+  );
+
+  const selectedLineBreaks =
+    (selectedText.match(/\n/g) || []).length;
+
+  const resultingLineCount =
+    lines.length + 1 - selectedLineBreaks;
+
+  if (resultingLineCount > HOUSE_MAX_ROWS) {
+    e.preventDefault();
+  }
+});
 
 // ===============================================
 // Hue Color Picker
@@ -85,8 +149,31 @@ colorHex.addEventListener("input", () => {
 
 
 window.setHouseExample = function(index) {
-  houseTextarea.textContent = houseExamples[index];
+  houseTextarea.value = houseExamples[index]
+    .trim()
+    .split("\n")
+    .slice(0, HOUSE_MAX_ROWS)
+    .map(line =>
+      Array.from(line)
+        .slice(0, HOUSE_MAX_COLUMNS)
+        .join("")
+    )
+    .join("\n");
 };
+
+// window.setHouseExample = function(index) {
+//   houseTextarea.innerText = houseExamples[index]
+//     .trim()
+//     .split("\n")
+//     .slice(0, HOUSE_MAX_ROWS)
+//     .map(line =>
+//       Array.from(line)
+//         .slice(0, HOUSE_MAX_COLUMNS)
+//         .join("")
+//     )
+//     .join("\n");
+//   // houseTextarea.textContent = houseExamples[index];
+// };
 
 houseRadios.forEach(radio => {
   radio.addEventListener("change", () => {
@@ -163,7 +250,7 @@ form.libraryName.addEventListener("input", () => {
 
   if (!libraryNamePattern.test(name)) {
     nameStatus.textContent =
-      "영문, 숫자, -, _, . 만 사용할 수 있습니다.";
+      "Only letters, numbers, hyphens (-), underscores (_), and periods (.) are allowed";
     nameStatus.style.color = "red";
     return;
   }
@@ -207,30 +294,32 @@ form.addEventListener("submit", async (e) => {
   const password = form.password.value;
   const color = form.color.value.trim();
   const bookSharing = form.bookSharing.value;
-  const house = houseTextarea.textContent;
+  // const house = houseTextarea.textContent;
+  // const house = getHouseTextForSave();
+  const house = houseTextarea.value;
 
   if (!libraryName) {
-    alert("도서관 이름을 입력해주세요.");
+    alert("Please enter a library name");
     return;
   }
 
   if (!libraryNamePattern.test(libraryName)) {
-    alert("도서관 이름은 영문 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다.");
+    alert("The library name may contain only letters, numbers, hyphens (-), underscores (_), and periods (.)The library name may contain only letters, numbers, hyphens (-), underscores (_), and periods (.)");
     return;
   }
 
   if (!password) {
-    alert("Enter the password");
+    alert("Please enter a password");
     return;
   }
 
   if (!/^#[0-9A-Fa-f]{6}$/.test(color)) {
-    alert("올바른 색상을 입력해주세요.");
+    alert("Please enter a valid color");
     return;
   }
 
   if (!bookSharing) {
-    alert("책 공유 방식을 선택해주세요.");
+    alert("Please select a book-sharing option");
     return;
   }
 

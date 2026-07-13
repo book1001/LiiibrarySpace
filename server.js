@@ -121,14 +121,14 @@ app.post("/register-library", (req, res) => {
   if (!libraryNamePattern.test(libraryName.trim())) {
     return res.status(400).json({
       success: false,
-      message: "도서관 이름은 영문 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다."
+      message: "The library name may contain only letters, numbers, hyphens (-), underscores (_), and periods (.)"
     });
   }
 
   if (!libraryName || !password || !color || !bookSharing) {
     return res.status(400).json({
       success: false,
-      message: "모든 필드를 입력해주세요."
+      message: "Please fill in all required fields"
     });
   }
 
@@ -143,7 +143,7 @@ app.post("/register-library", (req, res) => {
   if (duplicated) {
     return res.status(409).json({
       success: false,
-      message: "이미 존재하는 도서관 이름입니다."
+      message: "This library name is already taken"
     });
   }
   
@@ -221,7 +221,7 @@ app.get("/libraries/:libraryName", (req, res) => {
   if (!library) {
     return res.status(404).json({
       success: false,
-      message: "도서관을 찾을 수 없습니다."
+      message: "Library not found"
     });
   }
 
@@ -235,7 +235,7 @@ app.post("/libraries/:libraryName/items", (req, res) => {
   if (!imagePath || imagePath.trim() === "") {
     return res.status(400).json({
       success: false,
-      message: "이미지 path를 입력해주세요."
+      message: "Please provide an image path"
     });
   }
 
@@ -245,7 +245,7 @@ app.post("/libraries/:libraryName/items", (req, res) => {
   if (!library) {
     return res.status(404).json({
       success: false,
-      message: "도서관을 찾을 수 없습니다."
+      message: "Library not found"
     });
   }
 
@@ -273,7 +273,7 @@ app.delete("/libraries/:libraryName/items", (req, res) => {
   if (!library) {
     return res.status(404).json({
       success: false,
-      message: "도서관을 찾을 수 없습니다."
+      message: "Library not found"
     });
   }
 
@@ -321,7 +321,7 @@ app.post("/libraries/:libraryName/tools", (req, res) => {
   if (!TOOL_TYPES.includes(type)) {
     return res.status(400).json({
       success: false,
-      message: "잘못된 tool type입니다."
+      message: "Invalid tool type"
     });
   }
 
@@ -334,7 +334,7 @@ app.post("/libraries/:libraryName/tools", (req, res) => {
   if (!library) {
     return res.status(404).json({
       success: false,
-      message: "도서관을 찾을 수 없습니다."
+      message: "Library not found"
     });
   }
 
@@ -366,7 +366,7 @@ app.delete("/libraries/:libraryName/tools/:toolId", (req, res) => {
   if (!library) {
     return res.status(404).json({
       success: false,
-      message: "도서관을 찾을 수 없습니다."
+      message: "Library not found"
     });
   }
 
@@ -375,7 +375,7 @@ app.delete("/libraries/:libraryName/tools/:toolId", (req, res) => {
   if (!type) {
     return res.status(400).json({
       success: false,
-      message: "잘못된 tool id입니다."
+      message: "Invalid tool ID"
     });
   }
 
@@ -452,21 +452,21 @@ app.patch("/books/:id/libraries", (req, res) => {
   if (!libraryName || typeof libraryName !== "string") {
     return res.status(400).json({
       success: false,
-      message: "libraryName이 필요합니다."
+      message: "Library name is required"
     });
   }
 
   if (!["add", "remove"].includes(action)) {
     return res.status(400).json({
       success: false,
-      message: "action은 add 또는 remove여야 합니다."
+      message: "Action must be either Add or Remove"
     });
   }
 
   if (libraryName === "Central Library" && action === "remove") {
     return res.status(400).json({
       success: false,
-      message: "Central Library에서는 제거할 수 없습니다."
+      message: "Books cannot be removed from the Central Library"
     });
   }
 
@@ -480,7 +480,7 @@ app.patch("/books/:id/libraries", (req, res) => {
   if (!book) {
     return res.status(404).json({
       success: false,
-      message: "책을 찾을 수 없습니다."
+      message: "Book not found"
     });
   }
 
@@ -491,7 +491,7 @@ app.patch("/books/:id/libraries", (req, res) => {
   if (!library) {
     return res.status(404).json({
       success: false,
-      message: "라이브러리를 찾을 수 없습니다."
+      message: "Library not found"
     });
   }
 
@@ -502,7 +502,7 @@ app.patch("/books/:id/libraries", (req, res) => {
       return res.status(401).json({
         success: false,
         passwordRequired: true,
-        message: `${libraryName}의 패스워드를 입력해주세요.`
+        message: `Please enter the password for ${libraryName}`
       });
     }
 
@@ -510,7 +510,7 @@ app.patch("/books/:id/libraries", (req, res) => {
       return res.status(403).json({
         success: false,
         passwordRequired: true,
-        message: "패스워드가 올바르지 않습니다."
+        message: "Incorrect password"
       });
     }
   }
@@ -533,7 +533,7 @@ app.patch("/books/:id/libraries", (req, res) => {
       return res.status(409).json({
         success: false,
         alreadyExists: true,
-        message: `이 책은 이미 ${libraryName}에 추가되어 있습니다.`
+        message: `This book is not registered in ${libraryName}`
       });
     }
 
@@ -767,7 +767,7 @@ app.post("/register-book", (req, res) => {
       )
     ]
   : ["Central Library"];
-  
+
   // const selectedLibraryNames = Array.isArray(library)
   //   ? library.map(item =>
   //       typeof item === "string" ? item : item.libraryName
