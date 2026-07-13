@@ -449,7 +449,6 @@ app.patch("/books/:id/libraries", (req, res) => {
     password = ""
   } = req.body;
 
-  // libraryName 검사
   if (!libraryName || typeof libraryName !== "string") {
     return res.status(400).json({
       success: false,
@@ -457,7 +456,6 @@ app.patch("/books/:id/libraries", (req, res) => {
     });
   }
 
-  // action은 add 또는 remove만 가능
   if (!["add", "remove"].includes(action)) {
     return res.status(400).json({
       success: false,
@@ -475,7 +473,9 @@ app.patch("/books/:id/libraries", (req, res) => {
   const books = readBooks();
   const libraries = readLibraries();
 
-  const book = books.find(item => String(item.id) === String(id));
+  const book = books.find(
+    item => String(item.id) === String(id)
+  );
 
   if (!book) {
     return res.status(404).json({
@@ -496,24 +496,25 @@ app.patch("/books/:id/libraries", (req, res) => {
   }
 
   // 패스워드가 필요한 라이브러리는
-  // 추가와 제거 모두 패스워드를 확인
+  // 추가와 제거 모두 패스워드 검사
   if (library.bookSharing === "패스워드 필요") {
     if (!password) {
       return res.status(401).json({
         success: false,
-        message: "패스워드를 입력해주세요."
+        passwordRequired: true,
+        message: `${libraryName}의 패스워드를 입력해주세요.`
       });
     }
 
     if (String(password) !== String(library.password)) {
       return res.status(403).json({
         success: false,
+        passwordRequired: true,
         message: "패스워드가 올바르지 않습니다."
       });
     }
   }
 
-  // 기존 library 값 정리
   const existingLibraryNames = Array.isArray(book.library)
     ? book.library
         .map(item => {
@@ -527,23 +528,35 @@ app.patch("/books/:id/libraries", (req, res) => {
     : [];
 
   if (action === "add") {
-    if (!existingLibraryNames.includes(libraryName)) {
-      existingLibraryNames.push(libraryName);
+    // 이미 추가되어 있다면 저장하지 않고 에러 반환
+    if (existingLibraryNames.includes(libraryName)) {
+      return res.status(409).json({
+        success: false,
+        alreadyExists: true,
+        message: `이 책은 이미 ${libraryName}에 추가되어 있습니다.`
+      });
     }
+
+    existingLibraryNames.push(libraryName);
   }
 
   if (action === "remove") {
     const index = existingLibraryNames.indexOf(libraryName);
 
-    if (index !== -1) {
-      existingLibraryNames.splice(index, 1);
+    if (index === -1) {
+      return res.status(404).json({
+        success: false,
+        message: `이 책은 ${libraryName}에 등록되어 있지 않습니다.`
+      });
     }
+
+    existingLibraryNames.splice(index, 1);
   }
 
+  // Central Library는 항상 유지
   book.library = existingLibraryNames.includes("Central Library")
-  ? existingLibraryNames
-  : ["Central Library", ...existingLibraryNames];
-  // book.library = existingLibraryNames;
+    ? [...new Set(existingLibraryNames)]
+    : ["Central Library", ...new Set(existingLibraryNames)];
 
   writeBooks(books);
 
@@ -554,6 +567,127 @@ app.patch("/books/:id/libraries", (req, res) => {
     book
   });
 });
+
+// app.patch("/books/:id/libraries", (req, res) => {
+//   const { id } = req.params;
+
+//   const {
+//     libraryName,
+//     action,
+//     password = ""
+//   } = req.body;
+
+//   // libraryName 검사
+//   if (!libraryName || typeof libraryName !== "string") {
+//     return res.status(400).json({
+//       success: false,
+//       message: "libraryName이 필요합니다."
+//     });
+//   }
+
+//   // action은 add 또는 remove만 가능
+//   if (!["add", "remove"].includes(action)) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "action은 add 또는 remove여야 합니다."
+//     });
+//   }
+
+//   if (libraryName === "Central Library" && action === "remove") {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Central Library에서는 제거할 수 없습니다."
+//     });
+//   }
+
+//   const books = readBooks();
+//   const libraries = readLibraries();
+
+//   const book = books.find(item => String(item.id) === String(id));
+
+//   if (!book) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "책을 찾을 수 없습니다."
+//     });
+//   }
+
+//   const library = libraries.find(
+//     item => item.libraryName === libraryName
+//   );
+
+//   if (!library) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "라이브러리를 찾을 수 없습니다."
+//     });
+//   }
+
+//   // 패스워드가 필요한 라이브러리는
+//   // 추가와 제거 모두 패스워드를 확인
+//   if (library.bookSharing === "패스워드 필요") {
+//     if (!password) {
+//       return res.status(401).json({
+//         success: false,
+//         message: "패스워드를 입력해주세요."
+//       });
+//     }
+
+//     if (String(password) !== String(library.password)) {
+//       return res.status(403).json({
+//         success: false,
+//         message: "패스워드가 올바르지 않습니다."
+//       });
+//     }
+//   }
+
+//   // 기존 library 값 정리
+//   const existingLibraryNames = Array.isArray(book.library)
+//     ? book.library
+//         .map(item => {
+//           if (typeof item === "string") {
+//             return item;
+//           }
+
+//           return item?.libraryName;
+//         })
+//         .filter(Boolean)
+//     : [];
+
+//   if (action === "add") {
+//     if (existingLibraryNames.includes(libraryName)) {
+//       return res.status(409).json({
+//         success: false,
+//         alreadyExists: true,
+//         message: `이 책은 이미 ${libraryName}에 추가되어 있습니다.`
+//       });
+//     }
+
+//     existingLibraryNames.push(libraryName);
+//   }
+
+//   if (action === "remove") {
+//     const index = existingLibraryNames.indexOf(libraryName);
+
+//     if (index !== -1) {
+//       existingLibraryNames.splice(index, 1);
+//     }
+//   }
+
+//   book.library = existingLibraryNames.includes("Central Library")
+//   ? existingLibraryNames
+//   : ["Central Library", ...existingLibraryNames];
+//   // book.library = existingLibraryNames;
+
+//   writeBooks(books);
+
+//   return res.json({
+//     success: true,
+//     action,
+//     libraryName,
+//     book
+//   });
+// });
 
 // app.post("/books/:id/add-library", (req, res) => {
 //   const { id } = req.params;
@@ -621,10 +755,24 @@ app.post("/register-book", (req, res) => {
   const books = readBooks();
 
   const selectedLibraryNames = Array.isArray(library)
-    ? library.map(item =>
-        typeof item === "string" ? item : item.libraryName
-      ).filter(Boolean)
-    : ["Central Library"];
+  ? [
+      ...new Set(
+        library
+          .map(item =>
+            typeof item === "string"
+              ? item
+              : item?.libraryName
+          )
+          .filter(Boolean)
+      )
+    ]
+  : ["Central Library"];
+  
+  // const selectedLibraryNames = Array.isArray(library)
+  //   ? library.map(item =>
+  //       typeof item === "string" ? item : item.libraryName
+  //     ).filter(Boolean)
+  //   : ["Central Library"];
 
   const newBook = {
     id: createUniqueId(books),

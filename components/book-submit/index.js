@@ -1,391 +1,229 @@
 const form = document.getElementById("bookForm");
 const authorList = document.getElementById("authorList");
 const addAuthorBtn = document.getElementById("addAuthorBtn");
-
-const libraryDropdown = document.getElementById("submitLibraryDropdown");
-const libraryDropdownBtn = document.getElementById("submitLibraryDropdownBtn");
-const libraryCheckboxList = document.getElementById("submitLibraryCheckboxList");
-// const libraryDropdown = document.getElementById("libraryDropdown");
-// const libraryDropdownBtn = document.getElementById("libraryDropdownBtn");
-// const libraryCheckboxList = document.getElementById("libraryCheckboxList");
-
-const message = document.getElementById("message");
 const submitBtn = document.getElementById("submitBtn");
-const duplicateBookCard = document.getElementById("duplicateBookCard");
-const duplicateTitle = document.getElementById("duplicateTitle");
-const duplicateAuthor = document.getElementById("duplicateAuthor");
-const duplicateUrl = document.getElementById("duplicateUrl");
-const duplicateLibrary = document.getElementById("duplicateLibrary");
-const addLibraryToExistingBookBtn = document.getElementById("addLibraryToExistingBookBtn");
-const cancelDuplicateBtn = document.getElementById("cancelDuplicateBtn");
+const bookUpdateChannel = new BroadcastChannel("book-updates");
 
-let duplicateBook = null;
 
+// ======================================================
+function notifyBookUpdated(detail = {}) {
+  const message = {
+    type: "book-updated",
+    libraryName: CURRENT_LIBRARY,
+    ...detail
+  };
+
+  // 현재 Library 창의 bookList 갱신
+  window.dispatchEvent(
+    new CustomEvent("book-updated", {
+      detail: message
+    })
+  );
+
+  // BroadcastChannel을 통해 다른 같은 출처 창에 알림
+  bookUpdateChannel.postMessage(message);
+
+  // window.open()으로 연 index.html에도 직접 알림
+  if (window.opener && !window.opener.closed) {
+    window.opener.postMessage(
+      message,
+      window.location.origin
+    );
+  }
+}
+// ======================================================
+// 현재 페이지의 Library 이름
+// 예: /Test3/ → Test3
+// ======================================================
+function getCurrentLibraryName() {
+  const pathParts = window.location.pathname
+    .split("/")
+    .filter(Boolean);
+
+  if (pathParts.length === 0) {
+    return "Central Library";
+  }
+
+  return decodeURIComponent(pathParts[0]);
+}
+
+const CURRENT_LIBRARY = getCurrentLibraryName();
+
+// ======================================================
+// 폼 검사
+// ======================================================
 function checkBookForm() {
   const title = form.title.value.trim();
   const url = form.url.value.trim();
 
-  submitBtn.disabled = !(title && url);
+  const hasAuthor = [...authorList.querySelectorAll(".authorInput")]
+    .some(input => input.value.trim());
+
+  submitBtn.disabled = !(title && url && hasAuthor);
 }
 
 form.title.addEventListener("input", checkBookForm);
 form.url.addEventListener("input", checkBookForm);
 
+authorList.addEventListener("input", checkBookForm);
 
-addAuthorBtn.addEventListener("click", () => {
+// ======================================================
+// Author 입력칸 생성
+// ======================================================
+function createAuthorRow({ removable = true } = {}) {
   const row = document.createElement("div");
   row.className = "author-row";
 
-  row.innerHTML = `
-    <input type="text" class="authorInput" required />
-    <button type="button" class="removeAuthorBtn">-</button>
-  `;
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "authorInput";
+  input.required = true;
 
-  row.querySelector(".removeAuthorBtn").addEventListener("click", () => {
-    row.remove();
+  row.appendChild(input);
+
+  if (removable) {
+    const removeButton = document.createElement("button");
+
+    removeButton.type = "button";
+    removeButton.className = "removeAuthorBtn";
+    removeButton.textContent = "-";
+
+    removeButton.addEventListener("click", () => {
+      row.remove();
+      checkBookForm();
+    });
+
+    row.appendChild(removeButton);
+  }
+
+  return row;
+}
+
+// ======================================================
+// Author 추가
+// ======================================================
+addAuthorBtn.addEventListener("click", () => {
+  const row = createAuthorRow({
+    removable: true
   });
 
   authorList.appendChild(row);
+
+  row.querySelector(".authorInput").focus();
+
+  checkBookForm();
 });
 
-libraryDropdownBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+// ======================================================
+// 폼 초기화
+// ======================================================
+function resetBookForm() {
+  form.reset();
 
-  // if (!librariesLoaded) {
-  //   await loadLibraries();
-  //   librariesLoaded = true;
-  // }
+  authorList.innerHTML = "";
 
-  libraryDropdown.classList.toggle("is-open");
-});
+  authorList.appendChild(
+    createAuthorRow({
+      removable: false
+    })
+  );
 
-// libraryDropdownBtn.addEventListener("click", () => {
-//   libraryDropdown.classList.toggle("open");
-// });
-
-
-async function loadLibraries() {
-  try {
-    const res = await fetch("/libraries");
-
-    if (!res.ok) {
-      throw new Error("라이브러리 목록을 불러오지 못했습니다.");
-    }
-
-    const libraries = await res.json();
-
-    // 중복 생성을 막기 위해 먼저 비우기
-    libraryCheckboxList.innerHTML = "";
-
-    // =========================================
-    // Central Library
-    // 항상 표시되고 체크 해제 불가능
-    // =========================================
-    const centralLabel = document.createElement("label");
-    centralLabel.className = "library-checkbox-item";
-
-    const centralCheckbox = document.createElement("input");
-    centralCheckbox.type = "checkbox";
-    centralCheckbox.value = "Central Library";
-    centralCheckbox.checked = true;
-    centralCheckbox.disabled = true;
-
-    centralLabel.append(
-      centralCheckbox,
-      document.createTextNode(" Central Library")
-    );
-
-    libraryCheckboxList.appendChild(centralLabel);
-
-    // =========================================
-    // libraries.json의 라이브러리
-    // =========================================
-    libraries.forEach(library => {
-      const libraryName = library.libraryName;
-
-      if (!libraryName) {
-        return;
-      }
-
-      // JSON 안에도 Central Library가 있으면 중복 방지
-      if (libraryName === "Central Library") {
-        return;
-      }
-
-      const label = document.createElement("label");
-      label.className = "library-checkbox-item";
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.value = libraryName;
-      checkbox.dataset.sharing = library.bookSharing || "";
-      checkbox.dataset.password = "";
-
-      const nameText = document.createTextNode(
-        ` ${libraryName}`
-      );
-
-      label.append(
-        checkbox,
-        nameText
-      );
-
-      if (library.bookSharing === "패스워드 필요") {
-        const lockMark = document.createElement("span");
-        lockMark.textContent = " 🔒";
-        lockMark.title =
-          "이 라이브러리는 패스워드가 필요합니다.";
-
-        label.appendChild(lockMark);
-      }
-
-      libraryCheckboxList.appendChild(label);
-    });
-
-    updateLibraryButton();
-  } catch (error) {
-    console.error(error);
-
-    libraryCheckboxList.textContent =
-      "라이브러리 목록을 불러오지 못했습니다.";
-  }
+  checkBookForm();
 }
 
-loadLibraries();
-
-// async function loadLibraries() {
-//   const res = await fetch("/libraries");
-//   const libraries = await res.json();
-
-//   libraries.forEach(library => {
-//     const label = document.createElement("label");
-//     label.innerHTML = `
-//       <input 
-//         type="checkbox" 
-//         value="${library.libraryName}" 
-//         data-sharing="${library.bookSharing}"
-//       />
-//       ${library.libraryName}
-//     `;
-
-//     libraryCheckboxList.appendChild(label);
-//     libraryCheckboxList.appendChild(document.createElement("br"));
-//   });
-
-//   updateLibraryButton();
-// }
-function getSelectedLibraryObjects() {
-  const selected = [
-    ...libraryCheckboxList.querySelectorAll(
-      'input[type="checkbox"]:checked'
-    )
-  ].map(input => ({
-    libraryName: input.value,
-    password: input.dataset.password || ""
-  }));
-
-  if (
-    !selected.some(
-      item => item.libraryName === "Central Library"
-    )
-  ) {
-    selected.unshift({
+// ======================================================
+// 현재 Library 정보 가져오기
+// ======================================================
+async function getCurrentLibrary() {
+  if (CURRENT_LIBRARY === "Central Library") {
+    return {
       libraryName: "Central Library",
-      password: ""
-    });
+      bookSharing: "누구나 가능"
+    };
   }
 
-  return selected;
-}
-
-function getSelectedLibraries() {
-  return getSelectedLibraryObjects().map(
-    item => item.libraryName
+  const response = await fetch(
+    `/libraries/${encodeURIComponent(CURRENT_LIBRARY)}`
   );
-}
-
-// function getSelectedLibraryObjects() {
-//   return [...libraryCheckboxList.querySelectorAll("input:checked")]
-//     .map(input => ({
-//       libraryName: input.value,
-//       password: input.dataset.password || ""
-//     }));
-// }
-
-function getSelectedLibraryNames() {
-  return getSelectedLibraryObjects().map(item => item.libraryName);
-}
-
-// function getSelectedLibraries() {
-//   return [...libraryCheckboxList.querySelectorAll("input:checked")]
-//     .map(input => input.value);
-// }
-
-function updateLibraryButton() {
-  const selected = getSelectedLibraries();
-
-  libraryDropdownBtn.textContent =
-    selected.length > 0 ? selected.join(", ") : "선택하기";
-}
-
-libraryCheckboxList.addEventListener("change", (e) => {
-  const checkbox = e.target.closest(
-    'input[type="checkbox"]'
-  );
-
-  if (!checkbox) {
-    return;
-  }
-
-  if (checkbox.value === "Central Library") {
-    checkbox.checked = true;
-    updateLibraryButton();
-    return;
-  }
-
-  if (
-    checkbox.checked &&
-    checkbox.dataset.sharing === "패스워드 필요"
-  ) {
-    const password = prompt(
-      `Enter the password for ${checkbox.value}`
-    );
-
-    if (password === null || password.trim() === "") {
-      checkbox.checked = false;
-      checkbox.dataset.password = "";
-
-      updateLibraryButton();
-      return;
-    }
-
-    checkbox.dataset.password = password.trim();
-  }
-
-  if (!checkbox.checked) {
-    checkbox.dataset.password = "";
-  }
-
-  updateLibraryButton();
-});
-
-
-libraryDropdown.addEventListener("click", (e) => {
-  e.stopPropagation();
-});
-
-document.addEventListener("click", (e) => {
-  if (
-    !libraryDropdown.contains(e.target) &&
-    e.target !== libraryDropdownBtn
-  ) {
-    libraryDropdown.classList.remove("is-open");
-  }
-});
-
-// libraryCheckboxList.addEventListener("change", (e) => {
-//   const checkbox = e.target;
-
-//   if (checkbox.value === "Central Library") {
-//     checkbox.checked = true;
-//     updateLibraryButton();
-//     return;
-//   }
-
-//   if (
-//     checkbox.checked &&
-//     checkbox.dataset.sharing === "패스워드 필요"
-//   ) {
-//     const password = prompt(`Enter the password for ${checkbox.value}`);
-
-//     if (!password) {
-//       checkbox.checked = false;
-//       updateLibraryButton();
-//       return;
-//     }
-
-//     checkbox.dataset.password = password;
-//   }
-
-//   updateLibraryButton();
-// });
-
-// ================================================
-addLibraryToExistingBookBtn.addEventListener("click", async () => {
-  if (!duplicateBook) return;
-
-  const library = getSelectedLibraryObjects();
-
-  const response = await fetch(`/books/${duplicateBook.id}/add-library`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8"
-    },
-    body: JSON.stringify({ library })
-  });
 
   const result = await response.json();
 
-  if (result.success) {
-    alert("기존 책에 library가 추가되었습니다.");
-
-    duplicateBookCard.style.display = "none";
-    duplicateBook = null;
-    form.reset();
-  } else {
-    alert(result.message);
-  }
-});
-
-// ================================================
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const title = form.title.value.trim();
-  const url = form.url.value.trim();
-
-  const author = [...document.querySelectorAll(".authorInput")]
-    .map(input => input.value.trim())
-    .filter(Boolean);
-
-  const library = getSelectedLibraryObjects();
-
-  if (!title || !url) {
-    alert("Title과 URL을 입력해주세요.");
-    return;
+  if (!response.ok) {
+    throw new Error(
+      result.message ||
+      `${CURRENT_LIBRARY} 정보를 불러오지 못했습니다.`
+    );
   }
 
-  const checkResponse = await fetch("/check-book", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8"
-    },
-    body: JSON.stringify({
-      title,
-      author,
-      url
-    })
-  });
+  return result;
+}
 
-  const checkResult = await checkResponse.json();
-
-  if (checkResult.exists) {
-    duplicateBook = checkResult.book;
-
-    duplicateTitle.textContent = duplicateBook.title;
-    duplicateAuthor.textContent = Array.isArray(duplicateBook.author)
-      ? duplicateBook.author.join(", ")
-      : "";
-    duplicateUrl.textContent = duplicateBook.url;
-    duplicateLibrary.textContent = Array.isArray(duplicateBook.library)
-      ? duplicateBook.library.join(", ")
-      : "";
-
-    duplicateBookCard.style.display = "block";
-    return;
+// ======================================================
+// Library 패스워드 받기
+// ======================================================
+function requestLibraryPassword(library) {
+  if (library.bookSharing !== "패스워드 필요") {
+    return "";
   }
 
+  const password = prompt(
+    `Enter the password for ${CURRENT_LIBRARY}`
+  );
+
+  if (password === null) {
+    return null;
+  }
+
+  const trimmedPassword = password.trim();
+
+  if (!trimmedPassword) {
+    alert("패스워드를 입력해주세요.");
+    return null;
+  }
+
+  return trimmedPassword;
+}
+
+// ======================================================
+// 기존 책에 현재 Library 추가
+// ======================================================
+async function addCurrentLibraryToBook(bookId, password) {
+  const response = await fetch(
+    `/books/${encodeURIComponent(bookId)}/libraries`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      body: JSON.stringify({
+        libraryName: CURRENT_LIBRARY,
+        action: "add",
+        password
+      })
+    }
+  );
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      result.message ||
+      `${CURRENT_LIBRARY}에 책을 추가하지 못했습니다.`
+    );
+  }
+
+  return result;
+}
+
+// ======================================================
+// 새 책 등록
+// ======================================================
+async function registerNewBook({
+  title,
+  author,
+  url,
+  password
+}) {
   const response = await fetch("/register-book", {
     method: "POST",
     headers: {
@@ -395,81 +233,169 @@ form.addEventListener("submit", async (e) => {
       title,
       author,
       url,
-      library
+      library: [
+        {
+          libraryName: CURRENT_LIBRARY,
+          password
+        }
+      ]
     })
   });
 
   const result = await response.json();
 
-  if (result.success) {
-    alert("Done!");
-    form.reset();
-    duplicateBookCard.style.display = "none";
-    duplicateBook = null;
-  } else {
-    alert(result.message);
+  if (!response.ok) {
+    throw new Error(
+      result.message ||
+      "책을 등록하지 못했습니다."
+    );
+  }
+
+  return result;
+}
+
+// ======================================================
+// Book Submit
+// ======================================================
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const title = form.title.value.trim();
+  const url = form.url.value.trim();
+
+  const author = [
+    ...authorList.querySelectorAll(".authorInput")
+  ]
+    .map(input => input.value.trim())
+    .filter(Boolean);
+
+  if (!title || !url || author.length === 0) {
+    alert("Title, Author, URL을 모두 입력해주세요.");
+    return;
+  }
+
+  submitBtn.disabled = true;
+
+  try {
+    // 현재 URL에 해당하는 Library 정보 확인
+    const currentLibrary = await getCurrentLibrary();
+
+    // 패스워드가 필요한 Library이면 입력
+    const password = requestLibraryPassword(currentLibrary);
+
+    // 사용자가 prompt를 취소했거나
+    // 패스워드를 입력하지 않은 경우 중단
+    if (password === null) {
+      return;
+    }
+
+    // 동일한 책이 이미 등록되어 있는지 검사
+    const checkResponse = await fetch("/check-book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      body: JSON.stringify({
+        title,
+        author,
+        url
+      })
+    });
+
+    const checkResult = await checkResponse.json();
+
+    if (!checkResponse.ok) {
+      throw new Error(
+        checkResult.message ||
+        "책의 중복 여부를 확인하지 못했습니다."
+      );
+    }
+
+    // ==================================================
+    // 같은 책이 이미 존재하는 경우
+    // 현재 Library만 기존 책에 추가
+    // ==================================================
+    if (checkResult.exists) {
+      await addCurrentLibraryToBook(
+        checkResult.book.id,
+        password
+      );
+
+      notifyBookUpdated({
+        action: "add-library",
+        bookId: checkResult.book.id
+      });
+
+      // window.dispatchEvent(
+      //   new CustomEvent("book-updated", {
+      //     detail: {
+      //       libraryName: CURRENT_LIBRARY,
+      //       action: "add-library",
+      //       bookId: checkResult.book.id
+      //     }
+      //   })
+      // );
+
+      // bookUpdateChannel.postMessage({
+      //   type: "book-updated",
+      //   action: "add-library",
+      //   libraryName: CURRENT_LIBRARY,
+      //   bookId: checkResult.book.id
+      // });
+
+      alert(
+        `${CURRENT_LIBRARY}에 기존 책이 추가되었습니다.`
+      );
+
+      resetBookForm();
+      return;
+    }
+
+    // ==================================================
+    // 같은 책이 없는 경우
+    // 새 책으로 등록
+    // ==================================================
+    await registerNewBook({
+      title,
+      author,
+      url,
+      password
+    });
+
+    notifyBookUpdated({
+      action: "register"
+    });
+
+    // // 책 목록 컴포넌트에 변경 알림
+    // window.dispatchEvent(
+    //   new CustomEvent("book-updated", {
+    //     detail: {
+    //       libraryName: CURRENT_LIBRARY,
+    //       action: "register"
+    //     }
+    //   })
+    // );
+
+    // bookUpdateChannel.postMessage({
+    //   type: "book-updated",
+    //   action: "register",
+    //   libraryName: CURRENT_LIBRARY
+    // });
+
+    alert(
+      `${CURRENT_LIBRARY}에 새 책이 등록되었습니다.`
+    );
+
+    resetBookForm();
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  } finally {
+    checkBookForm();
   }
 });
 
-// form.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-
-//   const title = form.title.value.trim();
-//   const url = form.url.value.trim();
-
-//   const author = [...document.querySelectorAll(".authorInput")]
-//     .map(input => input.value.trim())
-//     .filter(Boolean);
-
-//   const library = [...libraryCheckboxList.querySelectorAll("input:checked")]
-//   .map(input => ({
-//     libraryName: input.value,
-//     password: input.dataset.password || ""
-//   }));
-
-//   const submitTime = new Date().toISOString();
-
-//   const data = {
-//     title,
-//     author,
-//     url,
-//     library
-//   };
-
-//   const response = await fetch("/register-book", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json;charset=UTF-8"
-//     },
-//     body: JSON.stringify(data)
-//   });
-
-//   const result = await response.json();
-
-//   if (result.success) {
-//     alert("Done!");
-
-//     form.reset();
-
-//     libraryCheckboxList
-//       .querySelectorAll("input")
-//       .forEach(input => {
-//         input.checked = input.value === "Central Library";
-//       });
-
-//     updateLibraryButton();
-
-//     // Author를 하나만 남김
-//     authorList.innerHTML = `
-//       <div class="author-row">
-//         <input type="text" class="authorInput" required />
-//       </div>
-//     `;
-
-//     submitBtn.disabled = true;
-//   } else {
-//     alert(result.message);
-//   }
-// });
-
-// loadLibraries();
+// ======================================================
+// 최초 상태 설정
+// ======================================================
+checkBookForm();

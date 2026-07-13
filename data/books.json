@@ -29,7 +29,8 @@
       "Central Library",
       "SFPC",
       "SFPC.bbw",
-      "hihi"
+      "hihi",
+      "Test3"
     ],
     "note": []
   },
@@ -43,7 +44,8 @@
     "library": [
       "Central Library",
       "SFPC",
-      "hihi"
+      "hihi",
+      "Test3"
     ],
     "note": [
       {
@@ -62,7 +64,8 @@
     "url": "https://www.technologyreview.com/2020/09/03/1007716/digital-gardens-let-you-cultivate-your-own-little-bit-of-the-internet",
     "library": [
       "Central Library",
-      "test"
+      "test",
+      "Test3"
     ],
     "note": []
   },
@@ -74,7 +77,8 @@
     ],
     "url": "https://loriemerson.net/wp-content/uploads/2024/02/10.4324_9781003211662-14_chapterpdf.pdf",
     "library": [
-      "Central Library"
+      "Central Library",
+      "Test3"
     ],
     "note": [
       {
@@ -88,5 +92,19 @@
         "comment": "How many words I can type? I don't know. Let's try..."
       }
     ]
+  },
+  {
+    "id": "3e64995e-8692-47b5-b3ef-f91f1dba376f",
+    "title": "Reimagining Privacy Online Through A Spectrum of Intimacy",
+    "author": [
+      "Caroline Sinders",
+      "Hyphen-Labs"
+    ],
+    "url": "https://www.are.na/editorial/reimagining-privacy-online-through-gradients-of-intimacy",
+    "library": [
+      "Central Library",
+      "Test3"
+    ],
+    "note": []
   }
 ]
