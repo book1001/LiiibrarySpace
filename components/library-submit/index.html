@@ -24,6 +24,8 @@
 
   <label>
     Library Color
+    <!-- <input type="range" id="colorPicker" min="0" max="360" value="12">
+    <input type="text" id="colorHex" name="color" value="#d35838" readonly> -->
     <input type="color" id="colorPicker" value="#d35838">
     <input type="text" name="color" id="colorHex" value="#d35838" required>
   </label>
@@ -31,26 +33,16 @@
   <br><br>
 
   <div>
-    <div>Building Tyoe:</div>
+    <div style="display: inline;">Building Style:</div>
 
-    <div id="houseOptions">
-      <label style="display: none;">
-        <input type="radio" name="houseExample" value="0">
-        Building 1
-      </label>
-
-      <label style="display: none;">
-        <input type="radio" name="houseExample" value="1">
-        Building 2
-      </label>
-
+    <div id="houseOptions" style="display: inline;">
       <label>
-        <input type="radio" name="houseExample" value="2">
+      <input type="radio" name="houseExample" value="0">
         Two Windows
       </label>
 
       <label>
-        <input type="radio" name="houseExample" value="3">
+        <input type="radio" name="houseExample" value="1">
         Bricks
       </label>
     </div>

@@ -204,6 +204,7 @@ app.get("/libraries", (req, res) => {
     libraries.map(library => ({
       libraryName: library.libraryName,
       bookSharing: library.bookSharing,
+      color: library.color,
       item: library.item || [],
       house: library.house
     }))
@@ -435,20 +436,46 @@ app.post("/check-book", (req, res) => {
   });
 });
 
-// -------------------------------------------------------------
-app.post("/books/:id/add-library", (req, res) => {
-  const { id } = req.params;
-  const { library } = req.body;
 
-  if (!Array.isArray(library)) {
+// -------------------------------------------------------------
+// Book Card: Library 추가 / 제거
+// -------------------------------------------------------------
+app.patch("/books/:id/libraries", (req, res) => {
+  const { id } = req.params;
+
+  const {
+    libraryName,
+    action,
+    password = ""
+  } = req.body;
+
+  // libraryName 검사
+  if (!libraryName || typeof libraryName !== "string") {
     return res.status(400).json({
       success: false,
-      message: "library 정보가 올바르지 않습니다."
+      message: "libraryName이 필요합니다."
+    });
+  }
+
+  // action은 add 또는 remove만 가능
+  if (!["add", "remove"].includes(action)) {
+    return res.status(400).json({
+      success: false,
+      message: "action은 add 또는 remove여야 합니다."
+    });
+  }
+
+  if (libraryName === "Central Library" && action === "remove") {
+    return res.status(400).json({
+      success: false,
+      message: "Central Library에서는 제거할 수 없습니다."
     });
   }
 
   const books = readBooks();
-  const book = books.find(item => item.id === id);
+  const libraries = readLibraries();
+
+  const book = books.find(item => String(item.id) === String(id));
 
   if (!book) {
     return res.status(404).json({
@@ -457,37 +484,129 @@ app.post("/books/:id/add-library", (req, res) => {
     });
   }
 
-  const incomingLibraryNames = library
-    .map(item => {
-      if (typeof item === "string") return item;
-      return item.libraryName;
-    })
-    .filter(Boolean);
+  const library = libraries.find(
+    item => item.libraryName === libraryName
+  );
 
+  if (!library) {
+    return res.status(404).json({
+      success: false,
+      message: "라이브러리를 찾을 수 없습니다."
+    });
+  }
+
+  // 패스워드가 필요한 라이브러리는
+  // 추가와 제거 모두 패스워드를 확인
+  if (library.bookSharing === "패스워드 필요") {
+    if (!password) {
+      return res.status(401).json({
+        success: false,
+        message: "패스워드를 입력해주세요."
+      });
+    }
+
+    if (String(password) !== String(library.password)) {
+      return res.status(403).json({
+        success: false,
+        message: "패스워드가 올바르지 않습니다."
+      });
+    }
+  }
+
+  // 기존 library 값 정리
   const existingLibraryNames = Array.isArray(book.library)
     ? book.library
         .map(item => {
-          if (typeof item === "string") return item;
-          return item.libraryName;
+          if (typeof item === "string") {
+            return item;
+          }
+
+          return item?.libraryName;
         })
         .filter(Boolean)
     : [];
 
-  const merged = new Set([
-    "Central Library",
-    ...existingLibraryNames,
-    ...incomingLibraryNames
-  ]);
+  if (action === "add") {
+    if (!existingLibraryNames.includes(libraryName)) {
+      existingLibraryNames.push(libraryName);
+    }
+  }
 
-  book.library = [...merged];
+  if (action === "remove") {
+    const index = existingLibraryNames.indexOf(libraryName);
+
+    if (index !== -1) {
+      existingLibraryNames.splice(index, 1);
+    }
+  }
+
+  book.library = existingLibraryNames.includes("Central Library")
+  ? existingLibraryNames
+  : ["Central Library", ...existingLibraryNames];
+  // book.library = existingLibraryNames;
 
   writeBooks(books);
 
-  res.json({
+  return res.json({
     success: true,
+    action,
+    libraryName,
     book
   });
 });
+
+// app.post("/books/:id/add-library", (req, res) => {
+//   const { id } = req.params;
+//   const { library } = req.body;
+
+//   if (!Array.isArray(library)) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "library 정보가 올바르지 않습니다."
+//     });
+//   }
+
+//   const books = readBooks();
+//   const book = books.find(item => item.id === id);
+
+//   if (!book) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "책을 찾을 수 없습니다."
+//     });
+//   }
+
+//   const incomingLibraryNames = library
+//     .map(item => {
+//       if (typeof item === "string") return item;
+//       return item.libraryName;
+//     })
+//     .filter(Boolean);
+
+//   const existingLibraryNames = Array.isArray(book.library)
+//     ? book.library
+//         .map(item => {
+//           if (typeof item === "string") return item;
+//           return item.libraryName;
+//         })
+//         .filter(Boolean)
+//     : [];
+
+//   const merged = new Set([
+//     "Central Library",
+//     ...existingLibraryNames,
+//     ...incomingLibraryNames
+//   ]);
+
+//   book.library = [...merged];
+
+//   writeBooks(books);
+
+//   res.json({
+//     success: true,
+//     book
+//   });
+// });
 // -------------------------------------------------------------
 app.post("/register-book", (req, res) => {
   const { title, author, url, library } = req.body;

@@ -1,29 +1,56 @@
+<style>
+  #closeBookCardBtn {
+    position: absolute; 
+    top: 20px; 
+    right: 10px;
+  }
+
+  #cardNote {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .list-item {
+    display: grid;
+    grid-template-columns: 80px 100px auto;
+    column-gap: 5px;
+    padding: 0;
+    border-bottom: 1px solid black;
+  }
+
+  .card-library-field {
+    position: relative;
+  }
+</style>
+
 <div id="bookCard">
-  <button id="closeBookCardBtn" style="position: absolute; top: 10px; right: 10px;">
-    <span class="material-symbols-outlined">close</span>
-  </button>
+  <button id="closeBookCardBtn" class="material-symbols-outlined">close</button>
 
   
   <h2 id="cardTitle" style="text-align: center;"></h2>
   <h4>Author: <span id="cardAuthor"></span></h4>
-  <h4>Library: <span id="cardLibrary"></span></h4>
+
+  <div class="card-library-field">
+  <div id="cardLibrary"></div>
+
+  <button id="addLibrary" type="button">
+    <span class="material-symbols-outlined">add_circle</span>
+  </button>
+
+  <div id="libraryDropdown" class="library-dropdown">
+    <div id="libraryCheckboxList"></div>
+  </div>
+</div>
+
+  <!-- <h4>Library: <span id="cardLibrary"></span></h4><button id="addLibrary" class="material-symbols-outlined">add_circle</button>
+  <div id="libraryDropdown" class="library-dropdown">
+    <div id="libraryCheckboxList"></div>
+  </div> -->
+
   <h4 id="openBookBtn">Open and read</h4>
   <hr>
-
-  <style>
-    #cardNote {
-      display: grid;
-      grid-template-columns: 1fr;
-    }
-
-    .list-item {
-      display: grid;
-      grid-template-columns: 80px 100px auto;
-      column-gap: 5px;
-      padding: 0;
-      border-bottom: 1px solid black;
-    }
-  </style>
 
   <div class="list-item">
     <div>Date</div>
@@ -35,7 +62,7 @@
     <span id="liveNoteDate"></span>
     <input type="text" id="noteBorrowerInput" placeholder="borrower" />
     <input type="text" id="noteCommentInput" placeholder="comment" />
-    <button id="addNoteSubmitBtn" type="button"><span class="material-symbols-outlined">add</span></button>
+    <!-- <button id="addNoteSubmitBtn" type="button"><span class="material-symbols-outlined">add</span></button> -->
   </div>
 
 

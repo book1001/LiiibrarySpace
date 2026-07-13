@@ -67,11 +67,28 @@ function initFloorDrag() {
 // ======================================================
 // Addbook
 // ======================================================
+// const addBookBtn = document.getElementById("addbook");
+// const submitField = document.getElementById("addbook-submitField");
+
+// addBookBtn.addEventListener("click", () => {
+//   submitField.classList.toggle("is-close");
+//   addBookBtn.textContent = "add";
+//   // addBookBtn.color = "white";
+// });
+
 const addBookBtn = document.getElementById("addbook");
 const submitField = document.getElementById("addbook-submitField");
 
 addBookBtn.addEventListener("click", () => {
-  submitField.classList.toggle("is-open");
+  const isClosed = submitField.classList.toggle("is-close");
+
+  if (isClosed) {
+    addBookBtn.textContent = "add";
+    addBookBtn.style.color = "black";
+  } else {
+    addBookBtn.textContent = "collapse_content";
+    addBookBtn.style.color = "gray";
+  }
 });
 
 
@@ -679,9 +696,9 @@ window.deletePlayhtmlElementData = function (type, id) {
 
 await window.loadLibraryTools();
 
-playhtml.init();
-// playhtml.init({
-//   developmentMode: true
-// });
+// playhtml.init();
+playhtml.init({
+  developmentMode: true
+});
 
 setInterval(window.loadLibraryTools, 1000);

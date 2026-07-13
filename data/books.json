@@ -74,9 +74,19 @@
     ],
     "url": "https://loriemerson.net/wp-content/uploads/2024/02/10.4324_9781003211662-14_chapterpdf.pdf",
     "library": [
-      "Central Library",
-      "test"
+      "Central Library"
     ],
-    "note": []
+    "note": [
+      {
+        "date": "07/12/2026, 08:04:09 PM",
+        "borrower": "haha",
+        "comment": "It was great"
+      },
+      {
+        "date": "07/12/2026, 08:04:33 PM",
+        "borrower": "Test",
+        "comment": "How many words I can type? I don't know. Let's try..."
+      }
+    ]
   }
 ]

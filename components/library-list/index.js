@@ -17,6 +17,13 @@ async function loadLibraries() {
     const house = document.createElement("pre");
     house.className = "library-house";
     house.textContent = library.house || "";
+    // house.style.color = library.color || "inherit";
+
+    const color = library.color || "inherit";
+    house.style.color = color;
+    if (library.color && getColorBrightness(library.color) >= 200) {
+      house.style.textShadow = "1px 0px gray";
+    }
 
     const name = document.createElement("h5");
     name.className = "library-name";
@@ -66,6 +73,21 @@ libraryList.addEventListener("change", () => {
 
 loadLibraries();
 
+
+// ===============================================
+// Color
+// ===============================================
+function getColorBrightness(hex) {
+  if (!hex) return 0;
+
+  const normalizedHex = hex.replace("#", "");
+
+  const r = parseInt(normalizedHex.slice(0, 2), 16);
+  const g = parseInt(normalizedHex.slice(2, 4), 16);
+  const b = parseInt(normalizedHex.slice(4, 6), 16);
+
+  return (r * 299 + g * 587 + b * 114) / 1000;
+}
 // const libraryList = document.getElementById("libraryList");
 
 // async function loadLibraries() {

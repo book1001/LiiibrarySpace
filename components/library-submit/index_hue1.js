@@ -35,55 +35,6 @@ const houseExamples = [
 ];
 
 
-// ===============================================
-// Hue Color Picker
-// ===============================================
-// function updateHouseColor(color) {
-//   houseTextarea.style.color = color;
-// }
-
-// 초기 색상 적용
-function getColorBrightness(hex) {
-  const normalizedHex = hex.replace("#", "");
-
-  const r = parseInt(normalizedHex.slice(0, 2), 16);
-  const g = parseInt(normalizedHex.slice(2, 4), 16);
-  const b = parseInt(normalizedHex.slice(4, 6), 16);
-
-  // 0~255 사이의 밝기 값
-  return (r * 299 + g * 587 + b * 114) / 1000;
-}
-
-function updateHouseColor(color) {
-  houseTextarea.style.color = color;
-
-  const brightness = getColorBrightness(color);
-  const brightnessThreshold = 200;
-
-  if (brightness >= brightnessThreshold) {
-    houseTextarea.style.textShadow = "1px 0px gray";
-  } else {
-    houseTextarea.style.textShadow = "none";
-  }
-}
-// updateHouseColor(colorPicker.value);
-
-colorPicker.addEventListener("input", () => {
-  colorHex.value = colorPicker.value;
-  updateHouseColor(colorPicker.value);
-  checkForm();
-});
-
-colorHex.addEventListener("input", () => {
-  if (/^#[0-9A-Fa-f]{6}$/.test(colorHex.value)) {
-    colorPicker.value = colorHex.value;
-    updateHouseColor(colorHex.value);
-  }
-
-  checkForm();
-});
-
-
 window.setHouseExample = function(index) {
   houseTextarea.textContent = houseExamples[index];
 };
@@ -102,20 +53,77 @@ if (houseRadios[randomHouseIndex]) {
 }
 
 
-// function setHouseExample(index) {
-//   houseTextarea.value = houseExamples[index];
-// }
+// ===============================================
+// Hue Color Picker
+// ===============================================
 
-// houseRadios.forEach(radio => {
-//   radio.addEventListener("change", () => {
-//     setHouseExample(Number(radio.value));
-//   });
-// });
+const FIXED_SATURATION = 70;
+const FIXED_LIGHTNESS = 55;
+const DEFAULT_HUE = 12;
 
-// const randomHouseIndex = Math.floor(Math.random() * houseExamples.length);
+function hslToHex(h, s, l) {
+  s /= 100;
+  l /= 100;
 
-// houseRadios[randomHouseIndex].checked = true;
-// setHouseExample(randomHouseIndex);
+  const chroma = (1 - Math.abs(2 * l - 1)) * s;
+  const x =
+    chroma * (1 - Math.abs((h / 60) % 2 - 1));
+
+  const m = l - chroma / 2;
+
+  let r = 0;
+  let g = 0;
+  let b = 0;
+
+  if (h >= 0 && h < 60) {
+    r = chroma;
+    g = x;
+  } else if (h >= 60 && h < 120) {
+    r = x;
+    g = chroma;
+  } else if (h >= 120 && h < 180) {
+    g = chroma;
+    b = x;
+  } else if (h >= 180 && h < 240) {
+    g = x;
+    b = chroma;
+  } else if (h >= 240 && h < 300) {
+    r = x;
+    b = chroma;
+  } else {
+    r = chroma;
+    b = x;
+  }
+
+  function toHex(value) {
+    return Math.round((value + m) * 255)
+      .toString(16)
+      .padStart(2, "0");
+  }
+
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function updateHouseColor(color) {
+  houseTextarea.style.color = color;
+}
+
+function updateColorFromHue() {
+  const hue = Number(colorPicker.value);
+
+  const hexColor = hslToHex(
+    hue,
+    FIXED_SATURATION,
+    FIXED_LIGHTNESS
+  );
+
+  colorHex.value = hexColor;
+  updateHouseColor(hexColor);
+
+  checkForm();
+}
+
+colorPicker.addEventListener("input", updateColorFromHue);
 
 
 // ===============================================
@@ -143,6 +151,8 @@ function checkForm() {
   );
 }
 
+colorPicker.value = DEFAULT_HUE;
+updateColorFromHue();
 
 // ===============================================
 // Library Name Check
@@ -256,11 +266,23 @@ form.addEventListener("submit", async (e) => {
     alert("Done!");
 
     form.reset();
+
+    colorPicker.value = DEFAULT_HUE;
+    updateColorFromHue();
+
+    const newRandomIndex = Math.floor(
+      Math.random() * houseExamples.length
+    );
+
+    if (houseRadios[newRandomIndex]) {
+      houseRadios[newRandomIndex].checked = true;
+      window.setHouseExample(newRandomIndex);
+    }
     
-    const defaultColor = "#d35838";
-    colorPicker.value = defaultColor;
-    colorHex.value = defaultColor;
-    updateHouseColor(defaultColor);
+    // const defaultColor = "#d35838";
+    // colorPicker.value = defaultColor;
+    // colorHex.value = defaultColor;
+    // updateHouseColor(defaultColor);
 
     nameAvailable = false;
     nameStatus.textContent = "";

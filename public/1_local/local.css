@@ -55,17 +55,23 @@ button {
   z-index: 5;
 }
 
+#addbook {
+  position: absolute; 
+  top: 5px; 
+  right: 0px;
+}
+
 #addbook-submitField {
-  display: none;
+  display: block;
   width: 270px;
-  margin: 10px auto;
+  margin: auto;
   padding: 0 20px;
   border: 3px double gray;
   background: white;
 }
 
-#addbook-submitField.is-open {
-  display: block;
+#addbook-submitField.is-close {
+  display: none;
 }
 
 /* =================================== */
@@ -406,6 +412,7 @@ body.is-resizing * {
 
 .book-title {
   outline: none;
+  pointer-events: none;
 }
 
 #bookCard {

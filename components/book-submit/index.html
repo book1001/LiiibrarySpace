@@ -1,4 +1,3 @@
-
 <h1>Book Submission</h1>
 
 <form id="bookForm" novalidate>
@@ -16,7 +15,7 @@
       <input type="text" class="authorInput" required />
     </div>
   </div>
-  <button type="button" id="addAuthorBtn">+</button>
+  <button type="button" id="addAuthorBtn" class="material-symbols-outlined">add</button>
 </div>
 
 <br />
@@ -30,7 +29,14 @@
 
 <div>
   Library:
-  <div class="dropdown" id="libraryDropdown">
+  <div class="book-submit-library">
+    <button id="submitLibraryDropdownBtn" type="button">선택하기</button>
+
+    <div id="submitLibraryDropdown" class="library-dropdown">
+      <div id="submitLibraryCheckboxList"></div>
+    </div>
+  </div>
+  <!-- <div class="dropdown" id="libraryDropdown">
     <button type="button" id="libraryDropdownBtn">Central Library</button>
 
     <div class="dropdown-content" id="libraryCheckboxList">
@@ -40,7 +46,7 @@
       </label>
       <br />
     </div>
-  </div>
+  </div> -->
 </div>
 
 <br /><br />
@@ -58,6 +64,9 @@
   <button type="button" id="addLibraryToExistingBookBtn">
     Add Library
   </button>
+  <div id="libraryDropdown" class="library-dropdown">
+    <div id="libraryCheckboxList"></div>
+  </div>
 
   <button type="button" id="cancelDuplicateBtn">
     Cancel
