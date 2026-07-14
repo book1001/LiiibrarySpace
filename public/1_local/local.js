@@ -695,6 +695,7 @@ window.deletePlayhtmlElementData = function (type, id) {
 await window.loadLibraryTools();
 
 playhtml.init();
+
 // playhtml.init({
 //   developmentMode: true
 // });

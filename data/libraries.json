@@ -44,5 +44,26 @@
     "radio": [],
     "item": [],
     "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓█ HA-LIM ▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█"
+  },
+  {
+    "id": "33c70fce-c354-445f-9586-4aa1461a32e5",
+    "libraryName": "secret-library",
+    "password": "abc",
+    "color": "#3f2ddf",
+    "bookSharing": "누구나 가능",
+    "createdAt": "2026-07-13T23:46:27.882Z",
+    "note": [
+      "note_0"
+    ],
+    "lineH": [
+      "lineH_0"
+    ],
+    "lineV": [],
+    "light": [
+      "light_0"
+    ],
+    "radio": [],
+    "item": [],
+    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█"
   }
 ]
