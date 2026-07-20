@@ -41,7 +41,7 @@ function getCurrentLibraryName() {
     .filter(Boolean);
 
   if (pathParts.length === 0) {
-    return "Central Library";
+    return "Central Liiibrary";
   }
 
   return decodeURIComponent(pathParts[0]);
@@ -136,10 +136,10 @@ function resetBookForm() {
 // 현재 Library 정보 가져오기
 // ======================================================
 async function getCurrentLibrary() {
-  if (CURRENT_LIBRARY === "Central Library") {
+  if (CURRENT_LIBRARY === "Central Liiibrary") {
     return {
-      libraryName: "Central Library",
-      bookSharing: "누구나 가능"
+      libraryName: "Central Liiibrary",
+      bookSharing: "open"
     };
   }
 
@@ -163,7 +163,7 @@ async function getCurrentLibrary() {
 // Library 패스워드 받기
 // ======================================================
 function requestLibraryPassword(library) {
-  if (library.bookSharing !== "패스워드 필요") {
+  if (library.bookSharing !== "private") {
     return "";
   }
 
@@ -383,9 +383,9 @@ form.addEventListener("submit", async (e) => {
     //   libraryName: CURRENT_LIBRARY
     // });
 
-    alert(
-      `A new book has been registered in ${CURRENT_LIBRARY}`
-    );
+    // alert(
+    //   `A new book has been registered in ${CURRENT_LIBRARY}`
+    // );
 
     resetBookForm();
   } catch (error) {

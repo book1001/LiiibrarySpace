@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>test Liiibrary.Space</title>
+    <title>WWW Liiibrary.Space</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <link rel="stylesheet" href="/0_font/font.css">
     <link rel="stylesheet" href="/index.css">
     <link rel="stylesheet" href="/1_local/local.css">
   </head>
 
-  <body style="background: #6c96f9;">
-    <div id="libraryHeader" contenteditable="true" spellcheck="false" can-mirror>test Liiibrary</div>
+  <body style="background: #325afb;">
+    <div id="libraryHeader" contenteditable="true" spellcheck="false" can-mirror>WWW Liiibrary</div>
 
     <div data-component="book-card"></div>
 
@@ -27,6 +27,14 @@
       <button id="addbook" class="material-symbols-outlined">close</button>
       <div data-component="book-submit" id="addbook-submitField"></div>
     </div>
+
+    <button id="relocate" class="material-symbols-outlined">explore</button>
+    <div id="miniMap" class="is-hidden">
+      <div id="miniMapFloor">
+        <div id="miniMapItems"></div>
+        <div id="miniMapViewport"></div>
+      </div>
+    </div>
     
     <div id="floor">
       <div data-component="book-list" data-mode="currentLibrary"></div>
@@ -35,7 +43,7 @@
     <!-- ====================================================== -->
     <!-- JS -->
     <!-- ====================================================== -->
-    <script>window.CURRENT_LIBRARY = "test";</script>
+    <script>window.CURRENT_LIBRARY = "WWW";</script>
 
     <script type="module" src="/index.js"></script>
     <script type="module" src="/1_local/local.js"></script>

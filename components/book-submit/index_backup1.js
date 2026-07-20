@@ -28,7 +28,7 @@ function getCurrentLibraryName() {
     .filter(Boolean);
 
   if (pathParts.length === 0) {
-    return "Central Library";
+    return "Central Liiibrary";
   }
 
   return decodeURIComponent(pathParts[0]);
@@ -103,7 +103,7 @@ async function loadLibraries() {
     libraryCheckboxList.innerHTML = "";
 
     // =========================================
-    // Central Library
+    // Central Liiibrary
     // 항상 표시되고 체크 해제 불가능
     // =========================================
     const centralLabel = document.createElement("label");
@@ -111,13 +111,13 @@ async function loadLibraries() {
 
     const centralCheckbox = document.createElement("input");
     centralCheckbox.type = "checkbox";
-    centralCheckbox.value = "Central Library";
+    centralCheckbox.value = "Central Liiibrary";
     centralCheckbox.checked = true;
     centralCheckbox.disabled = true;
 
     centralLabel.append(
       centralCheckbox,
-      document.createTextNode(" Central Library")
+      document.createTextNode(" Central Liiibrary")
     );
 
     libraryCheckboxList.appendChild(centralLabel);
@@ -132,8 +132,8 @@ async function loadLibraries() {
         return;
       }
 
-      // JSON 안에도 Central Library가 있으면 중복 방지
-      if (libraryName === "Central Library") {
+      // JSON 안에도 Central Liiibrary 있으면 중복 방지
+      if (libraryName === "Central Liiibrary") {
         return;
       }
 
@@ -155,7 +155,7 @@ async function loadLibraries() {
         nameText
       );
 
-      if (library.bookSharing === "패스워드 필요") {
+      if (library.bookSharing === "private") {
         const lockMark = document.createElement("span");
         lockMark.textContent = " 🔒";
         lockMark.title =
@@ -187,7 +187,7 @@ async function addCurrentLibraryToBook(bookId) {
 
   const currentLibrary = await libraryResponse.json();
 
-  if (currentLibrary.bookSharing === "패스워드 필요") {
+  if (currentLibrary.bookSharing === "private") {
     const enteredPassword = prompt(
       `Enter the password for ${CURRENT_LIBRARY}`
     );
@@ -258,11 +258,11 @@ function getSelectedLibraryObjects() {
 
   if (
     !selected.some(
-      item => item.libraryName === "Central Library"
+      item => item.libraryName === "Central Liiibrary"
     )
   ) {
     selected.unshift({
-      libraryName: "Central Library",
+      libraryName: "Central Liiibrary",
       password: ""
     });
   }
@@ -309,7 +309,7 @@ libraryCheckboxList.addEventListener("change", (e) => {
     return;
   }
 
-  if (checkbox.value === "Central Library") {
+  if (checkbox.value === "Central Liiibrary") {
     checkbox.checked = true;
     updateLibraryButton();
     return;
@@ -317,7 +317,7 @@ libraryCheckboxList.addEventListener("change", (e) => {
 
   if (
     checkbox.checked &&
-    checkbox.dataset.sharing === "패스워드 필요"
+    checkbox.dataset.sharing === "private"
   ) {
     const password = prompt(
       `Enter the password for ${checkbox.value}`
@@ -358,7 +358,7 @@ document.addEventListener("click", (e) => {
 // libraryCheckboxList.addEventListener("change", (e) => {
 //   const checkbox = e.target;
 
-//   if (checkbox.value === "Central Library") {
+//   if (checkbox.value === "Central Liiibrary") {
 //     checkbox.checked = true;
 //     updateLibraryButton();
 //     return;
@@ -366,7 +366,7 @@ document.addEventListener("click", (e) => {
 
 //   if (
 //     checkbox.checked &&
-//     checkbox.dataset.sharing === "패스워드 필요"
+//     checkbox.dataset.sharing === "private"
 //   ) {
 //     const password = prompt(`Enter the password for ${checkbox.value}`);
 

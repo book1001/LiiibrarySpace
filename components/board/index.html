@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>liiibrary.space</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+  <link rel="stylesheet" href="https://use.typekit.net/qgv2unh.css">
+  <link rel="stylesheet" href="/0_font/font.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div can-play="guestbook" id="guestbook"></div>
+
+  <script type="module">
+    import {
+      html,
+      playhtml,
+      repeat
+    } from "https://unpkg.com/playhtml";
+
+    playhtml.register("guestbook", {
+      defaultData: {
+        entries: []
+      },
+
+      view: ({ data, setData }) => {
+        const sign = (event) => {
+          // form 제출로 페이지가 새로고침되는 것 방지
+          event.preventDefault();
+
+          const form = event.currentTarget;
+          const input = form.querySelector("input");
+          const message = input.value.trim();
+
+          if (!message) {
+            return;
+          }
+
+          setData((draft) => {
+            draft.entries.push({
+              name: window.cursors?.name || "someone",
+              message: message,
+              at: Date.now()
+            });
+          });
+
+          input.value = "";
+        };
+
+        return html`
+          <p>${data.entries.length} notes left</p>
+
+          <form @submit=${sign}>
+            <input
+              type="text"
+              placeholder="leave a note..."
+            />
+
+            <button type="submit">
+              sign
+            </button>
+          </form>
+
+          <ul>
+            ${repeat(
+              [...data.entries].reverse(),
+
+              // 각 항목을 구별하기 위한 key
+              (entry) => entry.at,
+
+              (entry) => html`
+                <li>
+                  <b>${entry.name}</b>:
+                  ${entry.message}
+
+                  <small>
+                    ${new Date(entry.at).toLocaleTimeString()}
+                  </small>
+                </li>
+              `
+            )}
+          </ul>
+        `;
+      }
+    });
+
+    // 등록한 can-play 기능을 페이지에서 실행
+    // playhtml.init();
+  </script>
+
+</body>
+</html>
+

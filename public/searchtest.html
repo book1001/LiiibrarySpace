@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>liiibrary.space</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+  <link rel="stylesheet" href="https://use.typekit.net/qgv2unh.css">
+  <link rel="stylesheet" href="/0_font/font.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <style>
+    .main-index {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      min-width: 220px;
+      max-height: 300px;
+      overflow-y: auto;
+      background: white;
+      border: 1px solid #ddd;
+      z-index: 1000;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background: #f3f3f3;
+    }
+  </style>
+  <div class="main-index">
+
+    <div class="dropdown">
+      <button id="titleBtn">
+        Title
+        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+      </button>
+      <div id="titleDropdown" class="dropdown-menu"></div>
+    </div>
+
+    <div class="dropdown">
+      <button id="authorBtn">
+        Author
+        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+      </button>
+      <div id="authorDropdown" class="dropdown-menu"></div>
+    </div>
+
+    <div class="dropdown">
+      <button id="libraryBtn">
+        Liiibrary
+        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+      </button>
+      <div id="libraryDropdown" class="dropdown-menu"></div>
+    </div>
+
+    <div id="searchBar-container">
+      <input type="text" id="searchBar">
+      <span class="material-symbols-outlined">search</span>
+    </div>
+
+  </div>
+
+
+  <script type="module">
+    const titleBtn = document.getElementById("titleBtn");
+    const authorBtn = document.getElementById("authorBtn");
+    const libraryBtn = document.getElementById("libraryBtn");
+
+    const titleDropdown = document.getElementById("titleDropdown");
+    const authorDropdown = document.getElementById("authorDropdown");
+    const libraryDropdown = document.getElementById("libraryDropdown");
+
+    let books = [];
+    let libraries = [];
+
+    async function loadIndexes() {
+      const [bookRes, libraryRes] = await Promise.all([
+        fetch("/books"),
+        fetch("/libraries")
+      ]);
+
+      books = await bookRes.json();
+      libraries = await libraryRes.json();
+
+      buildTitleDropdown();
+      buildAuthorDropdown();
+      buildLibraryDropdown();
+    }
+
+    loadIndexes();
+
+    // ====================================
+    // Title
+    // ====================================
+    function buildTitleDropdown() {
+      const titles = [...new Set(
+        books
+          .map(book => book.title)
+          .filter(Boolean)
+      )];
+
+      titles.sort((a, b) => a.localeCompare(b));
+
+      titleDropdown.innerHTML = "";
+
+      titles.forEach(title => {
+        const item = document.createElement("div");
+        item.className = "dropdown-item";
+        item.textContent = title;
+
+        item.addEventListener("click", () => {
+          console.log(title);
+          titleDropdown.classList.remove("open");
+        });
+
+        titleDropdown.appendChild(item);
+      });
+    }
+
+
+    // ====================================
+    // Author
+    // ====================================
+    function buildAuthorDropdown() {
+
+      const authors = [];
+
+      books.forEach(book => {
+
+        if (!book.author) return;
+
+        if (Array.isArray(book.author)) {
+          authors.push(...book.author);
+        } else {
+          authors.push(book.author);
+        }
+
+      });
+
+      const uniqueAuthors = [...new Set(authors)]
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+
+      authorDropdown.innerHTML = "";
+
+      uniqueAuthors.forEach(author => {
+
+        const item = document.createElement("div");
+        item.className = "dropdown-item";
+        item.textContent = author;
+
+        authorDropdown.appendChild(item);
+
+      });
+
+    }
+
+    // ====================================
+    // Library
+    // ====================================
+    function buildLibraryDropdown() {
+
+      const names = libraries
+        .map(lib => lib.libraryName)
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+
+      libraryDropdown.innerHTML = "";
+
+      names.forEach(name => {
+
+        const item = document.createElement("div");
+        item.className = "dropdown-item";
+        item.textContent = name;
+
+        item.addEventListener("click", () => {
+          console.log(name);
+          libraryDropdown.classList.remove("open");
+        });
+
+        libraryDropdown.appendChild(item);
+
+      });
+    }
+
+
+    // ====================================
+    // 드롭다운 열고 닫기
+    // ====================================
+    function closeAll() {
+      document.querySelectorAll(".dropdown-menu")
+        .forEach(menu => menu.classList.remove("open"));
+    }
+
+    titleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = titleDropdown.classList.contains("open");
+      closeAll();
+      if (!open) titleDropdown.classList.add("open");
+    });
+
+    authorBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = authorDropdown.classList.contains("open");
+      closeAll();
+      if (!open) authorDropdown.classList.add("open");
+    });
+
+    libraryBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = libraryDropdown.classList.contains("open");
+      closeAll();
+      if (!open) libraryDropdown.classList.add("open");
+    });
+
+    document.addEventListener("click", closeAll);
+  </script>
+</body>
+</html>
+

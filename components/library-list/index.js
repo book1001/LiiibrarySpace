@@ -1,12 +1,118 @@
 const libraryList = document.getElementById("libraryList");
 const libraryStreet = document.getElementById("libraryStreet");
-
-const bookUpdateChannel =
-  new BroadcastChannel("book-updates");
+const bookUpdateChannel = new BroadcastChannel("book-updates");
 
 let isLoadingLibraries = false;
 let lastMessageKey = "";
 let lastMessageTime = 0;
+let requestPresenceUpdate = () => {};
+
+// ======================================================
+// Path
+// ======================================================
+function normalizePath(path) {
+  if (!path || path === "/") {
+    return "/";
+  }
+
+  return path.replace(/\/+$/, "");
+}
+
+// ======================================================
+// Presence: PlayHTML initializer
+// playhtml.init()보다 먼저 실행되어야 함
+// ======================================================
+libraryStreet.defaultData = {
+  byPath: {}
+};
+
+libraryStreet.updateElement = ({ element, data }) => {
+  const now = Date.now();
+  const byPath = data?.byPath ?? {};
+
+  element.querySelectorAll(".library-link").forEach((link) => {
+    const house = link.querySelector(".library-house");
+
+    if (!house) {
+      return;
+    }
+
+    const path = normalizePath(link.dataset.path || link.pathname);
+    const lastSeen = byPath[path] ?? 0;
+    const isOpen = now - lastSeen < 10000;
+    const shadows = [];
+
+    if (house.dataset.baseShadow) {
+      shadows.push(house.dataset.baseShadow);
+    }
+
+    if (isOpen) {
+      shadows.push("0 0 6px #ffff1c");
+    }
+
+    house.style.textShadow = shadows.join(", ");
+    house.classList.toggle("is-home", isOpen);
+    link.classList.toggle("is-home", isOpen);
+  });
+};
+
+libraryStreet.onMount = ({ setData, requestUpdate }) => {
+  const presenceChannel = new BroadcastChannel("page-presence");
+  const currentPath = normalizePath(window.location.pathname);
+
+  requestPresenceUpdate = requestUpdate;
+
+  function recordPresence(path, timestamp = Date.now()) {
+    const normalizedPath = normalizePath(path);
+    const normalizedTimestamp = Number(timestamp) || Date.now();
+
+    setData((data) => {
+      data.byPath ??= {};
+      data.byPath[normalizedPath] = normalizedTimestamp;
+    });
+
+    requestUpdate();
+  }
+
+  function pulse() {
+    recordPresence(currentPath, Date.now());
+  }
+
+  function handlePresenceMessage(event) {
+    const message = event.data;
+
+    if (message?.type !== "page-presence") {
+      return;
+    }
+
+    if (typeof message.path !== "string") {
+      return;
+    }
+
+    recordPresence(message.path, message.time);
+
+    console.log(
+      "presence received:",
+      normalizePath(message.path),
+      message.time
+    );
+  }
+
+  presenceChannel.addEventListener("message", handlePresenceMessage);
+
+  pulse();
+
+  const pulseTimer = setInterval(pulse, 4000);
+  const renderTimer = setInterval(requestUpdate, 1000);
+
+  return () => {
+    clearInterval(pulseTimer);
+    clearInterval(renderTimer);
+    presenceChannel.removeEventListener("message", handlePresenceMessage);
+    presenceChannel.close();
+    requestPresenceUpdate = () => {};
+  };
+};
 
 // ======================================================
 // Library 목록 불러오기
@@ -21,118 +127,107 @@ async function loadLibraries() {
   try {
     const timestamp = Date.now();
 
-    const [libraryResponse, bookResponse] =
-      await Promise.all([
-        fetch(`/libraries?_=${timestamp}`, {
-          cache: "no-store"
-        }),
+    const [libraryResponse, bookResponse] = await Promise.all([
+      fetch(`/libraries?_=${timestamp}`, {
+        cache: "no-store"
+      }),
 
-        fetch(`/books?_=${timestamp}`, {
-          cache: "no-store"
-        })
-      ]);
+      fetch(`/books?_=${timestamp}`, {
+        cache: "no-store"
+      })
+    ]);
 
     if (!libraryResponse.ok) {
-      throw new Error(
-        "Failed to load the library list"
-      );
+      throw new Error("Failed to load the library list");
     }
 
     if (!bookResponse.ok) {
-      throw new Error(
-        "Failed to load the book list"
-      );
+      throw new Error("Failed to load the book list");
     }
 
     const libraries = await libraryResponse.json();
     const books = await bookResponse.json();
 
     libraryStreet.innerHTML = "";
+    libraryList.innerHTML = '<option value="">Open Library...</option>';
 
-    libraryList.innerHTML =
-      '<option value="">Open Library...</option>';
+    [...libraries].reverse().forEach((library) => {
+      const libraryName = library.libraryName;
 
-    [...libraries]
-      .reverse()
-      .forEach(library => {
-        const libraryName = library.libraryName;
-
-        const libraryBooks = books.filter(book => {
-          return (
-            Array.isArray(book.library) &&
-            book.library.includes(libraryName)
-          );
-        });
-
-        const bookCount = libraryBooks.length;
-
-        // -----------------------------------------------
-        // Street
-        // -----------------------------------------------
-        const container =
-          document.createElement("div");
-
-        container.className = "library";
-
-        const link =
-          document.createElement("a");
-
-        link.className = "library-link";
-        link.href =
-          `/${encodeURIComponent(libraryName)}/`;
-
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
-          openLibrary(libraryName);
-        });
-
-        const house =
-          document.createElement("pre");
-
-        house.className = "library-house";
-        house.textContent = library.house || "";
-
-        const color = library.color || "inherit";
-        house.style.color = color;
-
-        if (
-          library.color &&
-          getColorBrightness(library.color) >= 200
-        ) {
-          house.style.textShadow = "1px 0 gray";
-        }
-
-        const name =
-          document.createElement("h5");
-
-        name.className = "library-name";
-        name.textContent = libraryName;
-
-        link.append(
-          house,
-          name
+      const libraryBooks = books.filter((book) => {
+        return (
+          Array.isArray(book.library) &&
+          book.library.includes(libraryName)
         );
-
-        container.appendChild(link);
-        libraryStreet.appendChild(container);
-
-        // -----------------------------------------------
-        // Dropdown
-        // -----------------------------------------------
-        const option =
-          document.createElement("option");
-
-        option.value = libraryName;
-        option.textContent =
-          `${libraryName} (${bookCount})`;
-
-        libraryList.appendChild(option);
       });
+
+      const bookCount = libraryBooks.length;
+
+      // --------------------------------------------------
+      // Street
+      // --------------------------------------------------
+      const container = document.createElement("div");
+      container.className = "library";
+
+      const link = document.createElement("a");
+      link.className = "library-link";
+      link.href = `/${encodeURIComponent(libraryName)}/`;
+      link.dataset.path = normalizePath(link.pathname);
+
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        openLibrary(libraryName);
+      });
+
+      const house = document.createElement("pre");
+      house.className = "library-house";
+      house.textContent = library.house || "";
+
+      const color = library.color || "inherit";
+      house.style.color = color;
+      house.dataset.baseShadow = "";
+
+      if (
+        library.color &&
+        getColorBrightness(library.color) >= 200
+      ) {
+        house.dataset.baseShadow = "1px 0 gray";
+        house.style.textShadow = house.dataset.baseShadow;
+      }
+
+      const nameContainer = document.createElement("div");
+      nameContainer.className = "library-name-container";
+
+      const name = document.createElement("h5");
+      name.className = "library-name";
+      name.append(document.createTextNode(libraryName));
+
+      nameContainer.appendChild(name);
+
+      if (library.bookSharing === "private") {
+        const mark = document.createElement("span");
+        mark.className = "library-private";
+        mark.textContent = "❋";
+        nameContainer.appendChild(mark);
+      }
+
+      link.append(house, nameContainer);
+      container.appendChild(link);
+      libraryStreet.appendChild(container);
+
+      // --------------------------------------------------
+      // Dropdown
+      // --------------------------------------------------
+      const option = document.createElement("option");
+      option.value = libraryName;
+      option.textContent = `${libraryName} (${bookCount})`;
+
+      libraryList.appendChild(option);
+    });
+
+    requestPresenceUpdate();
   } catch (error) {
-    console.error(
-      "loadLibraries error:",
-      error
-    );
+    console.error("loadLibraries error:", error);
   } finally {
     isLoadingLibraries = false;
   }
@@ -155,8 +250,6 @@ async function handleBookUpdated(data) {
 
   const now = Date.now();
 
-  // BroadcastChannel과 postMessage가
-  // 동시에 올 경우 한 번만 처리
   if (
     messageKey === lastMessageKey &&
     now - lastMessageTime < 500
@@ -167,15 +260,10 @@ async function handleBookUpdated(data) {
   lastMessageKey = messageKey;
   lastMessageTime = now;
 
-  console.log(
-    "Book update received:",
-    data
-  );
+  console.log("Book update received:", data);
 
-  // Library street와 dropdown 갱신
   await loadLibraries();
 
-  // index.html의 book-list 컴포넌트 갱신
   window.dispatchEvent(
     new CustomEvent("book-updated", {
       detail: {
@@ -188,28 +276,22 @@ async function handleBookUpdated(data) {
 }
 
 // ======================================================
-// BroadcastChannel 수신
+// BroadcastChannel: Book 업데이트 수신
 // ======================================================
-bookUpdateChannel.addEventListener(
-  "message",
-  (event) => {
-    handleBookUpdated(event.data);
-  }
-);
+bookUpdateChannel.addEventListener("message", (event) => {
+  handleBookUpdated(event.data);
+});
 
 // ======================================================
-// postMessage 수신
+// postMessage: Book 업데이트 수신
 // ======================================================
-window.addEventListener(
-  "message",
-  (event) => {
-    if (event.origin !== window.location.origin) {
-      return;
-    }
-
-    handleBookUpdated(event.data);
+window.addEventListener("message", (event) => {
+  if (event.origin !== window.location.origin) {
+    return;
   }
-);
+
+  handleBookUpdated(event.data);
+});
 
 // ======================================================
 // Library 팝업 열기
@@ -237,7 +319,7 @@ libraryList.addEventListener("change", () => {
 });
 
 // ======================================================
-// index.html이 활성화될 때 동기화
+// index.html 활성화 시 동기화
 // ======================================================
 window.addEventListener("focus", () => {
   loadLibraries();
@@ -251,24 +333,10 @@ function getColorBrightness(hex) {
     return 0;
   }
 
-  const normalizedHex = hex
-    .replace("#", "")
-    .trim();
-
-  const r = parseInt(
-    normalizedHex.slice(0, 2),
-    16
-  );
-
-  const g = parseInt(
-    normalizedHex.slice(2, 4),
-    16
-  );
-
-  const b = parseInt(
-    normalizedHex.slice(4, 6),
-    16
-  );
+  const normalizedHex = hex.replace("#", "").trim();
+  const r = parseInt(normalizedHex.slice(0, 2), 16);
+  const g = parseInt(normalizedHex.slice(2, 4), 16);
+  const b = parseInt(normalizedHex.slice(4, 6), 16);
 
   return (
     r * 299 +
@@ -278,323 +346,24 @@ function getColorBrightness(hex) {
 }
 
 // ======================================================
+// libraryStreet: 가로 스크롤
+// ======================================================
+libraryStreet.addEventListener(
+  "wheel",
+  (event) => {
+    event.preventDefault();
+
+    libraryStreet.scrollLeft +=
+      Math.abs(event.deltaX) > Math.abs(event.deltaY)
+        ? event.deltaX
+        : event.deltaY;
+  },
+  {
+    passive: false
+  }
+);
+
+// ======================================================
 // 최초 로드
 // ======================================================
 loadLibraries();
-
-
-// ======================================================
-// libraryStreet: 스크롤
-// ======================================================
-// const libraryStreet = document.getElementById("libraryStreet");
-
-libraryStreet.addEventListener("wheel", (e) => {
-  e.preventDefault();
-
-  libraryStreet.scrollLeft +=
-    Math.abs(e.deltaX) > Math.abs(e.deltaY)
-      ? e.deltaX
-      : e.deltaY;
-}, { passive: false });
-
-// const libraryList = document.getElementById("libraryList");
-// const libraryStreet = document.getElementById("libraryStreet");
-
-// const bookUpdateChannel = new BroadcastChannel("book-updates");
-
-// // ======================================================
-// // Library 목록 불러오기
-// // ======================================================
-// window.addEventListener("message", async (event) => {
-//   // 다른 도메인에서 보낸 메시지는 무시
-//   if (event.origin !== window.location.origin) {
-//     return;
-//   }
-
-//   if (event.data?.type !== "book-updated") {
-//     return;
-//   }
-
-//   console.log("Book update received:", event.data);
-
-//   // Library street/dropdown 갱신
-//   await loadLibraries();
-
-//   // index.html에 책 목록이 있다면 책 목록도 갱신
-//   if (typeof window.loadBooks === "function") {
-//     await window.loadBooks();
-//   }
-// });
-
-// async function loadLibraries() {
-//   const bookUpdateChannel = new BroadcastChannel("book-updates");
-
-//   bookUpdateChannel.addEventListener("message", async (event) => {
-//     if (event.data?.type !== "book-updated") {
-//       return;
-//     }
-
-//     await loadLibraries();
-//   });
-
-//   try {
-//     const [libraryResponse, bookResponse] = await Promise.all([
-//       fetch("/libraries"),
-//       fetch("/books")
-//     ]);
-
-//     if (!libraryResponse.ok) {
-//       throw new Error("Library 목록을 불러오지 못했습니다.");
-//     }
-
-//     if (!bookResponse.ok) {
-//       throw new Error("책 목록을 불러오지 못했습니다.");
-//     }
-
-//     const libraries = await libraryResponse.json();
-//     const books = await bookResponse.json();
-
-//     libraryStreet.innerHTML = "";
-//     libraryList.innerHTML =
-//       '<option value="">Open Library...</option>';
-
-//     [...libraries].reverse().forEach(library => {
-//       const libraryName = library.libraryName;
-
-//       const bookCount = books.filter(book => {
-//         return (
-//           Array.isArray(book.library) &&
-//           book.library.includes(libraryName)
-//         );
-//       }).length;
-
-//       // ==================================================
-//       // Street
-//       // ==================================================
-//       const container = document.createElement("div");
-//       container.className = "library";
-
-//       const house = document.createElement("pre");
-//       house.className = "library-house";
-//       house.textContent = library.house || "";
-
-//       const color = library.color || "inherit";
-//       house.style.color = color;
-
-//       if (
-//         library.color &&
-//         getColorBrightness(library.color) >= 200
-//       ) {
-//         house.style.textShadow = "1px 0px gray";
-//       }
-
-//       const name = document.createElement("h5");
-//       name.className = "library-name";
-//       name.textContent = libraryName;
-
-//       // 책 개수 표시
-//       const count = document.createElement("span");
-//       count.className = "library-book-count";
-//       count.textContent = `${bookCount} ${
-//         bookCount === 1 ? "book" : "books"
-//       }`;
-
-//       const link = document.createElement("a");
-//       link.href = `/${encodeURIComponent(libraryName)}/`;
-//       link.className = "library-link";
-
-//       link.addEventListener("click", (e) => {
-//         e.preventDefault();
-//         openLibrary(libraryName);
-//       });
-
-//       link.append(house, name, count);
-//       container.appendChild(link);
-//       libraryStreet.appendChild(container);
-
-//       // ==================================================
-//       // Dropdown
-//       // ==================================================
-//       const option = document.createElement("option");
-//       option.value = libraryName;
-//       option.textContent =
-//         `${libraryName} (${bookCount})`;
-
-//       libraryList.appendChild(option);
-//     });
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// // ======================================================
-// // Library 팝업 열기
-// // ======================================================
-// function openLibrary(libraryName) {
-//   window.open(
-//     `/${encodeURIComponent(libraryName)}/`,
-//     libraryName,
-//     "width=1280,height=900,left=200,top=100,resizable=yes,scrollbars=yes"
-//   );
-// }
-
-// // ======================================================
-// // Dropdown
-// // ======================================================
-// libraryList.addEventListener("change", () => {
-//   if (!libraryList.value) return;
-
-//   openLibrary(libraryList.value);
-//   libraryList.selectedIndex = 0;
-// });
-
-// // ======================================================
-// // 다른 창에서 책이 추가되면 자동 갱신
-// // ======================================================
-// bookUpdateChannel.addEventListener(
-//   "message",
-//   async (event) => {
-//     if (event.data?.type !== "book-updated") {
-//       return;
-//     }
-
-//     await loadLibraries();
-//   }
-// );
-
-// // ======================================================
-// // Color
-// // ======================================================
-// function getColorBrightness(hex) {
-//   if (!hex) return 0;
-
-//   const normalizedHex = hex.replace("#", "");
-
-//   const r = parseInt(normalizedHex.slice(0, 2), 16);
-//   const g = parseInt(normalizedHex.slice(2, 4), 16);
-//   const b = parseInt(normalizedHex.slice(4, 6), 16);
-
-//   return (r * 299 + g * 587 + b * 114) / 1000;
-// }
-
-// // 최초 로드
-// loadLibraries();
-
-// // const libraryList = document.getElementById("libraryList");
-// // const libraryStreet = document.getElementById("libraryStreet");
-
-// // async function loadLibraries() {
-// //   const res = await fetch("/libraries");
-// //   const libraries = await res.json();
-
-// //   libraryStreet.innerHTML = "";
-// //   libraryList.innerHTML = '<option value="">Open Library...</option>';
-
-// //   [...libraries].reverse().forEach(library => {
-
-// //     // ---------- Street ----------
-// //     const container = document.createElement("div");
-// //     container.className = "library";
-
-// //     const house = document.createElement("pre");
-// //     house.className = "library-house";
-// //     house.textContent = library.house || "";
-// //     // house.style.color = library.color || "inherit";
-
-// //     const color = library.color || "inherit";
-// //     house.style.color = color;
-// //     if (library.color && getColorBrightness(library.color) >= 200) {
-// //       house.style.textShadow = "1px 0px gray";
-// //     }
-
-// //     const name = document.createElement("h5");
-// //     name.className = "library-name";
-// //     name.textContent = library.libraryName;
-
-// //     const link = document.createElement("a");
-// //     link.href = `/${library.libraryName}/`;
-// //     link.className = "library-link";
-
-// //     link.addEventListener("click", (e) => {
-// //       e.preventDefault();
-
-// //       openLibrary(library.libraryName);
-// //     });
-
-// //     link.appendChild(house);
-// //     link.appendChild(name);
-// //     container.appendChild(link);
-
-// //     libraryStreet.appendChild(container);
-
-// //     // ---------- Dropdown ----------
-// //     const option = document.createElement("option");
-// //     option.value = library.libraryName;
-// //     option.textContent = library.libraryName;
-
-// //     libraryList.appendChild(option);
-// //   });
-// // }
-
-// // function openLibrary(libraryName) {
-// //   window.open(
-// //     `/${libraryName}/`,
-// //     libraryName,
-// //     "width=1280,height=900,left=200,top=100,resizable=yes,scrollbars=yes"
-// //   );
-// // }
-
-// // libraryList.addEventListener("change", () => {
-// //   if (!libraryList.value) return;
-
-// //   openLibrary(libraryList.value);
-
-// //   // 다시 placeholder로 돌아가게 하고 싶으면
-// //   libraryList.selectedIndex = 0;
-// // });
-
-// // loadLibraries();
-
-
-// // // ===============================================
-// // // Color
-// // // ===============================================
-// // function getColorBrightness(hex) {
-// //   if (!hex) return 0;
-
-// //   const normalizedHex = hex.replace("#", "");
-
-// //   const r = parseInt(normalizedHex.slice(0, 2), 16);
-// //   const g = parseInt(normalizedHex.slice(2, 4), 16);
-// //   const b = parseInt(normalizedHex.slice(4, 6), 16);
-
-// //   return (r * 299 + g * 587 + b * 114) / 1000;
-// // }
-// // // const libraryList = document.getElementById("libraryList");
-
-// // // async function loadLibraries() {
-// // //   const res = await fetch("/libraries");
-// // //   const libraries = await res.json();
-
-// // //   libraries.forEach(library => {
-// // //     const link = document.createElement("a");
-
-// // //     link.textContent = library.libraryName;
-// // //     link.href = `/${library.libraryName}/`;
-// // //     link.className = "library-link";
-
-// // //     link.addEventListener("click", (e) => {
-// // //       e.preventDefault();
-
-// // //       window.open(
-// // //         `/${library.libraryName}/`,
-// // //         library.libraryName,
-// // //         "width=1280,height=900,left=200,top=100,resizable=yes,scrollbars=yes"
-// // //       );
-// // //     });
-
-// // //     libraryList.appendChild(link);
-// // //   });
-// // // }
-
-// // // loadLibraries();

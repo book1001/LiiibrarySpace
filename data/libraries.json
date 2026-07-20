@@ -4,7 +4,7 @@
     "libraryName": "SFPC.bbw",
     "password": "123",
     "color": "#d35838",
-    "bookSharing": "누구나 가능",
+    "bookSharing": "open",
     "createdAt": "2026-06-29T21:38:30.168Z",
     "note": [
       "note_0",
@@ -28,10 +28,12 @@
     "libraryName": "Halim",
     "password": "123",
     "color": "#47d758",
-    "bookSharing": "패스워드 필요",
+    "bookSharing": "private",
     "createdAt": "2026-06-29T21:39:14.639Z",
     "note": [
-      "note_0"
+      "note_0",
+      "note_1",
+      "note_2"
     ],
     "lineH": [],
     "lineV": [
@@ -50,20 +52,31 @@
     "libraryName": "secret-library",
     "password": "abc",
     "color": "#3f2ddf",
-    "bookSharing": "누구나 가능",
+    "bookSharing": "open",
     "createdAt": "2026-07-13T23:46:27.882Z",
-    "note": [
-      "note_0"
-    ],
-    "lineH": [
-      "lineH_0"
-    ],
+    "note": [],
+    "lineH": [],
     "lineV": [],
-    "light": [
-      "light_0"
-    ],
+    "light": [],
     "radio": [],
     "item": [],
     "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█"
+  },
+  {
+    "id": "8cf4af90-358f-4a38-bed2-07f9dd7db91b",
+    "libraryName": "WWW",
+    "password": "123",
+    "color": "#325afb",
+    "bookSharing": "open",
+    "createdAt": "2026-07-15T17:26:57.168Z",
+    "note": [
+      "note_0"
+    ],
+    "lineH": [],
+    "lineV": [],
+    "light": [],
+    "radio": [],
+    "item": [],
+    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█ WWW. ▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█"
   }
 ]

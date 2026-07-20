@@ -7,8 +7,8 @@
     ],
     "url": "https://www.thedailystar.net/star-youth/news/why-the-disappearance-digital-third-spaces-matters-4084946",
     "library": [
-      "Central Library",
-      "SFPC.bbw"
+      "Central Liiibrary",
+      "secret-library"
     ],
     "note": []
   },
@@ -20,7 +20,7 @@
     ],
     "url": "https://www.are.na/editorial/on-contamination",
     "library": [
-      "Central Library",
+      "Central Liiibrary",
       "SFPC.bbw"
     ],
     "note": []
@@ -33,7 +33,7 @@
     ],
     "url": "https://www.wrecka.ge/against-the-dark-forest/",
     "library": [
-      "Central Library",
+      "Central Liiibrary",
       "SFPC.bbw"
     ],
     "note": []
@@ -46,7 +46,7 @@
     ],
     "url": "https://www.technologyreview.com/2020/09/03/1007716/digital-gardens-let-you-cultivate-your-own-little-bit-of-the-internet",
     "library": [
-      "Central Library",
+      "Central Liiibrary",
       "Halim"
     ],
     "note": []
@@ -59,7 +59,7 @@
     ],
     "url": "https://loriemerson.net/wp-content/uploads/2024/02/10.4324_9781003211662-14_chapterpdf.pdf",
     "library": [
-      "Central Library",
+      "Central Liiibrary",
       "Halim"
     ],
     "note": []
@@ -73,8 +73,123 @@
     ],
     "url": "https://www.are.na/editorial/reimagining-privacy-online-through-gradients-of-intimacy",
     "library": [
-      "Central Library",
+      "Central Liiibrary",
       "SFPC.bbw"
+    ],
+    "note": []
+  },
+  {
+    "id": "3ee8b851-f9b9-4289-a6b7-197011648b73",
+    "title": "The Internet has no benches",
+    "author": [
+      "Spencer Chang"
+    ],
+    "url": "https://news.spencer.place/p/the-internet-has-no-benches",
+    "library": [
+      "Central Liiibrary",
+      "SFPC.bbw"
+    ],
+    "note": []
+  },
+  {
+    "id": "69bdf45f-9f97-4223-8e9e-bed9a50de2f2",
+    "title": "Designs for the Pluriverse",
+    "author": [
+      "Wikipedia"
+    ],
+    "url": "https://en.wikipedia.org/wiki/Designs_for_the_Pluriverse",
+    "library": [
+      "Central Liiibrary",
+      "SFPC.bbw"
+    ],
+    "note": []
+  },
+  {
+    "id": "afe3d651-e64b-436f-8ced-65856e948a5b",
+    "title": "Sixth Declaration of the Selva Lacandona",
+    "author": [
+      "Zapatista Army of National Liberation"
+    ],
+    "url": "https://enlacezapatista.ezln.org.mx/sdsl-en/",
+    "library": [
+      "Central Liiibrary",
+      "SFPC.bbw"
+    ],
+    "note": []
+  },
+  {
+    "id": "14653836-ad1c-4541-b3a1-fd6d29598d8c",
+    "title": "Dither",
+    "author": [
+      "Wikipedia"
+    ],
+    "url": "https://en.wikipedia.org/wiki/Dither",
+    "library": [
+      "Central Liiibrary"
+    ],
+    "note": []
+  },
+  {
+    "id": "5d63f4d8-854d-4a81-9d04-401174e5adf1",
+    "title": "In Defense of the Poor Image",
+    "author": [
+      "Hito Steyerl"
+    ],
+    "url": "https://www.e-flux.com/journal/10/61362/in-defense-of-the-poor-image",
+    "library": [
+      "Central Liiibrary"
+    ],
+    "note": []
+  },
+  {
+    "id": "591d99b8-165b-4ca9-8ccb-3edf0b4ac85f",
+    "title": "Too Much World: Is the Internet Dead?",
+    "author": [
+      "Hito Steyerl"
+    ],
+    "url": "https://www.e-flux.com/journal/49/60004/too-much-world-is-the-internet-dead",
+    "library": [
+      "Central Liiibrary",
+      "WWW"
+    ],
+    "note": []
+  },
+  {
+    "id": "4ffb660e-d3d8-4bf2-870e-262c5c291bfa",
+    "title": "FROM MY TO ME",
+    "author": [
+      "Olia Lialina"
+    ],
+    "url": "https://interfacecritique.net/book/olia-lialina-from-my-to-me/",
+    "library": [
+      "Central Liiibrary",
+      "WWW"
+    ],
+    "note": []
+  },
+  {
+    "id": "a9dd1f8a-a693-4d11-a336-a09d52829ae0",
+    "title": "Bringing GeoCities Back with Kyle Drake",
+    "author": [
+      "Kyle Drake"
+    ],
+    "url": "https://www.softwaresessions.com/episodes/bringing-geocities-back-with-kyle-drake/",
+    "library": [
+      "Central Liiibrary",
+      "WWW"
+    ],
+    "note": []
+  },
+  {
+    "id": "3ada93e6-77c0-4280-957a-3790bec688c0",
+    "title": "The Indie Web Manifesto",
+    "author": [
+      "par le minirézo"
+    ],
+    "url": "https://web.archive.org/web/20191026161600/http://www.uzine.net/article63.html",
+    "library": [
+      "Central Liiibrary",
+      "WWW"
     ],
     "note": []
   }

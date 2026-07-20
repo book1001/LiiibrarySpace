@@ -1,0 +1,132 @@
+<style>
+  .main-index {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown div::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 220px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid black;
+    z-index: 1000;
+  }
+
+  .dropdown-menu.open {
+    display: block;
+  }
+
+  .dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    /* overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; */
+  }
+
+  .dropdown-item:hover {
+    background: #f3f3f3;
+  }
+
+
+  #searchBar-container {
+    position: relative;
+  }
+
+  #searchBtn {
+    cursor: pointer;
+  }
+
+  .search-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    z-index: 1000;
+  }
+
+  .search-dropdown.open {
+    display: block;
+  }
+
+  .search-dropdown .dropdown-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .search-result-type {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    opacity: 0.5;
+  }
+
+  .search-result-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .search-dropdown .dropdown-item.is-selected {
+    background: #eee;
+  }
+</style>
+<div class="main-index">
+
+  <div class="dropdown">
+    <button id="titleBtn">
+      Title
+      <span class="material-symbols-outlined">keyboard_arrow_down</span>
+    </button>
+    <div id="titleDropdown" class="dropdown-menu"></div>
+  </div>
+
+  <div class="dropdown">
+    <button id="authorBtn">
+      Author
+      <span class="material-symbols-outlined">keyboard_arrow_down</span>
+    </button>
+    <div id="authorDropdown" class="dropdown-menu"></div>
+  </div>
+
+  <div class="dropdown">
+    <button id="libraryBtn">
+      Liiibrary
+      <span class="material-symbols-outlined">keyboard_arrow_down</span>
+    </button>
+    <div id="allLibraryDropdown" class="dropdown-menu"></div>
+  </div>
+
+  <div id="searchBar-container">
+    <input type="text" id="searchBar" autocomplete="off" placeholder="">
+    <span id="searchBtn" class="material-symbols-outlined">search</span>
+    <div id="searchDropdown" class="dropdown-menu search-dropdown"></div>
+  </div>
+
+  <!-- <div>
+    <button id="addBookfromHome" style="margin-right: 0;">
+      <span class="material-symbols-outlined">add</span>
+    </button>
+  </div> -->
+
+
+</div>

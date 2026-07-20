@@ -5,6 +5,7 @@
   --scrollbar-width: 20px;
   --scrollbar-right: 0px;
   --scrollbar-left: 17px;
+  --radio-display-text: "";
 }
 
 
@@ -37,6 +38,7 @@ input {
   border-bottom: 1px solid black;
   outline: none;
   background: none;
+  font-family: 'AmericanTypewriter';
 }
 
 iframe {
@@ -87,12 +89,121 @@ iframe {
   background: white;
 }
 
+.main-index {
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-auto-rows: 1fr; 
+  grid-template-columns: auto auto auto 1fr; 
+  gap: 0px 0%; 
+}
+
+.main-index button {
+  border: none;
+  background: none;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 6px;
+  padding-left: 0;
+
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.main-index .material-symbols-outlined {
+  transform: translateY(3px);
+}
+
+
+
+/* ============================================================= */
+/* Main: Info > Search */
+/* ============================================================= */
+.headerBar {
+  width: 100%;
+  display: grid; 
+  grid-template-columns: auto 30px; 
+  gap: 0px 0%; 
+}
+
+.main-index #searchBar-container {
+  width: 100%;
+}
+
+.main-index #searchBar {
+  width: calc(100% - 30px);
+  padding: 0;
+  border-bottom: 2px solid black;
+  font-family: 'AmericanTypewriter';
+  font-size: 20px;
+}
+
+
+.home-addbook {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: fixed;
+  top: 70px;
+  right: 14px;
+  z-index: 5;
+}
+
+
+#addbook {
+  /* display: none; */
+  position: absolute; 
+  top: 5px; 
+  right: 0px;
+}
+
+.removeAuthorBtn {
+  transform: translateY(6px);
+  font-size: 20px;
+  padding: 0;
+}
+
+#addbook-submitField {
+  display: none;
+  /* display: block; */
+  width: 270px;
+  margin: auto;
+  padding: 0 20px;
+  border: 3px double gray;
+  background: white;
+}
+
+#addbook-submitField.is-open {
+  display: block;
+}
+
+#addbook-submitField.is-close {
+  display: none;
+}
+
+#addbook-submitField h1 {
+  margin-block-start: 14px;
+  margin-block-end: 11px;
+  font-weight: bold;
+  font-size: 31px;
+}
+
+#submitLibraryDropdownBtn {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  width: 100%;
+}
+
 /* ============================================================= */
 /* Main: Info > Library submit  */
 /* ============================================================= */
 .main-submitField {
   width: 360px;
-  margin: 100px auto;
+  margin: 40px auto;
   padding: 0 20px;
   border: 3px double gray;
 }
@@ -146,7 +257,7 @@ iframe {
   }
 }
 
-#bookList a {
+.book {
   display: block;
   max-height: 200px;
   margin-bottom: 8px;
@@ -156,7 +267,7 @@ iframe {
   padding: 14px 5px;
   color: black;
   text-decoration: none;
-  cursor: alias;
+  cursor: pointer;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -256,7 +367,7 @@ iframe {
 .library-dropdown {
   display: none;
   position: absolute;
-  top: 100%;
+  /* top: 100%; */
   left: 64px;
   z-index: 1000;
 
@@ -271,6 +382,11 @@ iframe {
 
 .library-dropdown.is-open {
   display: block;
+}
+
+.library-dropdown label {
+  display: block;
+  cursor: pointer;
 }
 
 .library-checkbox-item {
@@ -303,20 +419,31 @@ iframe {
 }
 
 #libraryStreet {
-  position: absolute;
-  left: 0;
+  position: fixed;
+  left: 50%;
   bottom: 0;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  width: calc(50% - 20px);
   padding-left: 20px;
   display: flex;
   /* flex-direction: row-reverse; */
   align-items: flex-end;
   overflow-x: auto;
   overflow-y: hidden;
-  width: 100%;
+  background: linear-gradient(0deg,rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 0) 100%);
 }
 
 #libraryStreet::-webkit-scrollbar {
   height: 4px;
+}
+
+.library {
+  width: 96px;
+  padding-right: 10px;
 }
 
 .library-link {
@@ -338,8 +465,23 @@ iframe {
   color: #d35838;
 }
 
+.library-name-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 96px;
+}
+
 .library-name {
   margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.library-private {
+  font-size: 10px;
+  transform: translateY(2px);
 }
 
 #houseTextarea {

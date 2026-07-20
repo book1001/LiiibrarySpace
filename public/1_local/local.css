@@ -49,6 +49,79 @@ button {
 
 
 /* =================================== */
+/* Relocate */
+/* =================================== */
+#relocate {
+  position: fixed;
+  bottom: 7px;
+  right: 3px;
+  z-index: 5;
+  font-size: 30px;
+}
+
+#miniMap {
+  position: fixed;
+  right: 4px;
+  bottom: 45px;
+
+  width: 240px;
+  height: 160px;
+
+  padding: 2px;
+  box-sizing: border-box;
+
+  border: 2px solid black;
+
+  z-index: 99999;
+  user-select: none;
+  touch-action: none;
+}
+
+#miniMap.is-hidden {
+  display: none;
+}
+
+#miniMapFloor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+  cursor: crosshair;
+}
+
+/* 현재 화면에 보이는 영역 */
+#miniMapViewport {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  border: 2px solid black;
+
+  box-sizing: border-box;
+  cursor: grab;
+  touch-action: none;
+  z-index: 2;
+}
+
+#miniMapViewport:active {
+  cursor: grabbing;
+}
+
+/* Floor 안의 아이템을 미니맵에서 단순한 박스로 표시 */
+.miniMap-item {
+  position: absolute;
+  min-width: 2px;
+  min-height: 2px;
+
+  background: black;
+  pointer-events: none;
+}
+
+
+/* =================================== */
 /* Toolbox */
 /* =================================== */
 .local-addbook {
@@ -63,7 +136,7 @@ button {
   z-index: 5;
 }
 
-#addbook-submitField h1 {
+/* #addbook-submitField h1 {
   margin-block-start: 14px;
   margin-block-end: 11px;
   font-weight: bold;
@@ -94,7 +167,7 @@ button {
 
 #addbook-submitField.is-close {
   display: none;
-}
+} */
 
 /* =================================== */
 /* library Header */
@@ -177,6 +250,7 @@ body.is-dragging * {
 .can-drag:focus-within .remove {
   display: block;
 }
+
 
 /* =================================== */
 /* Items: Note & Note_borderless */
@@ -388,6 +462,10 @@ body.is-resizing * {
   pointer-events: none;
 }
 
+.radioDisplay::before {
+  content: var(--radio-display-text, "");
+}
+
 /* =================================== */
 /* PlayHtml */
 /* =================================== */
@@ -420,6 +498,7 @@ body.is-resizing * {
   display: inline-table;
   width: 100px;
   height: 120px;
+  padding: 0;
   text-align: center;
   cursor: pointer;
   border: 3px double;
@@ -432,9 +511,14 @@ body.is-resizing * {
   z-index: 3 !important;
 }
 
+.book .drag-handle {
+  height: 100%;
+}
+
 .book-title {
+  position: absolute;
+  top: 10px;
   outline: none;
-  pointer-events: none;
 }
 
 #bookCard {

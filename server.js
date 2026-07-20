@@ -452,7 +452,7 @@ app.patch("/books/:id/libraries", (req, res) => {
   if (!libraryName || typeof libraryName !== "string") {
     return res.status(400).json({
       success: false,
-      message: "Library name is required"
+      message: "Liiibrary name is required"
     });
   }
 
@@ -463,10 +463,10 @@ app.patch("/books/:id/libraries", (req, res) => {
     });
   }
 
-  if (libraryName === "Central Library" && action === "remove") {
+  if (libraryName === "Central Liiibrary" && action === "remove") {
     return res.status(400).json({
       success: false,
-      message: "Books cannot be removed from the Central Library"
+      message: "Books cannot be removed from the Central Liiibrary"
     });
   }
 
@@ -497,7 +497,7 @@ app.patch("/books/:id/libraries", (req, res) => {
 
   // 패스워드가 필요한 라이브러리는
   // 추가와 제거 모두 패스워드 검사
-  if (library.bookSharing === "패스워드 필요") {
+  if (library.bookSharing === "private") {
     if (!password) {
       return res.status(401).json({
         success: false,
@@ -533,7 +533,7 @@ app.patch("/books/:id/libraries", (req, res) => {
       return res.status(409).json({
         success: false,
         alreadyExists: true,
-        message: `This book is not registered in ${libraryName}`
+        message: `This book is already registered in ${libraryName}`
       });
     }
 
@@ -553,10 +553,10 @@ app.patch("/books/:id/libraries", (req, res) => {
     existingLibraryNames.splice(index, 1);
   }
 
-  // Central Library는 항상 유지
-  book.library = existingLibraryNames.includes("Central Library")
+  // Central Liiibrary는 항상 유지
+  book.library = existingLibraryNames.includes("Central Liiibrary")
     ? [...new Set(existingLibraryNames)]
-    : ["Central Library", ...new Set(existingLibraryNames)];
+    : ["Central Liiibrary", ...new Set(existingLibraryNames)];
 
   writeBooks(books);
 
@@ -593,10 +593,10 @@ app.patch("/books/:id/libraries", (req, res) => {
 //     });
 //   }
 
-//   if (libraryName === "Central Library" && action === "remove") {
+//   if (libraryName === "Central Liiibrary" && action === "remove") {
 //     return res.status(400).json({
 //       success: false,
-//       message: "Central Library에서는 제거할 수 없습니다."
+//       message: "Central Liiibrary에서는 제거할 수 없습니다."
 //     });
 //   }
 
@@ -625,7 +625,7 @@ app.patch("/books/:id/libraries", (req, res) => {
 
 //   // 패스워드가 필요한 라이브러리는
 //   // 추가와 제거 모두 패스워드를 확인
-//   if (library.bookSharing === "패스워드 필요") {
+//   if (library.bookSharing === "private") {
 //     if (!password) {
 //       return res.status(401).json({
 //         success: false,
@@ -674,9 +674,9 @@ app.patch("/books/:id/libraries", (req, res) => {
 //     }
 //   }
 
-//   book.library = existingLibraryNames.includes("Central Library")
+//   book.library = existingLibraryNames.includes("Central Liiibrary")
 //   ? existingLibraryNames
-//   : ["Central Library", ...existingLibraryNames];
+//   : ["Central Liiibrary", ...existingLibraryNames];
 //   // book.library = existingLibraryNames;
 
 //   writeBooks(books);
@@ -727,7 +727,7 @@ app.patch("/books/:id/libraries", (req, res) => {
 //     : [];
 
 //   const merged = new Set([
-//     "Central Library",
+//     "Central Liiibrary",
 //     ...existingLibraryNames,
 //     ...incomingLibraryNames
 //   ]);
@@ -766,22 +766,22 @@ app.post("/register-book", (req, res) => {
           .filter(Boolean)
       )
     ]
-  : ["Central Library"];
+  : ["Central Liiibrary"];
 
   // const selectedLibraryNames = Array.isArray(library)
   //   ? library.map(item =>
   //       typeof item === "string" ? item : item.libraryName
   //     ).filter(Boolean)
-  //   : ["Central Library"];
+  //   : ["Central Liiibrary"];
 
   const newBook = {
     id: createUniqueId(books),
     title: title.trim(),
     author: author.map(a => a.trim()).filter(Boolean),
     url: url.trim(),
-    library: selectedLibraryNames.includes("Central Library")
+    library: selectedLibraryNames.includes("Central Liiibrary")
       ? selectedLibraryNames
-      : ["Central Library", ...selectedLibraryNames],
+      : ["Central Liiibrary", ...selectedLibraryNames],
     note: []
   };
 
@@ -817,8 +817,8 @@ app.post("/register-book", (req, res) => {
 //   for (const item of library) {
 //     const libraryName = item.libraryName;
 
-//     if (libraryName === "Central Library") {
-//       selectedLibraryNames.push("Central Library");
+//     if (libraryName === "Central Liiibrary") {
+//       selectedLibraryNames.push("Central Liiibrary");
 //       continue;
 //     }
 
@@ -833,7 +833,7 @@ app.post("/register-book", (req, res) => {
 //       });
 //     }
 
-//     if (foundLibrary.bookSharing === "패스워드 필요") {
+//     if (foundLibrary.bookSharing === "private") {
 //       if (item.password !== foundLibrary.password) {
 //         return res.status(403).json({
 //           success: false,
@@ -850,9 +850,9 @@ app.post("/register-book", (req, res) => {
 //     title: title.trim(),
 //     author: author.map(a => a.trim()).filter(Boolean),
 //     url: url.trim(),
-//     library: selectedLibraryNames.includes("Central Library")
+//     library: selectedLibraryNames.includes("Central Liiibrary")
 //       ? selectedLibraryNames
-//       : ["Central Library", ...selectedLibraryNames],
+//       : ["Central Liiibrary", ...selectedLibraryNames],
 //     note: []
 //   };
 

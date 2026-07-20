@@ -14,58 +14,47 @@
   <div data-component="book-list" data-mode="all" class="main-shelf"></div>
 
   <div class="main-info">
+    <h1>Liiibrary.Space</h1>
+    <div class="headerBar">
+      <div data-component="search"></div>
+      <div class="home-addbook">
+        <!-- <button id="addBookfromHome" class="material-symbols-outlined">add</button> -->
+        <button id="addbook" class="material-symbols-outlined">add</button>
+        <div data-component="book-submit-index" id="addbook-submitField"></div>
+      </div>
+    </div>
+
+
     <div>
-      <h1>liiibrary.space</h1>
       <p>Welcome to liiibrary.space Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.</p>
     </div>
 
     <div data-component="library-submit" class="main-submitField"></div>
     <!-- <hr>
     <div data-component="book-submit"></div> -->
-
-    <div data-component="library-list"></div>
+    <div style="padding-bottom: 500px;">
+      <h3>Blueteen Board</h3>
+      <p>Introduce your Liiibraray, Book Request</p>
+      <h3>FAQ</h3>
+    </div>
   </div>
+  <div data-component="library-list"></div>
 
 
   <!-- ====================================================== -->
   <!-- JS -->
   <!-- ====================================================== -->
   <script type="module" src="index.js"></script>
-  <!-- <script type="module">
-    import { initBookCard } from "/components/book-card/index.js";
-    import { initBookList } from "/components/book-list/index.js";
 
-    // 1. HTML component만 먼저 삽입
-    const components = document.querySelectorAll("[data-component]");
+  <script type="module">
+    import { playhtml } from 'https://unpkg.com/playhtml';
 
-    for (const element of components) {
-      const componentName = element.dataset.component;
+    playhtml.init();
+    // playhtml.init({
+    //   developmentMode: true
+    // });
+  </script>
 
-      const html = await fetch(`/components/${componentName}/index.html`)
-        .then(res => res.text());
-
-      element.innerHTML = html;
-    }
-
-    // 2. book-card가 실제 DOM에 들어온 뒤 초기화
-    let bookCard = null;
-
-    if (document.querySelector('[data-component="book-card"]')) {
-      bookCard = initBookCard();
-    }
-
-    // 3. book-list 초기화
-    const bookListComponent = document.querySelector('[data-component="book-list"]');
-
-    if (bookListComponent) {
-      const mode = bookListComponent.dataset.mode || "currentLibrary";
-
-      initBookList({
-        mode,
-        showBookCard: bookCard?.showBookCard
-      });
-    }
-  </script> -->
 </body>
 </html>
 

@@ -3,8 +3,8 @@
 
 <form id="libraryForm" novalidate>
   <label>
-    Library Name
-    <input type="text" name="libraryName" id="libraryName" required />
+    Liiibrary Name
+    <input type="text" name="libraryName" id="libraryName" required>
   </label>
 
   <div id="nameStatus"></div>
@@ -15,15 +15,30 @@
   <br><br> -->
   <br>
 
+  <!-- <label>
+    Email
+    <input type="email" name="email" required>
+  </label>
+
+  <br><br> -->
+
   <label>
     Password
-    <input type="password" name="password" required />
+    <input type="password" name="password" required>
   </label>
 
   <br><br>
 
+
+  <!-- <div>
+    <div style="display: inline;">Short Description:</div>
+    <input type="text" id="description">
+  </div>
+
+  <br> -->
+
   <label>
-    Library Color
+    Liiibrary Color
     <!-- <input type="range" id="colorPicker" min="0" max="360" value="12">
     <input type="text" id="colorHex" name="color" value="#d35838" readonly> -->
     <input type="color" id="colorPicker" value="#d35838">
@@ -54,22 +69,23 @@
   <br>
 
   <fieldset>
-    <legend>Book Submission</legend>
+    <legend>Liiibrary Type</legend>
 
     <label>
-      <input type="radio" name="bookSharing" value="누구나 가능" required />
-      Anyone
+      <input type="radio" name="bookSharing" value="open" required>
+      Open
     </label>
 
     <label>
-      <input type="radio" name="bookSharing" value="패스워드 필요" />
-      Password Required
+      <input type="radio" name="bookSharing" value="private">
+      Private <span style="font-size: 11px; transform: translateY(110px);">❋</span>
     </label>
   </fieldset>
 
   <br>
 
-  <button id="submitBtn" type="submit" disabled>Submit</button>
+  <button id="submitBtn" type="submit">Submit</button>
+  <!-- <button id="submitBtn" type="submit" disabled>Submit</button> -->
 </form>
 
 <p id="message"></p>

@@ -68,3 +68,94 @@ if (bookListComponent) {
 // // });
 
 
+
+// ======================================================
+// Addbook
+// ======================================================
+const addBookBtn = document.getElementById("addbook");
+const submitField = document.getElementById("addbook-submitField");
+
+const currentLibrary = window.CURRENT_LIBRARY;
+const isLibraryPage = Boolean(currentLibrary);
+
+const storageKey = isLibraryPage
+  ? `submitFieldOpen:${currentLibrary}`
+  : null;
+
+// 요소가 없는 페이지에서는 실행 중단
+if (addBookBtn && submitField) {
+  // ----------------------------------------------------
+  // 초기 상태
+  // ----------------------------------------------------
+  let isOpen;
+
+  if (isLibraryPage) {
+    // 저장된 상태가 없으면 기본값은 열림
+    const saved = localStorage.getItem(storageKey);
+
+    isOpen =
+      saved === null
+        ? true
+        : saved === "true";
+  } else {
+    // index.html 기본값은 닫힘
+    isOpen = false;
+  }
+
+  submitField.classList.toggle("is-open", isOpen);
+  addBookBtn.textContent = isOpen ? "close" : "add";
+
+  // ----------------------------------------------------
+  // 버튼 클릭
+  // ----------------------------------------------------
+  addBookBtn.addEventListener("click", () => {
+    isOpen = submitField.classList.toggle("is-open");
+
+    addBookBtn.textContent =
+      isOpen ? "close" : "add";
+
+    // 각 라이브러리에서만 상태 저장
+    if (isLibraryPage) {
+      localStorage.setItem(
+        storageKey,
+        String(isOpen)
+      );
+    }
+  });
+}
+
+// const addBookBtn = document.getElementById("addbook");
+// const submitField = document.getElementById("addbook-submitField");
+
+// const isLibraryPage = typeof CURRENT_LIBRARY !== "undefined";
+// const storageKey = `submitFieldOpen:${CURRENT_LIBRARY || "index"}`;
+
+// // ----------------------------------------------------
+// // 초기 상태
+// // ----------------------------------------------------
+// let isOpen;
+
+// if (isLibraryPage) {
+//   // 저장된 상태가 있으면 사용, 없으면 기본값 = 열림
+//   const saved = localStorage.getItem(storageKey);
+//   isOpen = saved === null ? true : saved === "true";
+// } else {
+//   // index.html은 항상 기본값 = 닫힘
+//   isOpen = false;
+// }
+
+// submitField.classList.toggle("is-open", isOpen);
+// addBookBtn.textContent = isOpen ? "close" : "add";
+
+// // ----------------------------------------------------
+// // 버튼 클릭
+// // ----------------------------------------------------
+// addBookBtn.addEventListener("click", () => {
+//   isOpen = submitField.classList.toggle("is-open");
+//   addBookBtn.textContent = isOpen ? "close" : "add";
+
+//   // 라이브러리 페이지에서만 상태 저장
+//   if (isLibraryPage) {
+//     localStorage.setItem(storageKey, isOpen);
+//   }
+// });
