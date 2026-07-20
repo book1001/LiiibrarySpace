@@ -526,13 +526,28 @@ body.is-resizing * {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  width: 380px;
+  min-height: 480px;
+  border: 1px solid black;
+  background: #9eff8d;
+  padding: 20px;
+  display: none;
+  z-index: 10;
+  font-size: 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  /* position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 360px;
   min-height: 240px;
   border: 1px solid black;
   background: #9eff8d;
   padding: 20px;
   display: none;
-  z-index: 10;
+  z-index: 10; */
 }
 
 #openBookBtn {
