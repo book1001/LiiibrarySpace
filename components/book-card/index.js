@@ -133,7 +133,16 @@ export function initBookCard() {
       ? currentBook.library
       : [];
 
-    cardLibrary.textContent = bookLibraries.join(", ");
+    cardLibrary.textContent = bookLibraries
+      .map(item => {
+        if (typeof item === "string") {
+          return item;
+        }
+
+        return item?.name || "";
+      })
+      .filter(Boolean)
+      .join(", ");
   }
 
   /**
@@ -176,8 +185,16 @@ export function initBookCard() {
       return;
     }
 
-    const currentLibraries = Array.isArray(currentBook.library)
+    const currentLibraryNames = Array.isArray(currentBook.library)
       ? currentBook.library
+          .map(item => {
+            if (typeof item === "string") {
+              return item;
+            }
+
+            return item?.name || "";
+          })
+          .filter(Boolean)
       : [];
 
     // --------------------------------------------------
@@ -219,7 +236,7 @@ export function initBookCard() {
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.checked = currentLibraries.includes(libraryName);
+      checkbox.checked = currentLibraryNames.includes(libraryName);
 
       const checkboxId = `book-library-${libraryName.replace(
         /[^A-Za-z0-9_-]/g,
@@ -401,10 +418,6 @@ export function initBookCard() {
     cardAuthor.textContent = Array.isArray(book.author)
       ? book.author.join(", ")
       : "";
-
-    // cardLibrary.textContent = Array.isArray(book.library)
-    //   ? book.library.join(", ")
-    //   : "";
 
     renderCardLibraries();
     renderLibraryCheckboxes();

@@ -2,7 +2,9 @@
   {
     "id": "cad8a9ed-1a79-47e2-af31-b5a9c817ec02",
     "libraryName": "SFPC.bbw",
+    "editableName": "SFPC.bbw Liiibrary",
     "password": "123",
+    "description": "Building Benches for the Web",
     "color": "#d35838",
     "bookSharing": "open",
     "createdAt": "2026-06-29T21:38:30.168Z",
@@ -10,23 +12,28 @@
       "note_0",
       "note_1",
       "note_2",
-      "note_3"
+      "note_3",
+      "note_4"
     ],
     "lineH": [
       "lineH_0",
       "lineH_1",
-      "lineH_2"
+      "lineH_2",
+      "lineH_3"
     ],
     "lineV": [],
     "light": [],
     "radio": [],
     "item": [],
-    "house": "\n▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n████████████\n█░░█SFPC█░░█\n████░░░░████\n████░░░░████\n"
+    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n████████████\n█░░██████░░█\n████░░░░████\n████░░░░████",
+    "houseTitle": "SFPC"
   },
   {
     "id": "e8cf8fb2-0bc3-4957-b588-cbd1439e33c2",
     "libraryName": "Halim",
+    "editableName": "Halim's Liiibrary",
     "password": "123",
+    "description": "Halim's Personal Liiibrary",
     "color": "#47d758",
     "bookSharing": "private",
     "createdAt": "2026-06-29T21:39:14.639Z",
@@ -45,27 +52,37 @@
     ],
     "radio": [],
     "item": [],
-    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓█ HA-LIM ▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█"
+    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█",
+    "houseTitle": "HA-LIM"
   },
   {
     "id": "33c70fce-c354-445f-9586-4aa1461a32e5",
     "libraryName": "secret-library",
+    "editableName": "Secret~Liiibrary",
     "password": "abc",
-    "color": "#3f2ddf",
+    "description": "",
+    "color": "#47d758",
     "bookSharing": "open",
     "createdAt": "2026-07-13T23:46:27.882Z",
     "note": [],
     "lineH": [],
     "lineV": [],
-    "light": [],
-    "radio": [],
+    "light": [
+      "light_0"
+    ],
+    "radio": [
+      "radio_0"
+    ],
     "item": [],
-    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█"
+    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█",
+    "houseTitle": "secret"
   },
   {
     "id": "8cf4af90-358f-4a38-bed2-07f9dd7db91b",
     "libraryName": "WWW",
+    "editableName": "WWW Liiibrary",
     "password": "123",
+    "description": "",
     "color": "#325afb",
     "bookSharing": "open",
     "createdAt": "2026-07-15T17:26:57.168Z",
@@ -77,6 +94,53 @@
     "light": [],
     "radio": [],
     "item": [],
-    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█ WWW. ▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█"
+    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█\n█▓▓█▓▓█▓▓█▓▓\n▓▓█▓▓█▓▓█▓▓█",
+    "houseTitle": "WWW."
+  },
+  {
+    "id": "909dd03d-280b-44ef-bea7-8fdd1f49a7ed",
+    "libraryName": "DaCoolPlace",
+    "editableName": "DaCoolPlace Liiibrary",
+    "password": "poop",
+    "description": "",
+    "color": "#72fa78",
+    "bookSharing": "open",
+    "createdAt": "2026-07-21T18:03:25.783Z",
+    "note": [],
+    "lineH": [],
+    "lineV": [],
+    "light": [],
+    "radio": [],
+    "item": [],
+    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n████████████\n█░░██████░░█\n████░░░░████\n████░░░░████",
+    "houseTitle": "DaCoolPlace"
+  },
+  {
+    "id": "1e512905-9880-4f79-b107-08ac7590728f",
+    "libraryName": "Slaybrary",
+    "editableName": "Sam's corner",
+    "password": "books",
+    "description": "",
+    "color": "#00ff00",
+    "bookSharing": "open",
+    "createdAt": "2026-08-18T17:15:30.638Z",
+    "note": [
+      "note_0",
+      "note_1",
+      "note_2"
+    ],
+    "lineH": [
+      "lineH_0"
+    ],
+    "lineV": [],
+    "light": [
+      "light_0"
+    ],
+    "radio": [
+      "radio_0"
+    ],
+    "item": [],
+    "house": "▒▒▒▒▒▒▒▒▒▒▒▒\n▒▒▒▒▒▒▒▒▒▒▒▒\n████████████\n█░░██████░░█\n████░░░░████\n████░░░░████",
+    "houseTitle": "Slaybrary"
   }
 ]

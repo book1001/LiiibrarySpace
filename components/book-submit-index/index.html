@@ -2,68 +2,75 @@
 <h1>Book Submission</h1>
 
 <form id="bookForm" novalidate>
-<label>
-  Title:
-  <input type="text" name="title" required />
-</label>
 
-<br /><br />
+  <div class="card-item">
+    <div>Title:</div>
+    <input type="text" name="title" required>
+  </div>
 
-<div>
-  Author:
-  <div id="authorList">
-    <div class="author-row">
-      <input type="text" class="authorInput" required />
+  <!-- <div class="card-item-add">
+    <div>Author:</div>
+    <div id="authorList">
+      <div class="author-row">
+        <input type="text" class="authorInput" required />
+      </div>
+    </div>
+    <div>
+      <button type="button" id="addAuthorBtn" class="add-circle material-symbols-outlined">add_circle</button>
+    </div>
+  </div> -->
+
+  <div style="padding-bottom: 16px;">
+    Author:
+    <div id="authorList">
+      <div class="author-row">
+        <input type="text" class="authorInput" required />
+      </div>
+    </div>
+    <button type="button" id="addAuthorBtn" class="add-circle material-symbols-outlined">add_circle</button>
+  </div>
+
+  <div class="card-item">
+    <div>URL:</div>
+    <input type="url" name="url" required>
+  </div>
+
+  <div class="card-item">
+    <div>Add to:</div>
+    <div class="book-submit-library" style="transform: translateY(-6px);">
+      <span id="submitLibraryDropdownBtn"></span>
+      <div id="submitLibraryDropdown" class="library-dropdown">
+        <div id="submitLibraryCheckboxList"></div>
+      </div>
     </div>
   </div>
-  <button type="button" id="addAuthorBtn" class="add-circle material-symbols-outlined">add_circle</button>
-</div>
 
-<br />
+  <!-- <div id="duplicateBookCard" style="display:none; border:1px solid black; padding:16px; margin-top:20px;">
+    <h2>This book is already in the central liiibrary</h2>
 
-<label>
-  URL:
-  <input type="url" name="url" required />
-</label>
+    <p><strong>Title:</strong> <span id="duplicateTitle"></span></p>
+    <p><strong>Author:</strong> <span id="duplicateAuthor"></span></p>
+    <p><strong>URL:</strong> <span id="duplicateUrl"></span></p>
+    <p><strong>Library:</strong> <span id="duplicateLibrary"></span></p>
 
-<br /><br />
+    <p>이 기존 책에 선택한 library를 추가할까요?</p>
 
-<div>
-  Add to:
-  <div class="book-submit-library">
-    <span id="submitLibraryDropdownBtn"></span>
-
-    <div id="submitLibraryDropdown" class="library-dropdown">
-      <div id="submitLibraryCheckboxList"></div>
+    <button type="button" id="addLibraryToExistingBookBtn">
+      Add Library
+    </button>
+    <div id="libraryDropdown" class="library-dropdown">
+      <div id="libraryCheckboxList"></div>
     </div>
+
+    <button type="button" id="cancelDuplicateBtn">
+      Cancel
+    </button>
+  </div> -->
+
+  <div class="card-rightBtn-container">
+    <button id="submitBtn" class="submitBtn" type="submit" disabled>Submit</button>
   </div>
-</div>
-
-<br /><br />
-
-<!-- <div id="duplicateBookCard" style="display:none; border:1px solid black; padding:16px; margin-top:20px;">
-  <h2>This book is already in the central liiibrary</h2>
-
-  <p><strong>Title:</strong> <span id="duplicateTitle"></span></p>
-  <p><strong>Author:</strong> <span id="duplicateAuthor"></span></p>
-  <p><strong>URL:</strong> <span id="duplicateUrl"></span></p>
-  <p><strong>Library:</strong> <span id="duplicateLibrary"></span></p>
-
-  <p>이 기존 책에 선택한 library를 추가할까요?</p>
-
-  <button type="button" id="addLibraryToExistingBookBtn">
-    Add Library
-  </button>
-  <div id="libraryDropdown" class="library-dropdown">
-    <div id="libraryCheckboxList"></div>
-  </div>
-
-  <button type="button" id="cancelDuplicateBtn">
-    Cancel
-  </button>
-</div> -->
-
-<button id="submitBtn" type="submit" disabled>Submit</button>
+  
 </form>
 
 <p id="message"></p>

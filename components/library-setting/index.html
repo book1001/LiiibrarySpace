@@ -1,0 +1,544 @@
+<style>
+  .settingHouse {
+    position: relative;
+    height: 80px;
+  }
+
+  #settingHouseWall {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 95px;
+    height: 78px;
+    margin-block: 0;
+    font-family: monospace;
+    /* white-space: pre; */
+    line-height: 1;
+    margin: 0;
+    font-family: 'Menlo';
+    font-size: 13px;
+  }
+
+  #settingHouseTitle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    max-width: 95px;
+    max-height: 38px;
+    margin: 40px 0 0 0;
+    font-family: monospace;
+    white-space: pre;
+    line-height: 1;
+    background: white;
+    text-transform: uppercase;
+    overflow: hidden;
+    white-space: break-spaces;
+    font-size: 15px;
+    /* font-family: 'AmericanTypewriter'; */
+    font-family: 'HB-Regular';
+  }
+
+  #settingTitle {
+    display: inline-block;
+    margin-block-start: 13px;
+    margin-block-end: 0;
+  }
+
+  #settingTitle:focus {
+    outline: none;
+  }
+
+  #settingCreatedAt {
+    margin-block-start: 8px;
+    margin-block-end: 0;
+    font-size: 14px;
+  }
+
+  #settingDescription {
+    display: inline-block;
+    min-width: 293px;
+    font-size: 14px;
+    margin-block-start: 0;
+    margin-block-end: 13px;
+  }
+
+  #settingDescription:focus {
+    outline: none;
+  }
+
+  .holdings {
+    font-size: 12px;
+  }
+
+  .holding {
+    display: grid;
+    grid-template-columns: 100px 1fr 15px;
+    column-gap: 15px;
+    padding: 3px 0;
+    border-bottom: 1px solid black;
+    text-align: left;
+    line-height: 15px;
+  }
+
+  .holdingTitle {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    column-gap: 15px;
+    padding: 0;
+    border-top: 3px double black;
+    border-bottom: 3px double black;
+    text-align: left;
+    font-size: 13px;
+    padding: 4px 0 3px 0;
+  }  
+
+  .holdingAuthor,
+  .holdingBookTitle {
+    cursor: alias;
+  }
+
+  .holdingBookColor {
+    display: none;
+    width: 10px;
+    height: 10px;
+    margin-top: 4px;
+    align-self: start;
+    justify-self: center;
+    border-radius: 50%;
+    border: 1px solid #e2e2e2;
+    background: #f2edcb;
+  }
+
+  body.is-repair-mode .holdingBookColor {
+    display: block;
+    cursor: pointer;
+  }
+
+  .holdingBookColorPicker {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    /* pointer-events: none; */
+  }
+
+  .holdingBookColor .clr-field {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    /* pointer-events: none; */
+  }
+
+  #repairMore {
+    display: none;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    /* left: 50%;
+    transform: translate(-50%, 0); */
+    height: 33px;
+    width: 100%;
+  }
+
+  #repairMore button {
+    /* border: 2px solid black;
+    border-radius: 20px; */
+    border: none;
+    background: none;
+    font-size: 30px;
+    /* font-size: 16px;
+    font-weight: bold; */
+    /* background: black;
+    color: white;
+    padding: 2px 5px; */
+  }
+
+  #dropdownMore {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: -70px;
+    left: 5px;
+    min-width: max-content;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 8px;
+    background: #f3f3f3;
+    border: 1px solid black;
+   text-align: left;
+  }
+
+  #dropdownMore.is-open {
+    display: flex;
+  }
+
+  #dropdownMore button {
+    font-size: 16px;
+  }
+
+
+  .setting-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    background: rgb(0 0 0 / 40%);
+  }
+
+  .setting-modal.is-open {
+    display: flex;
+  }
+
+  .setting-modal-dialog {
+    width: min(100%, 420px);
+    padding: 20px;
+
+    background: white;
+    color: black;
+  }
+
+  .setting-modal-dialog label {
+    display: block;
+    margin-block-end: 5px;
+  }
+
+  .setting-modal-dialog input {
+    width: 100%;
+  }
+
+  .setting-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    margin-block-start: 20px;
+  }
+
+  #passwordModalMessage {
+    min-height: 1.2em;
+    margin-block: 10px 0;
+  }
+
+  /* .delete-library-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    background: rgb(0 0 0 / 40%);
+  }
+
+  .delete-library-modal.is-open {
+    display: flex;
+  } */
+
+  /* .delete-library-dialog {
+    width: min(100%, 420px);
+    padding: 20px;
+    background: white;
+    color: black;
+  } */
+
+  .delete-library-dialog label {
+    display: block;
+    margin-block: 20px 5px;
+  }
+
+  #deleteLibraryPassword {
+    width: 100%;
+  }
+
+  #deleteLibraryMessage {
+    min-height: 1.2em;
+    margin-block: 10px;
+  }
+
+  .delete-library-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+</style>
+
+<div class="settingHouse">
+  <div id="settingHouseWall"></div>
+  <div id="settingHouseTitle"></div>
+
+  <div id="repairColor">
+    <input type="text" id="settingColorPicker" class="settingColorPicker" data-coloris autocomplete="off" value="#000000">
+    <!-- <input id="settingColorPicker" type="color" value="#000000"> -->
+  </div>
+</div>
+
+<h2 id="settingTitle"></h2>
+<h3 id="settingCreatedAt"></h3>
+
+<p id="settingDescription"></p>
+
+<div class="holdingTitle">
+  <div>Author</div>
+  <div>Title</div>
+</div>
+<div class="holdings" id="settingHoldings"></div>
+
+<div id="repairMore">
+  <div id="dropdownMore">
+    <button id="settingPassword">Change Password</button>
+    <button id="settingDelete">Delete Forever</button>
+  </div>
+  <button id="repairBtnMore" class="material-symbols-outlined">pending</button>
+  <!-- <button><span class="material-symbols-outlined">delete_forever</span></button>
+  <button><span class="material-symbols-outlined">password</span></button>
+  <button><span class="material-symbols-outlined">lock_open</span></button> -->
+  <!--  -->
+</div>
+
+<div class="repairBtns">
+  <button id="repairBtnCancel" class="material-symbols-outlined">cancel</button>
+  <button id="repairBtn" class="material-symbols-outlined">build_circle</button>
+  <!-- <button id="repairBtnSave" class="material-symbols-outlined">check_circle</button> -->
+</div>
+
+
+
+<!-- Password 변경 모달 -->
+<div id="passwordModal" class="setting-modal">
+  <div class="setting-modal-dialog">
+    <p>
+      Would you like to change the password for this library?
+    </p>
+
+    <form id="passwordChangeForm">
+      <div id="currentPasswordStep">
+        <label for="currentLibraryPassword">
+          Current password
+        </label>
+
+        <input
+          id="currentLibraryPassword"
+          name="currentPassword"
+          type="password"
+          autocomplete="current-password"
+        >
+
+        <div class="setting-modal-buttons">
+          <button
+            id="passwordModalCancel"
+            type="button"
+          >
+            Cancel
+          </button>
+
+          <button
+            id="verifyCurrentPassword"
+            type="button"
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="newPasswordStep"
+        style="display: none;"
+      >
+        <label for="newLibraryPassword">
+          New password
+        </label>
+
+        <input
+          id="newLibraryPassword"
+          name="newPassword"
+          type="password"
+          autocomplete="new-password"
+        >
+
+        <div class="setting-modal-buttons">
+          <button
+            id="newPasswordCancel"
+            type="button"
+          >
+            Cancel
+          </button>
+
+          <button
+            id="saveNewPassword"
+            type="submit"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+
+      <p id="passwordModalMessage"></p>
+    </form>
+  </div>
+</div>
+
+<!-- <div id="passwordModal" class="setting-modal">
+  <div class="setting-modal-dialog">
+    <p>
+      Would you like to change the password for this library?
+    </p>
+
+    <div id="currentPasswordStep">
+      <label for="currentLibraryPassword">
+        Current password
+      </label>
+
+      <input
+        id="currentLibraryPassword"
+        type="password"
+        autocomplete="current-password"
+      >
+
+      <div class="setting-modal-buttons">
+        <button
+          id="passwordModalCancel"
+          type="button"
+        >
+          Cancel
+        </button>
+
+        <button
+          id="verifyCurrentPassword"
+          type="button"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="newPasswordStep"
+      style="display: none;"
+    >
+      <label for="newLibraryPassword">
+        New password
+      </label>
+
+      <input
+        id="newLibraryPassword"
+        type="password"
+        autocomplete="new-password"
+      >
+
+      <div class="setting-modal-buttons">
+        <button
+          id="newPasswordCancel"
+          type="button"
+        >
+          Cancel
+        </button>
+
+        <button
+          id="saveNewPassword"
+          type="button"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+
+    <p id="passwordModalMessage"></p>
+  </div>
+</div> -->
+
+<!-- Library 삭제 확인창 -->
+<div id="deleteLibraryModal" class="setting-modal">
+  <div class="setting-modal-dialog">
+    <form id="deleteLibraryForm">
+      <p>
+        Do you want to permanently delete this library?
+      </p>
+
+      <p>
+        This action cannot be undone.
+      </p>
+
+      <label for="deleteLibraryPassword">
+        Current password
+      </label>
+
+      <input
+        type="hidden"
+        name="username"
+        autocomplete="username"
+        value=""
+        id="deleteLibraryUsername"
+      >
+      
+      <input
+        id="deleteLibraryPassword"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+      >
+
+      <p id="deleteLibraryMessage"></p>
+
+      <div class="setting-modal-buttons">
+        <button
+          id="deleteLibraryCancel"
+          type="button"
+        >
+          Cancel
+        </button>
+
+        <button
+          id="deleteLibraryConfirm"
+          type="submit"
+        >
+          Delete Forever
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div id="deleteLibraryModal" class="setting-modal">
+  <div class="setting-modal-dialog">
+    <p>
+      Do you want to permanently delete this library?
+      This action cannot be undone.
+    </p>
+
+    <label for="deleteLibraryPassword">
+      Enter the library password:
+    </label>
+
+    <input
+      id="deleteLibraryPassword"
+      type="password"
+      autocomplete="current-password"
+    >
+
+    <p id="deleteLibraryMessage"></p>
+
+    <div class="delete-library-buttons">
+      <button id="deleteLibraryCancel" type="button">
+        Cancel
+      </button>
+
+      <button id="deleteLibraryConfirm" type="button">
+        Delete Forever
+      </button>
+    </div>
+  </div>
+</div> -->

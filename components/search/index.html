@@ -1,18 +1,4 @@
 <style>
-  .main-index {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .dropdown {
-    position: relative;
-  }
-
-  .dropdown div::-webkit-scrollbar {
-    width: var(--scrollbar-width);
-  }
-
   .dropdown-menu {
     display: none;
     position: absolute;
@@ -42,6 +28,12 @@
     background: #f3f3f3;
   }
 
+  .searchSub {
+    display: block;
+    font-size: 10px;
+    color: #22a632;
+    font-weight: bold;
+  }
 
   #searchBar-container {
     position: relative;
@@ -49,6 +41,8 @@
 
   #searchBtn {
     cursor: pointer;
+    transform: translateY(5px);
+    padding: 0;
   }
 
   .search-dropdown {
@@ -90,43 +84,12 @@
     background: #eee;
   }
 </style>
-<div class="main-index">
 
-  <div class="dropdown">
-    <button id="titleBtn">
-      Title
-      <span class="material-symbols-outlined">keyboard_arrow_down</span>
-    </button>
-    <div id="titleDropdown" class="dropdown-menu"></div>
-  </div>
-
-  <div class="dropdown">
-    <button id="authorBtn">
-      Author
-      <span class="material-symbols-outlined">keyboard_arrow_down</span>
-    </button>
-    <div id="authorDropdown" class="dropdown-menu"></div>
-  </div>
-
-  <div class="dropdown">
-    <button id="libraryBtn">
-      Liiibrary
-      <span class="material-symbols-outlined">keyboard_arrow_down</span>
-    </button>
-    <div id="allLibraryDropdown" class="dropdown-menu"></div>
-  </div>
-
-  <div id="searchBar-container">
-    <input type="text" id="searchBar" autocomplete="off" placeholder="">
-    <span id="searchBtn" class="material-symbols-outlined">search</span>
-    <div id="searchDropdown" class="dropdown-menu search-dropdown"></div>
-  </div>
-
-  <!-- <div>
-    <button id="addBookfromHome" style="margin-right: 0;">
-      <span class="material-symbols-outlined">add</span>
-    </button>
-  </div> -->
-
-
+<div id="searchBar-container">
+  <input type="text" id="searchBar" autocomplete="off" placeholder="">
+  <div class="searchBar-border"></div>
+  <button id="searchBtn" class="material-symbols-outlined">search</button>
+  <div id="searchDropdown" class="dropdown-menu search-dropdown"></div>
 </div>
+
+

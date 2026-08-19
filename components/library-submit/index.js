@@ -1,682 +1,27 @@
-// const form = document.getElementById("libraryForm");
-// const nameStatus = document.getElementById("nameStatus");
-// const colorPicker = document.getElementById("colorPicker");
-// const colorHex = document.getElementById("colorHex");
-// const message = document.getElementById("message");
-// const submitBtn = document.getElementById("submitBtn");
-
-// const houseTextarea =
-//   document.getElementById("houseTextarea");
-
-// const houseRadios =
-//   document.querySelectorAll(
-//     'input[name="houseExample"]'
-//   );
-
-// const libraryNamePattern =
-//   /^(?![._-])(?!.*[._-]{2})[A-Za-z0-9._-]+(?<![._-])$/;
-
-// const colorPattern =
-//   /^#[0-9A-Fa-f]{6}$/;
-
-// let nameAvailable = false;
-// let nameCheckTimer = null;
-// let nameCheckController = null;
-
-
-// // ======================================================
-// // House
-// // ======================================================
-
-// const houseExamples = [
-// `
-// ▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒
-// ████████████
-// █░░██████░░█
-// ████░░░░████
-// ████░░░░████
-// `,
-
-// `
-// ▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒
-// █▓▓█▓▓█▓▓█▓▓
-// ▓▓█▓▓█▓▓█▓▓█
-// █▓▓█▓▓█▓▓█▓▓
-// ▓▓█▓▓█▓▓█▓▓█
-// `
-// ];
-
-// const HOUSE_MAX_COLUMNS = 12;
-// const HOUSE_MAX_ROWS = 6;
-
-
-// function normalizeHouseText(text) {
-//   return text
-//     .replace(/\r\n?/g, "\n")
-//     .split("\n")
-//     .slice(0, HOUSE_MAX_ROWS)
-//     .map(line => {
-//       return Array
-//         .from(line)
-//         .slice(0, HOUSE_MAX_COLUMNS)
-//         .join("");
-//     })
-//     .join("\n");
-// }
-
-
-// function setHouseExample(index) {
-//   const example = houseExamples[index];
-
-//   if (typeof example !== "string") {
-//     return;
-//   }
-
-//   houseTextarea.value =
-//     normalizeHouseText(example.trim());
-
-//   checkForm();
-// }
-
-
-// window.setHouseExample = setHouseExample;
-
-
-// houseTextarea.addEventListener("input", () => {
-//   const originalValue = houseTextarea.value;
-//   const selectionStart =
-//     houseTextarea.selectionStart;
-
-//   const normalizedValue =
-//     normalizeHouseText(originalValue);
-
-//   if (originalValue !== normalizedValue) {
-//     houseTextarea.value = normalizedValue;
-
-//     const nextPosition = Math.min(
-//       selectionStart,
-//       normalizedValue.length
-//     );
-
-//     houseTextarea.setSelectionRange(
-//       nextPosition,
-//       nextPosition
-//     );
-//   }
-
-//   checkForm();
-// });
-
-
-// houseTextarea.addEventListener("keydown", event => {
-//   if (event.key !== "Enter") {
-//     return;
-//   }
-
-//   const value = houseTextarea.value;
-
-//   const selectionStart =
-//     houseTextarea.selectionStart;
-
-//   const selectionEnd =
-//     houseTextarea.selectionEnd;
-
-//   const currentLines = value.split("\n");
-
-//   const selectedText = value.slice(
-//     selectionStart,
-//     selectionEnd
-//   );
-
-//   const selectedLineBreaks =
-//     (selectedText.match(/\n/g) || []).length;
-
-//   const resultingLineCount =
-//     currentLines.length +
-//     1 -
-//     selectedLineBreaks;
-
-//   if (resultingLineCount > HOUSE_MAX_ROWS) {
-//     event.preventDefault();
-//   }
-// });
-
-
-// houseRadios.forEach(radio => {
-//   radio.addEventListener("change", () => {
-//     if (!radio.checked) {
-//       return;
-//     }
-
-//     setHouseExample(Number(radio.value));
-//   });
-// });
-
-
-// // ======================================================
-// // Color
-// // ======================================================
-
-// function getColorBrightness(hex) {
-//   if (!colorPattern.test(hex)) {
-//     return 0;
-//   }
-
-//   const normalizedHex = hex.replace("#", "");
-
-//   const red = parseInt(
-//     normalizedHex.slice(0, 2),
-//     16
-//   );
-
-//   const green = parseInt(
-//     normalizedHex.slice(2, 4),
-//     16
-//   );
-
-//   const blue = parseInt(
-//     normalizedHex.slice(4, 6),
-//     16
-//   );
-
-//   return (
-//     red * 299 +
-//     green * 587 +
-//     blue * 114
-//   ) / 1000;
-// }
-
-
-// function updateHouseColor(color) {
-//   if (!colorPattern.test(color)) {
-//     return;
-//   }
-
-//   houseTextarea.style.color = color;
-
-//   const brightness =
-//     getColorBrightness(color);
-
-//   const brightnessThreshold = 200;
-
-//   if (brightness >= brightnessThreshold) {
-//     houseTextarea.style.textShadow =
-//       "1px 0px gray";
-//   } else {
-//     houseTextarea.style.textShadow =
-//       "none";
-//   }
-// }
-
-
-// colorPicker.addEventListener("input", () => {
-//   const color = colorPicker.value;
-
-//   colorHex.value = color;
-
-//   updateHouseColor(color);
-//   checkForm();
-// });
-
-
-// colorHex.addEventListener("input", () => {
-//   const color = colorHex.value.trim();
-
-//   if (colorPattern.test(color)) {
-//     colorPicker.value = color;
-//     updateHouseColor(color);
-//   }
-
-//   checkForm();
-// });
-
-
-// // ======================================================
-// // Form Validation
-// // ======================================================
-
-// function checkForm() {
-//   const libraryName =
-//     form.elements.libraryName.value.trim();
-
-//   const password =
-//     form.elements.password.value.trim();
-
-//   const color =
-//     colorHex.value.trim();
-
-//   const bookSharing =
-//     form.querySelector(
-//       'input[name="bookSharing"]:checked'
-//     );
-
-//   const nameValid =
-//     libraryNamePattern.test(libraryName);
-
-//   const colorValid =
-//     /^#[0-9A-Fa-f]{6}$/.test(color);
-
-//   const allFieldsValid =
-//     libraryName.length > 0 &&
-//     nameValid &&
-//     nameAvailable &&
-//     password.length > 0 &&
-//     colorValid &&
-//     bookSharing !== null;
-
-//   if (allFieldsValid) {
-//     submitBtn.removeAttribute("disabled");
-//   } else {
-//     submitBtn.setAttribute("disabled", "");
-//   }
-// }
-
-// // function checkForm() {
-// //   const libraryName =
-// //     form.elements.libraryName.value.trim();
-
-// //   const password =
-// //     form.elements.password.value.trim();
-
-// //   const color =
-// //     colorHex.value.trim();
-
-// //   const bookSharing =
-// //     form.querySelector(
-// //       'input[name="bookSharing"]:checked'
-// //     );
-
-// //   const libraryNameEntered =
-// //     libraryName.length > 0;
-
-// //   const nameValid =
-// //     libraryNamePattern.test(libraryName);
-
-// //   const passwordValid =
-// //     password.length > 0;
-
-// //   const colorValid =
-// //     colorPattern.test(color);
-
-// //   const bookSharingValid =
-// //     bookSharing !== null;
-
-// //   const formValid =
-// //     libraryNameEntered &&
-// //     nameValid &&
-// //     passwordValid &&
-// //     colorValid &&
-// //     bookSharingValid &&
-// //     nameAvailable;
-
-// //   submitBtn.disabled = !formValid;
-
-// //   // Submit 버튼이 계속 disabled일 때
-// //   // Console에서 어떤 값이 false인지 확인할 수 있습니다.
-// //   console.log("Library form validation:", {
-// //     libraryNameEntered,
-// //     nameValid,
-// //     passwordValid,
-// //     colorValid,
-// //     bookSharingValid,
-// //     nameAvailable,
-// //     formValid
-// //   });
-// // }
-
-
-// // ======================================================
-// // Library Name Check
-// // ======================================================
-
-// form.elements.libraryName.addEventListener(
-//   "input",
-//   () => {
-//     clearTimeout(nameCheckTimer);
-
-//     if (nameCheckController) {
-//       nameCheckController.abort();
-//       nameCheckController = null;
-//     }
-
-//     const name =
-//       form.elements.libraryName.value.trim();
-
-//     nameAvailable = false;
-//     checkForm();
-
-//     if (!name) {
-//       nameStatus.textContent = "";
-//       return;
-//     }
-
-//     if (!libraryNamePattern.test(name)) {
-//       nameStatus.textContent =
-//         "Only letters, numbers, hyphens (-), underscores (_), and periods (.) are allowed";
-
-//       nameStatus.style.color = "red";
-//       return;
-//     }
-
-//     nameStatus.textContent =
-//       "Checking availability...";
-
-//     nameStatus.style.color = "gray";
-
-//     nameCheckTimer = setTimeout(async () => {
-//       nameCheckController =
-//         new AbortController();
-
-//       try {
-//         const response = await fetch(
-//           `/check-library-name?name=${encodeURIComponent(name)}`,
-//           {
-//             cache: "no-store",
-//             signal: nameCheckController.signal
-//           }
-//         );
-
-//         if (!response.ok) {
-//           throw new Error(
-//             `Name check failed: ${response.status}`
-//           );
-//         }
-
-//         const result = await response.json();
-
-//         // 입력값이 요청을 보냈을 때와 달라졌다면
-//         // 이전 요청의 결과를 무시합니다.
-//         const currentName =
-//           form.elements.libraryName.value.trim();
-
-//         if (currentName !== name) {
-//           return;
-//         }
-
-//         nameAvailable =
-//           result.available === true;
-
-//         if (nameAvailable) {
-//           nameStatus.textContent =
-//             "This name is available";
-
-//           nameStatus.style.color = "green";
-//         } else {
-//           nameStatus.textContent =
-//             "This name is already taken";
-
-//           nameStatus.style.color = "red";
-//         }
-//       } catch (error) {
-//         if (error.name === "AbortError") {
-//           return;
-//         }
-
-//         console.error(error);
-
-//         nameAvailable = false;
-
-//         nameStatus.textContent =
-//           "Unable to check this name";
-
-//         nameStatus.style.color = "red";
-//       } finally {
-//         checkForm();
-//       }
-//     }, 300);
-//   }
-// );
-
-
-// // ======================================================
-// // Other Form Events
-// // ======================================================
-
-// form.elements.password.addEventListener(
-//   "input",
-//   checkForm
-// );
-
-
-// document
-//   .querySelectorAll(
-//     'input[name="bookSharing"]'
-//   )
-//   .forEach(radio => {
-//     radio.addEventListener(
-//       "change",
-//       checkForm
-//     );
-//   });
-
-
-// // ======================================================
-// // Submit
-// // ======================================================
-
-// form.addEventListener("submit", async event => {
-//   event.preventDefault();
-
-//   checkForm();
-
-//   if (submitBtn.disabled) {
-//     return;
-//   }
-
-//   const libraryName =
-//     form.elements.libraryName.value.trim();
-
-//   const password =
-//     form.elements.password.value.trim();
-
-//   const color =
-//     colorHex.value.trim();
-
-//   const selectedBookSharing =
-//     form.querySelector(
-//       'input[name="bookSharing"]:checked'
-//     );
-
-//   const bookSharing =
-//     selectedBookSharing
-//       ? selectedBookSharing.value
-//       : "";
-
-//   const house =
-//     normalizeHouseText(houseTextarea.value);
-
-
-//   if (!libraryName) {
-//     alert("Please enter a library name");
-//     return;
-//   }
-
-
-//   if (!libraryNamePattern.test(libraryName)) {
-//     alert(
-//       "The library name may contain only letters, numbers, hyphens (-), underscores (_), and periods (.)."
-//     );
-
-//     return;
-//   }
-
-
-//   if (!nameAvailable) {
-//     alert(
-//       "Please choose an available library name"
-//     );
-
-//     return;
-//   }
-
-
-//   if (!password) {
-//     alert("Please enter a password");
-//     return;
-//   }
-
-
-//   if (!colorPattern.test(color)) {
-//     alert("Please enter a valid color");
-//     return;
-//   }
-
-
-//   if (!bookSharing) {
-//     alert(
-//       "Please select a book-sharing option"
-//     );
-
-//     return;
-//   }
-
-
-//   const data = {
-//     libraryName,
-//     password,
-//     color,
-//     bookSharing,
-//     house
-//   };
-
-
-//   submitBtn.disabled = true;
-
-//   if (message) {
-//     message.textContent =
-//       "Creating library...";
-//   }
-
-
-//   try {
-//     const response = await fetch(
-//       "/register-library",
-//       {
-//         method: "POST",
-
-//         headers: {
-//           "Content-Type":
-//             "application/json;charset=UTF-8"
-//         },
-
-//         body: JSON.stringify(data)
-//       }
-//     );
-
-
-//     const result = await response.json();
-
-
-//     if (!response.ok || !result.success) {
-//       throw new Error(
-//         result.message ||
-//         "Failed to create the library"
-//       );
-//     }
-
-
-//     form.reset();
-
-//     const defaultColor = "#d35838";
-
-//     colorPicker.value = defaultColor;
-//     colorHex.value = defaultColor;
-
-//     updateHouseColor(defaultColor);
-
-
-//     nameAvailable = false;
-//     nameStatus.textContent = "";
-
-
-//     const randomHouseIndex =
-//       Math.floor(
-//         Math.random() *
-//         houseExamples.length
-//       );
-
-//     if (houseRadios[randomHouseIndex]) {
-//       houseRadios.forEach(radio => {
-//         radio.checked = false;
-//       });
-
-//       houseRadios[
-//         randomHouseIndex
-//       ].checked = true;
-
-//       setHouseExample(randomHouseIndex);
-//     }
-
-
-//     if (message) {
-//       message.textContent =
-//         "Library created successfully";
-//     }
-
-//     checkForm();
-//   } catch (error) {
-//     console.error(error);
-
-//     if (message) {
-//       message.textContent = error.message;
-//     } else {
-//       alert(error.message);
-//     }
-
-//     checkForm();
-//   }
-// });
-
-
-// // ======================================================
-// // Initial State
-// // ======================================================
-
-// const initialColor =
-//   colorPattern.test(colorHex.value.trim())
-//     ? colorHex.value.trim()
-//     : "#d35838";
-
-// colorPicker.value = initialColor;
-// colorHex.value = initialColor;
-
-// updateHouseColor(initialColor);
-
-
-// const randomHouseIndex =
-//   Math.floor(
-//     Math.random() *
-//     houseExamples.length
-//   );
-
-// if (houseRadios[randomHouseIndex]) {
-//   houseRadios[randomHouseIndex].checked = true;
-//   setHouseExample(randomHouseIndex);
-// }
-
-
-// checkForm();
-
 const form = document.getElementById("libraryForm");
 const nameStatus = document.getElementById("nameStatus");
 const colorPicker = document.getElementById("colorPicker");
-const colorHex = document.getElementById("colorHex");
+// const colorHex = document.getElementById("colorHex");
+const descriptionInput = document.getElementById("description");
 const message = document.getElementById("message");
-const submitBtn = document.getElementById("submitBtn");
+const librarySubmitBtn = document.getElementById("librarySubmitBtn");
+
 const libraryNamePattern = /^(?![._-])(?!.*[._-]{2})[A-Za-z0-9._-]+(?<![._-])$/;
+const colorPattern = /^#[0-9A-Fa-f]{6}$/;
 
 let nameAvailable = false;
+let nameCheckTimer;
+let nameCheckController = null;
 
 // ===============================================
 // House
 // ===============================================
 const houseTextarea = document.getElementById("houseTextarea");
+const houseTitle = document.getElementById("houseTitle");
 const houseRadios = document.querySelectorAll('input[name="houseExample"]');
 
 const houseExamples = [
-`
+  `
 ▒▒▒▒▒▒▒▒▒▒▒▒
 ▒▒▒▒▒▒▒▒▒▒▒▒
 ████████████
@@ -685,7 +30,7 @@ const houseExamples = [
 ████░░░░████
 `,
 
-`
+  `
 ▒▒▒▒▒▒▒▒▒▒▒▒
 ▒▒▒▒▒▒▒▒▒▒▒▒
 █▓▓█▓▓█▓▓█▓▓
@@ -703,261 +48,447 @@ function normalizeHouseText(text) {
     .replace(/\r\n?/g, "\n")
     .split("\n")
     .slice(0, HOUSE_MAX_ROWS)
-    .map(line =>
-      Array.from(line)
+    .map(line => {
+      return Array.from(line)
         .slice(0, HOUSE_MAX_COLUMNS)
-        .join("")
-    )
+        .join("");
+    })
     .join("\n");
 }
 
-houseTextarea.addEventListener("input", () => {
-  const start = houseTextarea.selectionStart;
-  const before = houseTextarea.value;
+// houseTextarea.addEventListener("input", () => {
+//   const selectionStart = houseTextarea.selectionStart;
+//   const before = houseTextarea.value;
+//   const normalized = normalizeHouseText(before);
 
-  const normalized = normalizeHouseText(before);
+//   if (before !== normalized) {
+//     houseTextarea.value = normalized;
 
-  if (before !== normalized) {
-    houseTextarea.value = normalized;
+//     const nextPosition = Math.min(
+//       selectionStart,
+//       houseTextarea.value.length
+//     );
 
-    const nextPosition = Math.min(
-      start,
-      houseTextarea.value.length
-    );
+//     houseTextarea.setSelectionRange(
+//       nextPosition,
+//       nextPosition
+//     );
+//   }
 
-    houseTextarea.setSelectionRange(
-      nextPosition,
-      nextPosition
-    );
-  }
-});
+//   checkForm();
+// });
 
-houseTextarea.addEventListener("keydown", (e) => {
-  if (e.key !== "Enter") {
+// houseTextarea.addEventListener(
+//   "keydown",
+//   event => {
+//     if (event.key !== "Enter") {
+//       return;
+//     }
+
+//     const value = houseTextarea.value;
+//     const selectionStart = houseTextarea.selectionStart;
+//     const selectionEnd = houseTextarea.selectionEnd;
+//     const lines = value.split("\n");
+
+//     const selectedText =
+//       value.slice(
+//         selectionStart,
+//         selectionEnd
+//       );
+
+//     const selectedLineBreaks =
+//       (selectedText.match(/\n/g) || [])
+//         .length;
+
+//     const resultingLineCount =
+//       lines.length +
+//       1 -
+//       selectedLineBreaks;
+
+//     if (
+//       resultingLineCount >
+//       HOUSE_MAX_ROWS
+//     ) {
+//       event.preventDefault();
+//     }
+//   }
+// );
+
+// ===============================================
+// House Example
+// ===============================================
+window.setHouseExample = function(index) {
+  const example = houseExamples[index];
+
+  if (!example) {
     return;
   }
 
-  const value = houseTextarea.value;
-  const selectionStart = houseTextarea.selectionStart;
-  const selectionEnd = houseTextarea.selectionEnd;
+  houseTextarea.textContent = normalizeHouseText(example.trim());
+  // houseTitle.textContent = "";
 
-  const lines = value.split("\n");
+  checkForm();
+};
 
-  // 선택 영역에 줄바꿈이 포함되면 새 줄 수가 줄어들 수 있으므로 허용
-  const selectedText = value.slice(
-    selectionStart,
-    selectionEnd
+houseRadios.forEach(radio => {
+  radio.addEventListener(
+    "change",
+    () => {
+      window.setHouseExample(
+        Number(radio.value)
+      );
+    }
   );
-
-  const selectedLineBreaks =
-    (selectedText.match(/\n/g) || []).length;
-
-  const resultingLineCount =
-    lines.length + 1 - selectedLineBreaks;
-
-  if (resultingLineCount > HOUSE_MAX_ROWS) {
-    e.preventDefault();
-  }
 });
+
+function selectRandomHouse() {
+  const randomHouseIndex =
+    Math.floor(
+      Math.random() *
+      houseExamples.length
+    );
+
+  const selectedRadio = houseRadios[randomHouseIndex];
+
+  if (selectedRadio) {
+    selectedRadio.checked = true;
+
+    window.setHouseExample(
+      randomHouseIndex
+    );
+  }
+}
 
 // ===============================================
 // Hue Color Picker
 // ===============================================
-// function updateHouseColor(color) {
-//   houseTextarea.style.color = color;
-// }
-
-// 초기 색상 적용
 function getColorBrightness(hex) {
-  const normalizedHex = hex.replace("#", "");
+  if (!colorPattern.test(hex)) return 0;
 
+  const normalizedHex = hex.replace("#", "");
   const r = parseInt(normalizedHex.slice(0, 2), 16);
   const g = parseInt(normalizedHex.slice(2, 4), 16);
   const b = parseInt(normalizedHex.slice(4, 6), 16);
 
-  // 0~255 사이의 밝기 값
   return (r * 299 + g * 587 + b * 114) / 1000;
 }
 
 function updateHouseColor(color) {
+  if (!colorPattern.test(color)) return;
+
   houseTextarea.style.color = color;
+  houseTitle.style.color = color;
 
   const brightness = getColorBrightness(color);
-  const brightnessThreshold = 200;
+  const brightnessThreshold = 250;
 
   if (brightness >= brightnessThreshold) {
-    houseTextarea.style.textShadow = "1px 0px gray";
+    houseTextarea.style.textShadow = "1px 0px black";
   } else {
     houseTextarea.style.textShadow = "none";
   }
 }
-// updateHouseColor(colorPicker.value);
 
-colorPicker.addEventListener("input", () => {
-  colorHex.value = colorPicker.value;
-  updateHouseColor(colorPicker.value);
+function normalizeColor(color) {
+  const value = String(color || "").trim().toLowerCase();
+  return colorPattern.test(value) ? value : null;
+}
+
+function setLibraryColor(color) {
+  const normalizedColor = normalizeColor(color);
+
+  if (!normalizedColor) {
+    checkForm();
+    return;
+  }
+
+  colorPicker.value = normalizedColor;
+  colorPicker.dataset.lastValidColor = normalizedColor;
+
+  updateHouseColor(normalizedColor);
   checkForm();
-});
+}
 
-colorHex.addEventListener("input", () => {
-  if (/^#[0-9A-Fa-f]{6}$/.test(colorHex.value)) {
-    colorPicker.value = colorHex.value;
-    updateHouseColor(colorHex.value);
+colorPicker.addEventListener("input", event => {
+  const color = normalizeColor(event.target.value);
+
+  if (color) {
+    colorPicker.dataset.lastValidColor = color;
+    updateHouseColor(color);
   }
 
   checkForm();
 });
 
-
-window.setHouseExample = function(index) {
-  houseTextarea.value = houseExamples[index]
-    .trim()
-    .split("\n")
-    .slice(0, HOUSE_MAX_ROWS)
-    .map(line =>
-      Array.from(line)
-        .slice(0, HOUSE_MAX_COLUMNS)
-        .join("")
-    )
-    .join("\n");
-};
-
-// window.setHouseExample = function(index) {
-//   houseTextarea.innerText = houseExamples[index]
-//     .trim()
-//     .split("\n")
-//     .slice(0, HOUSE_MAX_ROWS)
-//     .map(line =>
-//       Array.from(line)
-//         .slice(0, HOUSE_MAX_COLUMNS)
-//         .join("")
-//     )
-//     .join("\n");
-//   // houseTextarea.textContent = houseExamples[index];
-// };
-
-houseRadios.forEach(radio => {
-  radio.addEventListener("change", () => {
-    window.setHouseExample(Number(radio.value));
-  });
+colorPicker.addEventListener("change", event => {
+  setLibraryColor(event.target.value);
 });
 
-const randomHouseIndex = Math.floor(Math.random() * houseExamples.length);
+colorPicker.addEventListener("blur", event => {
+  const color = normalizeColor(event.target.value);
 
-if (houseRadios[randomHouseIndex]) {
-  houseRadios[randomHouseIndex].checked = true;
-  window.setHouseExample(randomHouseIndex);
-}
+  if (color) {
+    setLibraryColor(color);
+    return;
+  }
 
+  setLibraryColor(colorPicker.dataset.lastValidColor || "#d35838");
+});
 
-// function setHouseExample(index) {
-//   houseTextarea.value = houseExamples[index];
+// function setLibraryColor(color) {
+//   const normalizedColor = color.trim().toLowerCase();
+
+//   if (!colorPattern.test(normalizedColor)) {
+//     checkForm();
+//     return;
+//   }
+
+//   colorPicker.value = normalizedColor;
+//   colorHex.value = normalizedColor;
+
+//   const colorisField = colorPicker.closest(".clr-field");
+
+//   if (colorisField) {
+//     colorisField.style.color = normalizedColor;
+//   }
+
+//   updateHouseColor(normalizedColor);
+//   checkForm();
 // }
 
-// houseRadios.forEach(radio => {
-//   radio.addEventListener("change", () => {
-//     setHouseExample(Number(radio.value));
-//   });
+// colorPicker.addEventListener("input", event => {
+//   setLibraryColor(event.target.value);
 // });
 
-// const randomHouseIndex = Math.floor(Math.random() * houseExamples.length);
+// colorPicker.addEventListener("change", event => {
+//   setLibraryColor(event.target.value);
+// });
 
-// houseRadios[randomHouseIndex].checked = true;
-// setHouseExample(randomHouseIndex);
+// colorHex.addEventListener("input", event => {
+//   const color = event.target.value.trim();
 
+//   if (colorPattern.test(color)) {
+//     setLibraryColor(color);
+//     return;
+//   }
+
+//   checkForm();
+// });
+
+// colorHex.addEventListener("blur", event => {
+//   const color = event.target.value.trim();
+
+//   if (colorPattern.test(color)) {
+//     setLibraryColor(color);
+//     return;
+//   }
+
+//   colorHex.value = colorPicker.value;
+//   checkForm();
+// });
 
 // ===============================================
 // Form Validation
 // ===============================================
 function checkForm() {
   const libraryName = form.libraryName.value.trim();
-  const password = form.password.value;
-  const color = form.color.value.trim();
+  const password = form.password.value.trim();
+  const color = colorPicker.value.trim().toLowerCase();
+  // const color = colorHex.value.trim();
+  const selectedBookSharing = form.querySelector('input[name="bookSharing"]:checked');
 
-  const bookSharing = form.querySelector(
-    'input[name="bookSharing"]:checked'
-  );
+  const nameValid = libraryName.length > 0 && libraryNamePattern.test(libraryName);
+  const passwordValid = password.length > 0;
+  const colorValid = colorPattern.test(color);
+  const bookSharingValid = selectedBookSharing !== null;
+  const houseValid = houseTextarea.textContent.trim().length > 0;
 
-  const colorValid = /^#[0-9A-Fa-f]{6}$/.test(color);
-  const nameValid = libraryNamePattern.test(libraryName);
-
-  submitBtn.disabled = !(
-    libraryName &&
+  const formValid =
     nameValid &&
-    password &&
+    nameAvailable &&
+    passwordValid &&
     colorValid &&
-    bookSharing &&
-    nameAvailable
-  );
-}
+    bookSharingValid &&
+    houseValid;
 
+  librarySubmitBtn.disabled = !formValid;
+
+  // console.log({
+  //   libraryName,
+  //   nameValid,
+  //   nameAvailable,
+  //   passwordValid,
+  //   color,
+  //   colorValid,
+  //   bookSharingValid,
+  //   houseValid,
+  //   formValid
+  // });
+}
 
 // ===============================================
 // Library Name Check
 // ===============================================
-let timer;
 form.libraryName.addEventListener("input", () => {
-  clearTimeout(timer);
+    // houseTitle.innerHTML = "";
 
-  const name = form.libraryName.value.trim();
+    // const span = document.createElement("span");
+    // span.textContent = form.libraryName.value;
 
-  nameAvailable = false;
-  checkForm();
+    // houseTitle.appendChild(span);
+    
+    houseTitle.textContent = form.libraryName.value;
 
-  if (!name) {
-    nameStatus.textContent = "";
-    return;
-  }
+    clearTimeout(nameCheckTimer);
 
-  if (!libraryNamePattern.test(name)) {
-    nameStatus.textContent =
-      "Only letters, numbers, hyphens (-), underscores (_), and periods (.) are allowed";
-    nameStatus.style.color = "red";
-    return;
-  }
-
-  timer = setTimeout(async () => {
-    const res = await fetch(
-      `/check-library-name?name=${encodeURIComponent(name)}`
-    );
-
-    const result = await res.json();
-
-    nameAvailable = result.available;
-
-    if (result.available) {
-      nameStatus.textContent = "This name is available";
-      nameStatus.style.color = "green";
-    } else {
-      nameStatus.textContent = "This name is already taken";
-      nameStatus.style.color = "red";
+    if (nameCheckController) {
+      nameCheckController.abort();
+      nameCheckController = null;
     }
 
+    const name = form.libraryName.value.trim();
+    nameAvailable = false;
     checkForm();
-  }, 300);
-});
 
+    if (!name) {
+      nameStatus.textContent = "";
+      return;
+    }
 
-form.password.addEventListener("input", checkForm);
+    if (
+      !libraryNamePattern.test(name)
+    ) {
+      nameStatus.textContent = "Only letters, numbers, hyphens (-), underscores (_), and periods (.) are allowed";
+      nameStatus.style.color = "red";
+      return;
+    }
 
-document.querySelectorAll('input[name="bookSharing"]').forEach(radio => {
-    radio.addEventListener("change", checkForm);
-});
+    nameStatus.textContent = "Checking availability...";
+    nameStatus.style.color = "gray";
 
+    nameCheckTimer =
+      setTimeout(
+        async () => {
+          nameCheckController =
+            new AbortController();
+
+          try {
+            const response =
+              await fetch(
+                `/check-library-name?name=${encodeURIComponent(name)}`,
+                {
+                  signal:
+                    nameCheckController
+                      .signal,
+
+                  cache: "no-store"
+                }
+              );
+
+            if (!response.ok) {
+              throw new Error(
+                `Name check failed: ${response.status}`
+              );
+            }
+
+            const result = await response.json();
+
+            const currentName =
+              form.libraryName
+                .value
+                .trim();
+
+            if (
+              currentName !== name
+            ) {
+              return;
+            }
+
+            nameAvailable =
+              result.available === true;
+
+            if (nameAvailable) {
+              nameStatus.textContent = "This name is available";
+              nameStatus.style.color = "green";
+            } else {
+              nameStatus.textContent = "This name is already taken";
+              nameStatus.style.color =  "red";
+            }
+
+            checkForm();
+          } catch (error) {
+            if (
+              error.name === "AbortError"
+            ) {
+              return;
+            }
+
+            console.error( "Library name check error:", error);
+
+            const currentName =
+              form.libraryName
+                .value
+                .trim();
+
+            if (
+              currentName !== name
+            ) {
+              return;
+            }
+
+            nameAvailable = false;
+
+            nameStatus.textContent =
+              "Unable to check this name";
+
+            nameStatus.style.color =
+              "red";
+
+            checkForm();
+          } finally {
+            nameCheckController =
+              null;
+          }
+        },
+        300
+      );
+  }
+);
+
+// ===============================================
+// Other Form Events
+// ===============================================
+form.password.addEventListener(
+  "input",
+  checkForm
+);
+
+document
+  .querySelectorAll(
+    'input[name="bookSharing"]'
+  )
+  .forEach(radio => {
+    radio.addEventListener(
+      "change",
+      checkForm
+    );
+  });
 
 // ===============================================
 // Submit
 // ===============================================
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+form.addEventListener("submit", async event => {
+  event.preventDefault();
 
   const libraryName = form.libraryName.value.trim();
-  const password = form.password.value;
-  const color = form.color.value.trim();
-  const bookSharing = form.bookSharing.value;
-  // const house = houseTextarea.textContent;
-  // const house = getHouseTextForSave();
-  const house = houseTextarea.value;
+  const password = form.password.value.trim();
+  const color = colorPicker.value.trim().toLowerCase();
+  // const color = colorHex.value.trim();
+  const description = descriptionInput.value.trim();
+  const selectedBookSharing = form.querySelector('input[name="bookSharing"]:checked');
+  const bookSharing = selectedBookSharing ? selectedBookSharing.value : "";
+  const house = normalizeHouseText(houseTextarea.textContent);
+  const houseTitleText = houseTitle.innerText.trim();
 
   if (!libraryName) {
     alert("Please enter a library name");
@@ -965,7 +496,14 @@ form.addEventListener("submit", async (e) => {
   }
 
   if (!libraryNamePattern.test(libraryName)) {
-    alert("The library name may contain only letters, numbers, hyphens (-), underscores (_), and periods (.)The library name may contain only letters, numbers, hyphens (-), underscores (_), and periods (.)");
+    alert(
+      "The library name may contain only letters, numbers, hyphens (-), underscores (_), and periods (.). It cannot begin or end with punctuation, and punctuation cannot appear twice in a row."
+    );
+    return;
+  }
+
+  if (!nameAvailable) {
+    alert("Please choose an available library name");
     return;
   }
 
@@ -974,7 +512,7 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  if (!/^#[0-9A-Fa-f]{6}$/.test(color)) {
+  if (!colorPattern.test(color)) {
     alert("Please enter a valid color");
     return;
   }
@@ -984,38 +522,139 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
+  if (!house.trim()) {
+    alert("Please enter a house");
+    return;
+  }
+
   const data = {
     libraryName,
+    editableName: `${libraryName} Liiibrary`,
     password,
+    description,
     color,
     bookSharing,
-    house
+    house,
+    houseTitle: houseTitleText
   };
 
-  const response = await fetch("/register-library", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8"
-    },
-    body: JSON.stringify(data)
-  });
+  try {
+    librarySubmitBtn.disabled = true;
 
-  const result = await response.json();
+    if (message) {
+      message.textContent = "Registering...";
+    }
 
-  if (result.success) {
-    alert("Done!");
+    const response = await fetch("/register-library", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      body: JSON.stringify(data)
+    });
 
-    form.reset();
-    
-    const defaultColor = "#d35838";
-    colorPicker.value = defaultColor;
-    colorHex.value = defaultColor;
-    updateHouseColor(defaultColor);
+    let result;
 
-    nameAvailable = false;
-    nameStatus.textContent = "";
-    submitBtn.disabled = true;
-  } else {
-    alert(result.message);
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("The server returned an invalid response");
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        result.message ||
+        `Registration failed: ${response.status}`
+      );
+    }
+
+    if (result.success) {
+      alert("Done!");
+
+      form.reset();
+
+      const defaultColor = "#d35838";
+      setLibraryColor(defaultColor);
+
+      nameAvailable = false;
+      nameStatus.textContent = "";
+
+      if (message) {
+        message.textContent = "";
+      }
+
+      selectRandomHouse();
+      checkForm();
+    } else {
+      alert(
+        result.message ||
+        "Failed to register the library"
+      );
+
+      if (message) {
+        message.textContent = result.message || "";
+      }
+
+      checkForm();
+    }
+  } catch (error) {
+    console.error("Library registration error:", error);
+
+    alert(
+      error.message ||
+      "Failed to register the library"
+    );
+
+    if (message) {
+      message.textContent =
+        error.message ||
+        "Failed to register the library";
+    }
+
+    checkForm();
   }
 });
+
+// ===============================================
+// Initial State
+// ===============================================
+function initializeForm() {
+  const initialColor = normalizeColor(colorPicker.value) || "#d35838";
+
+  setLibraryColor(initialColor);
+
+  if (!houseTextarea.textContent.trim()) {
+    selectRandomHouse();
+  }
+
+  nameAvailable = false;
+  librarySubmitBtn.disabled = true;
+
+  checkForm();
+}
+
+// function initializeForm() {
+//   const colorFromPicker = colorPicker.value.trim();
+//   const colorFromHex = colorHex.value.trim();
+
+//   const initialColor =
+//     colorPattern.test(colorFromHex)
+//       ? colorFromHex
+//       : colorPattern.test(colorFromPicker)
+//         ? colorFromPicker
+//         : "#d35838";
+
+//   setLibraryColor(initialColor);
+
+//   if (!houseTextarea.textContent.trim()) {
+//     selectRandomHouse();
+//   }
+
+//   nameAvailable = false;
+//   librarySubmitBtn.disabled = true;
+
+//   checkForm();
+// }
+
+
+initializeForm();

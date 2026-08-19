@@ -1,94 +1,354 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <title>liiibrary.space</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-  <link rel="stylesheet" href="https://use.typekit.net/qgv2unh.css">
-  <link rel="stylesheet" href="/0_font/font.css">
-  <link rel="stylesheet" href="index.css">
-</head>
+<style>
+  [data-component="board"] {
+    width: 100%;
+  }
 
-<body>
-  <div can-play="guestbook" id="guestbook"></div>
+  .board {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 15px;
+  }
 
-  <script type="module">
-    import {
-      html,
-      playhtml,
-      repeat
-    } from "https://unpkg.com/playhtml";
+  .board-header,
+  .board-form {
+    display: grid;
+    grid-template-columns:
+      92px
+      140px
+      1fr
+      0;
+    /* grid-template-columns:
+      94px
+      120px
+      1fr
+      120px
+      0; */
+    /* grid-template-columns:
+      94px
+      minmax(100px, 0.7fr)
+      minmax(260px, 2fr)
+      minmax(120px, 0.7fr)
+      auto; */
+    column-gap: 12px;
+  }
 
-    playhtml.register("guestbook", {
-      defaultData: {
-        entries: []
-      },
+  .board-row {
+    display: grid;
+    grid-template-columns:
+      92px
+      140px
+      1fr
+      20px;
+    /* grid-template-columns:
+      94px
+      minmax(100px, 0.7fr)
+      1fr
+      auto; */
+    column-gap: 12px;
+  }
 
-      view: ({ data, setData }) => {
-        const sign = (event) => {
-          // form 제출로 페이지가 새로고침되는 것 방지
-          event.preventDefault();
 
-          const form = event.currentTarget;
-          const input = form.querySelector("input");
-          const message = input.value.trim();
+  .board-header {
+    padding: 8px 0;
+    border-top: 3px double black;
+    border-bottom: 3px double black;
+    font-size: 16px;
+    /* font-family: 'AmericanTypewriter'; */
+    font-family: 'HB-Regular';
+    font-weight: bold;
+  }
 
-          if (!message) {
-            return;
-          }
+  .board-form {
+    align-items: stretch;
+    padding: 8px 0 0 0;
+    /* border-bottom: 1px solid black; */
+  }
 
-          setData((draft) => {
-            draft.entries.push({
-              name: window.cursors?.name || "someone",
-              message: message,
-              at: Date.now()
-            });
-          });
+  .board-date-preview {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    white-space: nowrap;
+  }
 
-          input.value = "";
-        };
+  .board-input-wrapper {
+    display: flex;
+    min-width: 0;
+  }
 
-        return html`
-          <p>${data.entries.length} notes left</p>
+  .board-input-wrapper input,
+  .board-input-wrapper textarea {
+    width: 100%;
+    min-width: 0;
+    /* min-height: 34px; */
+    box-sizing: border-box;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    border-bottom: 2px solid black;
+  }
 
-          <form @submit=${sign}>
-            <input
-              type="text"
-              placeholder="leave a note..."
-            />
+  .board-input-wrapper textarea {
+    resize: vertical;
+  }
 
-            <button type="submit">
-              sign
-            </button>
-          </form>
+  .board-submit-button {
+    box-sizing: border-box;
 
-          <ul>
-            ${repeat(
-              [...data.entries].reverse(),
+    border: 1px solid currentColor;
+    border-radius: 0;
 
-              // 각 항목을 구별하기 위한 key
-              (entry) => entry.at,
+    background: transparent;
+    color: inherit;
 
-              (entry) => html`
-                <li>
-                  <b>${entry.name}</b>:
-                  ${entry.message}
+    font: inherit;
+    cursor: pointer;
+  }
 
-                  <small>
-                    ${new Date(entry.at).toLocaleTimeString()}
-                  </small>
-                </li>
-              `
-            )}
-          </ul>
-        `;
-      }
-    });
+  .board-submit-button {
+    display: none;
+    min-height: 34px;
+    padding: 6px 10px;
+  }
 
-    // 등록한 can-play 기능을 페이지에서 실행
-    // playhtml.init();
-  </script>
+  /* .board-submit-button:hover,
+  .board-delete-button:hover {
+    background: currentColor;
+    color: white;
+  } */
 
-</body>
-</html>
+  .board-submit-button:disabled,
+  .board-delete-button:disabled {
+    opacity: 0.4;
+    cursor: wait;
+  }
 
+  .board-status {
+    display: none;
+    min-height: 18px;
+    padding: 5px 0;
+    font-size: 12px;
+  }
+
+  .board-status[data-type="error"] {
+    text-decoration: underline;
+  }
+
+  .board-list {
+    width: 100%;
+  }
+
+  .board-row {
+    align-items: start;
+    padding: 8px 0 0 0;
+    /* border-bottom: 1px solid currentColor; */
+  }
+
+  .board-row-date,
+  .board-row-name,
+  .board-row-message,
+  .board-row-password {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .board-row-date {
+    white-space: nowrap;
+  }
+
+  .board-row-message {
+    white-space: pre-wrap;
+  }
+
+  .board-row-password {
+    letter-spacing: 2px;
+  }
+
+  .board-delete-button {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    transform: translateY(-4px);
+    font-size: 20px;
+    padding: 0;
+    text-align: right;
+    cursor: pointer;
+  }
+
+  .board-row:hover .board-delete-button,
+  .board-row.is-active .board-delete-button {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+  }
+
+  /* .board-row:hover .board-delete-button,
+  .board-row:focus-within .board-delete-button,
+  .board-row:active .board-delete-button {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  } */
+
+
+  .board-empty {
+    padding: 10px 0;
+
+    border-bottom: 1px solid currentColor;
+  }
+
+
+  .board-password-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .board-password-modal.is-open {
+    display: flex;
+  }
+
+  .board-password-modal-inner {
+    background: white;
+    border: 1px solid black;
+    padding: 10px;
+  }
+
+  .board-password-modal input {
+    width: 200px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    background: transparent;
+    font: inherit;
+    outline: none;
+  }
+
+  
+  /* @media (max-width: 900px) {
+    .board-header {
+      display: none;
+    }
+
+    .board-form {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 8px;
+    }
+
+    .board-date-preview {
+      grid-column: 1 / -1;
+    }
+
+    .board-input-wrapper:nth-of-type(2) {
+      grid-column: 1;
+    }
+
+    .board-input-wrapper:nth-of-type(3) {
+      grid-column: 1 / -1;
+    }
+
+    .board-input-wrapper:nth-of-type(4) {
+      grid-column: 1;
+    }
+
+    .board-submit-button {
+      grid-column: 2;
+    }
+
+    .board-row {
+      grid-template-columns: 1fr auto;
+      row-gap: 5px;
+    }
+
+    .board-row-date,
+    .board-row-name,
+    .board-row-message,
+    .board-row-password {
+      grid-column: 1;
+    }
+
+    .board-delete-button {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  } */
+
+  /* @media (max-width: 600px) {
+    .board-form {
+      grid-template-columns: 1fr;
+    }
+
+    .board-date-preview,
+    .board-input-wrapper:nth-of-type(2),
+    .board-input-wrapper:nth-of-type(3),
+    .board-input-wrapper:nth-of-type(4),
+    .board-submit-button {
+      grid-column: 1;
+    }
+  } */
+</style>
+
+<section class="board">
+  <!-- <div class="board-header">
+    <div class="board-header-date">Date</div>
+    <div class="board-header-name">Name</div>
+    <div class="board-header-message">Message</div>
+    <div class="board-header-action"></div>
+  </div> -->
+
+  <form class="board-form" data-board-form autocomplete="off">
+    <div class="board-date-preview">
+      <span data-board-current-date></span>
+    </div>
+
+    <div class="board-input-wrapper">
+      <input type="text" name="name" aria-label="Name" maxlength="50" required placeholder="Name">
+    </div>
+
+    <div class="board-input-wrapper">
+      <input type="text" name="message" maxlength="200" required placeholder="Message">
+      <!-- <textarea name="message" aria-label="Message" maxlength="2000" rows="1" required></textarea> -->
+    </div>
+
+    <!-- <div class="board-input-wrapper">
+      <input type="password" name="password" aria-label="Password" maxlength="100" required>
+    </div> -->
+
+    <button class="board-submit-button" type="submit">Submit</button>
+  </form>
+
+  <div class="board-status" data-board-status aria-live="polite"></div>
+  <div class="board-list" data-board-list></div>
+
+  <template data-board-row-template>
+    <article class="board-row">
+      <div class="board-row-date"></div>
+      <div class="board-row-name"></div>
+      <div class="board-row-message"></div>
+      <button type="button" class="board-delete-button material-symbols-outlined" >do_not_disturb_on</button>
+    </article>
+  </template>
+
+  <template data-board-empty-template>
+    <div class="board-empty">No messages yet</div>
+  </template>
+
+  <div class="board-password-modal" data-board-password-modal>
+    <div class="board-password-modal-inner">
+      <input
+        type="password"
+        data-board-password-input
+        placeholder="Password"
+        maxlength="100"
+        autocomplete="off"
+      >
+    </div>
+  </div>
+</section>

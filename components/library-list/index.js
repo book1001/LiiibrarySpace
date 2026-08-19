@@ -31,7 +31,7 @@ libraryStreet.updateElement = ({ element, data }) => {
   const byPath = data?.byPath ?? {};
 
   element.querySelectorAll(".library-link").forEach((link) => {
-    const house = link.querySelector(".library-house");
+    const house = link.querySelector(".library-house-title");
 
     if (!house) {
       return;
@@ -46,9 +46,9 @@ libraryStreet.updateElement = ({ element, data }) => {
       shadows.push(house.dataset.baseShadow);
     }
 
-    if (isOpen) {
-      shadows.push("0 0 6px #ffff1c");
-    }
+    // if (isOpen) {
+    //   // shadows.push("0 0 6px #ffff1c");
+    // }
 
     house.style.textShadow = shadows.join(", ");
     house.classList.toggle("is-home", isOpen);
@@ -154,11 +154,18 @@ async function loadLibraries() {
     [...libraries].reverse().forEach((library) => {
       const libraryName = library.libraryName;
 
-      const libraryBooks = books.filter((book) => {
-        return (
-          Array.isArray(book.library) &&
-          book.library.includes(libraryName)
-        );
+      const libraryBooks = books.filter(book => {
+        if (!Array.isArray(book.library)) {
+          return false;
+        }
+
+        return book.library.some(item => {
+          if (typeof item === "string") {
+            return item === libraryName;
+          }
+
+          return item?.name === libraryName;
+        });
       });
 
       const bookCount = libraryBooks.length;
@@ -168,6 +175,17 @@ async function loadLibraries() {
       // --------------------------------------------------
       const container = document.createElement("div");
       container.className = "library";
+
+      if (library.description?.trim()) {
+        const description = document.createElement("div");
+        description.className = "library-description";
+        description.textContent = library.description;
+        container.appendChild(description);
+      }
+
+      // const description = document.createElement("div");
+      // description.className = "library-description";
+      // description.textContent = library.description || "";
 
       const link = document.createElement("a");
       link.className = "library-link";
@@ -179,18 +197,23 @@ async function loadLibraries() {
         openLibrary(libraryName);
       });
 
+      const houseContainer = document.createElement("div");
+      houseContainer.className = "library-house-container";
+
       const house = document.createElement("pre");
       house.className = "library-house";
       house.textContent = library.house || "";
 
+      const houseTitle = document.createElement("pre");
+      houseTitle.className = "library-house-title";
+      houseTitle.textContent = library.houseTitle || "";
+
       const color = library.color || "inherit";
       house.style.color = color;
+      houseTitle.style.color = color;
       house.dataset.baseShadow = "";
 
-      if (
-        library.color &&
-        getColorBrightness(library.color) >= 200
-      ) {
+      if (library.color && getColorBrightness(library.color) >= 200) {
         house.dataset.baseShadow = "1px 0 gray";
         house.style.textShadow = house.dataset.baseShadow;
       }
@@ -211,8 +234,10 @@ async function loadLibraries() {
         nameContainer.appendChild(mark);
       }
 
-      link.append(house, nameContainer);
+      houseContainer.append(house, houseTitle);
+      link.append(houseContainer, nameContainer);
       container.appendChild(link);
+      // container.append(description, link);
       libraryStreet.appendChild(container);
 
       // --------------------------------------------------

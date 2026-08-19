@@ -2,20 +2,13 @@
 // Config
 // ======================================================
 const floor = document.querySelector("#floor"); // #room이면 "#room"으로 변경
-// const libraryHeader = document.querySelector("#libraryHeader");
-const MAX_LENGTH = 30;
-const MIN_LINE_WIDTH = 100;
-
 let topZIndex = 10;
-
+window.isRepairMode = false;
 
 // ======================================================
 // PlayHTML: Shared Light
 // ======================================================
-  const presenceChannel =
-    new BroadcastChannel(
-      "page-presence"
-    );
+  const presenceChannel = new BroadcastChannel("page-presence");
 
   function normalizePath(path) {
     if (!path || path === "/") {
@@ -25,10 +18,7 @@ let topZIndex = 10;
     return path.replace(/\/+$/, "");
   }
 
-  const currentPath =
-    normalizePath(
-      window.location.pathname
-    );
+  const currentPath = normalizePath(window.location.pathname);
 
   function sendPresence() {
     const message = {
@@ -56,19 +46,41 @@ let topZIndex = 10;
   );
 
 // ======================================================
+// libraryHeader: Settings
+// ======================================================
+const libraryHeader = document.querySelector("#libraryHeader");
+const settingModal = document.getElementById("settingModal");
+const closeSetting = document.getElementById("closeSetting");
+
+// #libraryHeader 클릭 → 모달 열기
+libraryHeader.addEventListener("click", () => {
+  settingModal.classList.add("is-open");
+});
+
+// #closeSetting 클릭 → 모달 닫기
+closeSetting.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  settingModal.classList.remove("is-open");
+});
+// ======================================================
 // libraryHeader: max length
 // ======================================================
-libraryHeader.addEventListener("beforeinput", (e) => {
-  if (e.inputType.startsWith("delete")) return;
+// const MAX_LENGTH = 30;
+// const MIN_LINE_WIDTH = 100;
 
-  const selection = window.getSelection();
-  const selectedLength = selection?.toString().length || 0;
-  const currentLength = libraryHeader.textContent.length;
+// libraryHeader.addEventListener("beforeinput", (e) => {
+//   if (e.inputType.startsWith("delete")) return;
 
-  if (currentLength - selectedLength >= MAX_LENGTH) {
-    e.preventDefault();
-  }
-});
+//   const selection = window.getSelection();
+//   const selectedLength = selection?.toString().length || 0;
+//   const currentLength = libraryHeader.textContent.length;
+
+//   if (currentLength - selectedLength >= MAX_LENGTH) {
+//     e.preventDefault();
+//   }
+// });
 
 // ======================================================
 // Mini Map
@@ -191,16 +203,29 @@ function updateMiniMapItems() {
   const mapWidth = miniMapFloor.clientWidth;
   const mapHeight = miniMapFloor.clientHeight;
 
-  if (!floorSize.width || !floorSize.height) return;
+  if (
+    !floorSize.width ||
+    !floorSize.height ||
+    !mapWidth ||
+    !mapHeight
+  ) {
+    return;
+  }
 
   miniMapItems.innerHTML = "";
 
-  floor.querySelectorAll(":scope > .can-drag").forEach((item) => {
+  const floorRect = floor.getBoundingClientRect();
+
+  // floor 아래의 모든 깊이에 있는 .can-drag 선택
+  floor.querySelectorAll(".can-drag").forEach((item) => {
     const marker = document.createElement("div");
     marker.className = "miniMap-item";
 
-    const itemLeft = parseFloat(getComputedStyle(item).left) || 0;
-    const itemTop = parseFloat(getComputedStyle(item).top) || 0;
+    const itemRect = item.getBoundingClientRect();
+
+    // 화면 좌표를 floor 내부 좌표로 변환
+    const itemLeft = itemRect.left - floorRect.left;
+    const itemTop = itemRect.top - floorRect.top;
 
     const markerLeft =
       (itemLeft / floorSize.width) * mapWidth;
@@ -210,12 +235,12 @@ function updateMiniMapItems() {
 
     const markerWidth = Math.max(
       2,
-      (item.offsetWidth / floorSize.width) * mapWidth
+      (itemRect.width / floorSize.width) * mapWidth
     );
 
     const markerHeight = Math.max(
       2,
-      (item.offsetHeight / floorSize.height) * mapHeight
+      (itemRect.height / floorSize.height) * mapHeight
     );
 
     marker.style.left = `${markerLeft}px`;
@@ -511,8 +536,40 @@ async function loadLibraryTools() {
   const res = await fetch(`/libraries/${encodeURIComponent(CURRENT_LIBRARY)}`);
   const library = await res.json();
 
-  const toolTypes = ["note", "lineH", "lineV", "light", "radio"];
+  // Repair Mode가 아닐 때만 서버 데이터 적용
+  if (!window.isRepairMode) {
+    const editableName = library.editableName;
 
+    if (
+      document.activeElement !== libraryHeader &&
+      libraryHeader.textContent !== editableName
+    ) {
+      libraryHeader.textContent = editableName;
+    }
+
+    if (library.color) {
+      document.body.style.background = library.color;
+    }
+  }
+
+  // // Library header
+  // if (!isRepairMode) {
+  //   const editableName = library.editableName;
+
+  //   if (
+  //     document.activeElement !== libraryHeader &&
+  //     libraryHeader.textContent !== editableName
+  //   ) {
+  //     libraryHeader.textContent = editableName;
+  //   }
+  // }
+
+  // // Library background color
+  // if (library.color && !isRepairMode) {
+  //   document.body.style.background = library.color;
+  // }
+
+  const toolTypes = ["note", "lineH", "lineV", "light", "radio"];
   const idsFromJson = new Set();
 
   toolTypes.forEach(type => {

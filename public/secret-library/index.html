@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>secret-library Liiibrary.Space</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@melloware/coloris/dist/coloris.min.css">
     <link rel="stylesheet" href="/0_font/font.css">
+    <link rel="stylesheet" href="/index.css">
     <link rel="stylesheet" href="/1_local/local.css">
   </head>
 
-  <body style="background: #3f2ddf;">
-    <div id="libraryHeader" contenteditable="true" spellcheck="false" can-mirror>secret-library Liiibrary.Space</div>
+  <body>
+    <div id="libraryHeader"></div>
+
+    <div id="settingModal">
+      <div class="setting-modal-content">
+        <button id="closeSetting" class="material-symbols-outlined">close</button>
+        <div data-component="library-setting"></div>
+      </div>
+    </div>
 
     <div data-component="book-card"></div>
 
@@ -25,7 +33,7 @@
 
     <div class="local-addbook">
       <button id="addbook" class="material-symbols-outlined">close</button>
-      <div data-component="book-submit" id="addbook-submitField"></div>
+      <div data-component="book-submit" id="addbook-submitField" class="card-submit"></div>
     </div>
 
     <button id="relocate" class="material-symbols-outlined">explore</button>
@@ -45,6 +53,8 @@
     <!-- ====================================================== -->
     <script>window.CURRENT_LIBRARY = "secret-library";</script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@melloware/coloris/dist/coloris.min.js"></script>
+    <script src="/0_coloris/coloris.js"></script>
     <script type="module" src="/index.js"></script>
     <script type="module" src="/1_local/local.js"></script>
   </body>

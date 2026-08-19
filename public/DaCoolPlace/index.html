@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>DaCoolPlace Liiibrary.Space</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@melloware/coloris/dist/coloris.min.css">
+    <link rel="stylesheet" href="/0_font/font.css">
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/1_local/local.css">
+  </head>
+
+  <body style="background: #72fa78;">
+    <div id="libraryHeader">DaCoolPlace Liiibrary</div>
+
+    <div id="settingModal">
+      <div class="setting-modal-content">
+        <button id="closeSetting" class="material-symbols-outlined">close</button>
+        <div data-component="library-setting"></div>
+      </div>
+    </div>
+
+    <div data-component="book-card"></div>
+
+    <div id="toolbox">
+      <button type="button" data-tool="note">Note</button>
+      <button type="button" data-tool="lineH">Shelf</button>
+      <button type="button" data-tool="lineV">Column</button>
+      <button type="button" data-tool="light">Lamp</button>
+      <button type="button" data-tool="radio">Radio</button>
+    </div>
+
+    <div class="local-addbook">
+      <button id="addbook" class="material-symbols-outlined">close</button>
+      <div data-component="book-submit" id="addbook-submitField" class="card-submit"></div>
+    </div>
+
+    <button id="relocate" class="material-symbols-outlined">explore</button>
+    <div id="miniMap" class="is-hidden">
+      <div id="miniMapFloor">
+        <div id="miniMapItems"></div>
+        <div id="miniMapViewport"></div>
+      </div>
+    </div>
+    
+    <div id="floor">
+      <div data-component="book-list" data-mode="currentLibrary"></div>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- JS -->
+    <!-- ====================================================== -->
+    <script>window.CURRENT_LIBRARY = "DaCoolPlace";</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@melloware/coloris/dist/coloris.min.js"></script>
+    <script src="/0_coloris/coloris.js"></script>
+    <script type="module" src="/index.js"></script>
+    <script type="module" src="/1_local/local.js"></script>
+  </body>
+</html>

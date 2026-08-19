@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>liiibrary.space</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@melloware/coloris/dist/coloris.min.css">
   <link rel="stylesheet" href="https://use.typekit.net/qgv2unh.css">
   <link rel="stylesheet" href="/0_font/font.css">
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="index_media.css">
 </head>
 
 <body>
@@ -14,38 +17,43 @@
   <div data-component="book-list" data-mode="all" class="main-shelf"></div>
 
   <div class="main-info">
-    <h1>Liiibrary.Space</h1>
     <div class="headerBar">
-      <div data-component="search"></div>
-      <div class="home-addbook">
-        <!-- <button id="addBookfromHome" class="material-symbols-outlined">add</button> -->
-        <button id="addbook" class="material-symbols-outlined">add</button>
-        <div data-component="book-submit-index" id="addbook-submitField"></div>
+      <div class="search" data-component="search-category"></div>
+      <div class="searchAdd">
+        <div data-component="search"></div>
+        <div class="home-addbook">
+          <button id="addbook" class="material-symbols-outlined">add</button>
+          <div data-component="book-submit-index" id="addbook-submitField" class="card-submit"></div>
+        </div>
       </div>
     </div>
 
 
-    <div>
-      <p>Welcome to liiibrary.space Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.</p>
+    <div style="padding-top:10px; text-align: justify;">
+      <p>Many classes and workshops introduce or share articles from the web, yet there is no public library dedicated solely to internet writing. Once a class ends, these valuable texts often become scattered and difficult to find again. Liiibrary.Space was created from the wish that there could be a place where great writing is gathered and preserved. It follows the philosophy of the public library — that knowledge should be freely accessible to everyone.</p>
+      <!-- <p>Whether it's an article you love, something you're curious about, or writing in your own language, all are welcome here. By clicking the plus button above, anyone can add a book. Anyone can also create a local library connected to the Central Liiibrary, making it easier to discover and browse collections around a particular theme or community. Your library might collect books on a specific subject, serve as a shared reading space for your class or workshop, or simply become your own more private personal library.</p> -->
     </div>
 
-    <div data-component="library-submit" class="main-submitField"></div>
-    <!-- <hr>
-    <div data-component="book-submit"></div> -->
-    <div style="padding-bottom: 500px;">
+    <div data-component="library-submit" class="main-submitField card-submit"></div>
+
+    <div data-component="board" style="padding-bottom: 500px;"></div>
+    <!-- <div style="padding-bottom: 500px;">
       <h3>Blueteen Board</h3>
       <p>Introduce your Liiibraray, Book Request</p>
       <h3>FAQ</h3>
-    </div>
+    </div> -->
   </div>
   <div data-component="library-list"></div>
+  
 
 
   <!-- ====================================================== -->
   <!-- JS -->
   <!-- ====================================================== -->
-  <script type="module" src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@melloware/coloris/dist/coloris.min.js"></script>
+  <script src="/0_coloris/coloris.js"></script>
 
+  <script type="module" src="index.js"></script>
   <script type="module">
     import { playhtml } from 'https://unpkg.com/playhtml';
 

@@ -1,75 +1,100 @@
-
 <h1>Build Your Liiibrary</h1>
 
 <form id="libraryForm" novalidate>
-  <label>
-    Liiibrary Name
-    <input type="text" name="libraryName" id="libraryName" required>
-  </label>
 
-  <div id="nameStatus"></div>
+  <div class="card-item-name">
+    <div>Liiibrary Name:</div>
+    <!-- <div>*</div> -->
+    <input type="text" name="libraryName" id="libraryName" required>
+    <div></div>
+    <div></div>
+    <div><div id="nameStatus"></div></div>
+  </div>
+
+  <!-- <div class="card-item-required">
+    <div></div>
+    <div></div>
+    <div><div id="nameStatus"></div></div>
+  </div> -->
+
   <!-- <small>
     Use only letters, numbers, hyphens (-), underscores (_), and periods (.)<br>
     Periods may only appear singly between characters
   </small>
   <br><br> -->
-  <br>
 
-  <!-- <label>
-    Email
-    <input type="email" name="email" required>
-  </label>
-
-  <br><br> -->
-
-  <label>
-    Password
+  <div class="card-item-required">
+    <div>Password:</div>
+    <!-- <div>*</div> -->
     <input type="password" name="password" required>
-  </label>
-
-  <br><br>
-
-
-  <!-- <div>
-    <div style="display: inline;">Short Description:</div>
-    <input type="text" id="description">
   </div>
 
-  <br> -->
 
-  <label>
-    Liiibrary Color
-    <!-- <input type="range" id="colorPicker" min="0" max="360" value="12">
-    <input type="text" id="colorHex" name="color" value="#d35838" readonly> -->
-    <input type="color" id="colorPicker" value="#d35838">
-    <input type="text" name="color" id="colorHex" value="#d35838" required>
+
+  <!-- <label>
+    Email*
+    <input type="email" name="email" placeholder="Used for password recovery">
   </label>
+   -->
 
-  <br><br>
+  <div class="card-item">
+    <div>Description:</div>
+    <input id="description" name="description" type="text" placeholder="optional">
+    <!-- <input id="description" name="description" type="text" placeholder="Short Description (optional)"> -->
+  </div>
 
-  <div>
-    <div style="display: inline;">Building Style:</div>
+  <div class="card-item-required">
+    <div>Liiibrary Color:</div>
+    <!-- <div>*</div> -->
+    <label>
+      <input type="text" id="colorPicker" data-coloris autocomplete="off" spellcheck="false" value="#d35838">
+    </label>
+  </div>
 
+  <div class="card-item-radio">
+    <div>Building Style:</div>
+    <!-- <div>*</div> -->
     <div id="houseOptions" style="display: inline;">
       <label>
-      <input type="radio" name="houseExample" value="0">
-        Two Windows
+        <input type="radio" name="houseExample" value="0">Windows
       </label>
-
       <label>
-        <input type="radio" name="houseExample" value="1">
-        Bricks
+        <input type="radio" name="houseExample" value="1">Bricks
       </label>
     </div>
+  </div>
 
-    <textarea id="houseTextarea" rows="6" maxlength="77" spellcheck="false"></textarea>
+
+  <div>
+    <div class="houseLayout">
+      <div class="houseContainer">
+        <textarea id="houseTextarea" rows="6" maxlength="77" spellcheck="false"></textarea>
+        <div id="houseTitle" contenteditable="true" spellcheck="false"></div> 
+      </div>
+      <div id="houseHelp">Click to edit the building signage</div>
+      <!-- <textarea id="houseTitle" rows="6" maxlength="77" spellcheck="false"></textarea> -->
+    </div>
+
     <!-- <div id="houseTextarea" contenteditable="true" spellcheck="false"></div> -->
   </div>
 
   <br>
 
-  <fieldset>
-    <legend>Liiibrary Type</legend>
+  <div class="card-item-radio">
+    <div>Liiibrary Type:</div>
+    <!-- <div>*</div> -->
+    <div id="houseOptions" style="display: inline;">
+      <label>
+        <input type="radio" name="bookSharing" value="open" required>Open
+      </label>
+      <label>
+        <input type="radio" name="bookSharing" value="private">Private
+      </label>
+    </div>
+  </div>
+
+  <!-- <fieldset>
+    <legend>Liiibrary Type*</legend>
 
     <label>
       <input type="radio" name="bookSharing" value="open" required>
@@ -80,12 +105,14 @@
       <input type="radio" name="bookSharing" value="private">
       Private <span style="font-size: 11px; transform: translateY(110px);">❋</span>
     </label>
-  </fieldset>
+  </fieldset> -->
 
   <br>
 
-  <button id="submitBtn" type="submit">Submit</button>
-  <!-- <button id="submitBtn" type="submit" disabled>Submit</button> -->
+  <!-- <button id="submitBtn" type="submit">Submit</button> -->
+   <div class="card-rightBtn-container">
+      <button id="librarySubmitBtn" class="submitBtn" type="submit" disabled>Submit</button>
+   </div>
 </form>
 
 <p id="message"></p>

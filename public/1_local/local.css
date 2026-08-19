@@ -14,6 +14,7 @@ html,body {
 }
 
 button {
+  /* background: var(--library-color); */
   cursor: pointer;
 }
 
@@ -179,20 +180,86 @@ button {
   left: 10px;
   width: fit-content;
   min-width: 1ch;
-  max-width: 350px;
+  max-width: 80%;
   height: 40px;
   /* background: none; */
   border: none;
   outline: none;
-  font-family: 'AmericanTypewriter';
+  /* font-family: 'AmericanTypewriter'; */
+  font-family: 'HB-Regular';
   font-size: 28px;
   z-index: 2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 
+
+/* =================================== */
+/* library Header: Settings */
+/* =================================== */
+#settingModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+
+#settingModal.is-open {
+  display: block;
+}
+
+.setting-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  height: 650px;
+  padding: 20px;
+  background: white;
+  border: 3px double black;
+  pointer-events: auto;
+  text-align: center;
+}
+
+#closeSetting {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+}
+
+.repairBtns {
+  display: flex;
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  height: 33px;
+}
+
+.repairBtns button {
+  font-size: 30px;
+}
+
+#repairBtnCancel,
+#repairColor {
+  display: none;
+}
+
+#repairColor {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% + 55px);
+}
+.is-editing {
+  border-bottom: 1px solid black;
+  /* outline: 1px dashed currentColor;
+  outline-offset: 3px; */
+  cursor: text;
+}
 
 /* =================================== */
 /* Items: Drag */
@@ -268,7 +335,8 @@ body.is-dragging * {
   outline: none;
   resize: none;
   overflow: hidden;
-  font-family: monospace;
+  /* font-family: monospace; */
+  font-family: 'HB-Regular';
 
   background-repeat:
     repeat-x,
@@ -503,7 +571,8 @@ body.is-resizing * {
   cursor: pointer;
   border: 3px double;
   background: #f2edcb;
-  font-family: monospace;
+  /* font-family: monospace; */
+  font-family: 'HB-Regular';
   white-space: normal;
   overflow: hidden;
   /* text-overflow: ellipsis; */

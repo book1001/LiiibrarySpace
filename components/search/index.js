@@ -1,23 +1,9 @@
 import { initBookCard } from "../book-card/index.js";
+
 const bookCardController = initBookCard();
+const searchBar = document.getElementById("searchBar"), searchBarContainer = document.getElementById("searchBar-container"), searchDropdown = document.getElementById("searchDropdown"), searchBtn = document.getElementById("searchBtn");
 
-const titleBtn = document.getElementById("titleBtn");
-const authorBtn = document.getElementById("authorBtn");
-const libraryBtn = document.getElementById("libraryBtn");
-
-const titleDropdown = document.getElementById("titleDropdown");
-const authorDropdown = document.getElementById("authorDropdown");
-const allLibraryDropdown = document.getElementById("allLibraryDropdown");
-
-const searchBar = document.getElementById("searchBar");
-const searchBarContainer = document.getElementById("searchBar-container");
-const searchDropdown = document.getElementById("searchDropdown");
-
-let books = [];
-let libraries = [];
-
-let searchResults = [];
-let selectedSearchIndex = -1;
+let books = [], libraries = [], searchResults = [], selectedSearchIndex = -1;
 
 async function loadIndexes() {
   const [bookRes, libraryRes] = await Promise.all([
@@ -27,130 +13,14 @@ async function loadIndexes() {
 
   books = await bookRes.json();
   libraries = await libraryRes.json();
-
-  buildTitleDropdown();
-  buildAuthorDropdown();
-  buildLibraryDropdown();
 }
 
 loadIndexes();
 
 // ====================================
-// Title
+// Author
 // ====================================
-function buildTitleDropdown() {
-  const titleBooksMap = new Map();
 
-  books.forEach(book => {
-    if (!book.title) return;
-
-    if (!titleBooksMap.has(book.title)) {
-      titleBooksMap.set(book.title, []);
-    }
-
-    titleBooksMap.get(book.title).push(book);
-  });
-
-  const sortedTitles = [...titleBooksMap.keys()]
-    .sort((a, b) =>
-      a.localeCompare(b, undefined, {
-        sensitivity: "base"
-      })
-    );
-
-  titleDropdown.innerHTML = "";
-
-  sortedTitles.forEach(title => {
-    const booksByTitle = titleBooksMap.get(title);
-
-    booksByTitle.forEach(book => {
-      const item = document.createElement("div");
-      item.className = "dropdown-item";
-
-      const authors = getBookAuthors(book).join(", ");
-
-      item.textContent = booksByTitle.length > 1
-        ? `${title} — ${authors}`
-        : title;
-
-      item.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        bookCardController.showBookCard(book);
-
-        titleDropdown.classList.remove("open");
-      });
-
-      titleDropdown.appendChild(item);
-    });
-  });
-}
-
-// // ====================================
-// // Title
-// // ====================================
-// function buildTitleDropdown() {
-//   const sortedBooks = [...books]
-//     .filter(book => book.title)
-//     .sort((a, b) =>
-//       a.title.localeCompare(b.title, undefined, {
-//         sensitivity: "base"
-//       })
-//     );
-
-//   titleDropdown.innerHTML = "";
-
-//   sortedBooks.forEach(book => {
-//     const item = document.createElement("div");
-//     item.className = "dropdown-item";
-//     item.textContent = book.title;
-
-//     item.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       e.stopPropagation();
-
-//       bookCardController.showBookCard(book);
-
-//       titleDropdown.classList.remove("open");
-//     });
-
-//     titleDropdown.appendChild(item);
-//   });
-// }
-
-
-// // ====================================
-// // Title
-// // ====================================
-// function buildTitleDropdown() {
-//   const titles = [...new Set(
-//     books
-//       .map(book => book.title)
-//       .filter(Boolean)
-//   )];
-
-//   titles.sort((a, b) => a.localeCompare(b));
-
-//   titleDropdown.innerHTML = "";
-
-//   titles.forEach(title => {
-//     const item = document.createElement("div");
-//     item.className = "dropdown-item";
-//     item.textContent = title;
-
-//     item.addEventListener("click", () => {
-//       console.log(title);
-//       titleDropdown.classList.remove("open");
-//     });
-
-//     titleDropdown.appendChild(item);
-//   });
-// }
-
-// // ====================================
-// // Author
-// // ====================================
 function getBookAuthors(book) {
   if (!book.author) return [];
 
@@ -170,129 +40,14 @@ function getBookAuthors(book) {
   return [];
 }
 
-function buildAuthorDropdown() {
-  const authorBooksMap = new Map();
-
-  books.forEach(book => {
-    const authors = getBookAuthors(book);
-
-    authors.forEach(author => {
-      if (!authorBooksMap.has(author)) {
-        authorBooksMap.set(author, []);
-      }
-
-      authorBooksMap.get(author).push(book);
-    });
-  });
-
-  const sortedAuthors = [...authorBooksMap.keys()]
-    .sort((a, b) =>
-      a.localeCompare(b, undefined, {
-        sensitivity: "base"
-      })
-    );
-
-  authorDropdown.innerHTML = "";
-
-  sortedAuthors.forEach(author => {
-    const booksByAuthor = authorBooksMap.get(author);
-
-    booksByAuthor.forEach(book => {
-      const item = document.createElement("div");
-      item.className = "dropdown-item";
-
-      item.textContent = booksByAuthor.length > 1
-        ? `${author} — ${book.title}`
-        : author;
-
-      item.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        bookCardController.showBookCard(book);
-
-        authorDropdown.classList.remove("open");
-      });
-
-      authorDropdown.appendChild(item);
-    });
-  });
-}
-
-// // ====================================
-// // Author
-// // ====================================
-// function buildAuthorDropdown() {
-
-//   const authors = [];
-
-//   books.forEach(book => {
-
-//     if (!book.author) return;
-
-//     if (Array.isArray(book.author)) {
-//       authors.push(...book.author);
-//     } else {
-//       authors.push(book.author);
-//     }
-
-//   });
-
-//   const uniqueAuthors = [...new Set(authors)]
-//     .filter(Boolean)
-//     .sort((a, b) => a.localeCompare(b));
-
-//   authorDropdown.innerHTML = "";
-
-//   uniqueAuthors.forEach(author => {
-
-//     const item = document.createElement("div");
-//     item.className = "dropdown-item";
-//     item.textContent = author;
-
-//     authorDropdown.appendChild(item);
-
-//   });
-
-// }
-
-// ====================================
-// Library
-// ====================================
-function buildLibraryDropdown() {
-  const sortedLibraries = libraries
-    .filter(library => library.libraryName)
-    .sort((a, b) =>
-      a.libraryName.localeCompare(b.libraryName)
-    );
-
-  allLibraryDropdown.innerHTML = "";
-
-  sortedLibraries.forEach(library => {
-    const item = document.createElement("div");
-    item.className = "dropdown-item";
-    // item.textContent = library.libraryName;
-    item.textContent = library.libraryName + (library.bookSharing === "private" ? " ❋" : "");
-
-    item.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openLibrary(library);
-      allLibraryDropdown.classList.remove("open");
-    });
-
-    allLibraryDropdown.appendChild(item);
-  });
-}
-
 // ====================================
 // Library: Open URL
 // ====================================
+
 function openLibrary(library) {
   if (!library?.libraryName) return;
 
-  const libraryURL =
-    `/${encodeURIComponent(library.libraryName)}/`;
+  const libraryURL = `/${encodeURIComponent(library.libraryName)}/`;
 
   window.open(
     libraryURL,
@@ -301,10 +56,10 @@ function openLibrary(library) {
   );
 }
 
-
 // ====================================
 // Search
 // ====================================
+
 function normalizeSearchText(value) {
   return String(value || "")
     .trim()
@@ -323,6 +78,7 @@ function createSearchResults(query) {
   // ------------------------------------
   // Title 검색
   // ------------------------------------
+
   const titleBooksMap = new Map();
 
   books.forEach(book => {
@@ -344,14 +100,13 @@ function createSearchResults(query) {
   titleBooksMap.forEach((booksByTitle, title) => {
     booksByTitle.forEach(book => {
       const authors = getBookAuthors(book).join(", ");
-
-      const label = booksByTitle.length > 1 && authors
-        ? `${title} — ${authors}`
-        : title;
+      const label = booksByTitle.length > 1 && authors ? `${title} — ${authors}` : title;
+      const labelHTML = booksByTitle.length > 1 && authors ? `${title} — <span class="searchSub">${authors}</span>` : title;
 
       results.push({
         type: "Title",
         label,
+        labelHTML,
         sortText: title,
         action: () => {
           bookCardController.showBookCard(book);
@@ -363,6 +118,7 @@ function createSearchResults(query) {
   // ------------------------------------
   // Author 검색
   // ------------------------------------
+
   const authorBooksMap = new Map();
 
   books.forEach(book => {
@@ -383,13 +139,13 @@ function createSearchResults(query) {
 
   authorBooksMap.forEach((booksByAuthor, author) => {
     booksByAuthor.forEach(book => {
-      const label = booksByAuthor.length > 1
-        ? `${author} — ${book.title}`
-        : author;
+      const label = booksByAuthor.length > 1 ? `${author} — ${book.title}` : author;
+      const labelHTML = booksByAuthor.length > 1 ? `${author} — <span class="searchSub">${book.title}</span>` : author;
 
       results.push({
         type: "Author",
         label,
+        labelHTML,
         sortText: author,
         action: () => {
           bookCardController.showBookCard(book);
@@ -401,13 +157,13 @@ function createSearchResults(query) {
   // ------------------------------------
   // Library 검색
   // ------------------------------------
+
   libraries.forEach(library => {
     const libraryName = library.libraryName;
 
     if (!libraryName) return;
 
-    const normalizedName =
-      normalizeSearchText(libraryName);
+    const normalizedName = normalizeSearchText(libraryName);
 
     if (!normalizedName.includes(normalizedQuery)) {
       return;
@@ -423,23 +179,11 @@ function createSearchResults(query) {
         openLibrary(library);
       }
     });
-
-    // results.push({
-    //   type: "Liiibrary",
-    //   label: libraryName,
-    //   sortText: libraryName,
-    //   action: () => {
-    //     openLibrary(library);
-    //   }
-    // });
   });
 
   return results.sort((a, b) => {
-    const aText = normalizeSearchText(a.sortText);
-    const bText = normalizeSearchText(b.sortText);
-
-    const aStarts = aText.startsWith(normalizedQuery);
-    const bStarts = bText.startsWith(normalizedQuery);
+    const aText = normalizeSearchText(a.sortText), bText = normalizeSearchText(b.sortText);
+    const aStarts = aText.startsWith(normalizedQuery), bStarts = bText.startsWith(normalizedQuery);
 
     // 검색어로 시작하는 결과를 먼저 표시
     if (aStarts !== bStarts) {
@@ -470,6 +214,7 @@ function createSearchResults(query) {
 // ====================================
 // Search: Results
 // ====================================
+
 function renderSearchResults(query) {
   searchResults = createSearchResults(query);
   selectedSearchIndex = -1;
@@ -482,26 +227,25 @@ function renderSearchResults(query) {
   }
 
   searchResults.forEach((result, index) => {
-    const item = document.createElement("div");
+    const item = document.createElement("div"), type = document.createElement("span"), text = document.createElement("span");
+
     item.className = "dropdown-item";
     item.dataset.searchIndex = String(index);
 
-    const type = document.createElement("span");
     type.className = "search-result-type";
     type.textContent = result.type;
 
-    const text = document.createElement("span");
     text.className = "search-result-text";
-    text.textContent = result.label;
+    text.innerHTML = result.labelHTML || result.label;
 
     item.append(type, text);
 
-    item.addEventListener("mousedown", (e) => {
+    item.addEventListener("mousedown", e => {
       // input의 blur보다 먼저 실행되도록 click 대신 mousedown 사용
       e.preventDefault();
     });
 
-    item.addEventListener("click", (e) => {
+    item.addEventListener("click", e => {
       e.preventDefault();
       e.stopPropagation();
 
@@ -516,7 +260,6 @@ function renderSearchResults(query) {
     searchDropdown.appendChild(item);
   });
 
-  // closeAll();
   closeAll(searchDropdown);
   searchDropdown.classList.add("open");
 }
@@ -524,6 +267,7 @@ function renderSearchResults(query) {
 // ====================================
 // Search: selectSearchResult
 // ====================================
+
 function selectSearchResult(index) {
   const result = searchResults[index];
 
@@ -539,9 +283,7 @@ function selectSearchResult(index) {
 }
 
 function updateSelectedSearchResult() {
-  const items = searchDropdown.querySelectorAll(
-    ".dropdown-item"
-  );
+  const items = searchDropdown.querySelectorAll(".dropdown-item");
 
   items.forEach((item, index) => {
     item.classList.toggle(
@@ -560,17 +302,13 @@ function updateSelectedSearchResult() {
 // ====================================
 // Search: Input / Enter Events
 // ====================================
-const searchBtn = document.getElementById("searchBtn");
 
 function openSelectedSearchResult() {
   if (searchResults.length === 0) {
     return;
   }
 
-  const indexToOpen =
-    selectedSearchIndex >= 0
-      ? selectedSearchIndex
-      : 0;
+  const indexToOpen = selectedSearchIndex >= 0 ? selectedSearchIndex : 0;
 
   selectSearchResult(indexToOpen);
 }
@@ -579,7 +317,7 @@ searchBar.addEventListener("input", () => {
   renderSearchResults(searchBar.value);
 });
 
-searchBar.addEventListener("keydown", (e) => {
+searchBar.addEventListener("keydown", e => {
   if (
     e.key === "ArrowDown" &&
     searchResults.length > 0
@@ -622,7 +360,7 @@ searchBar.addEventListener("keydown", (e) => {
   }
 });
 
-searchBtn.addEventListener("click", (e) => {
+searchBtn.addEventListener("click", e => {
   e.preventDefault();
   openSelectedSearchResult();
 });
@@ -633,45 +371,20 @@ searchBar.addEventListener("focus", () => {
   }
 });
 
-searchBarContainer.addEventListener("click", (e) => {
+searchBarContainer.addEventListener("click", e => {
   e.stopPropagation();
 });
 
 // ====================================
 // 드롭다운 열고 닫기
 // ====================================
+
 function closeAll(exceptMenu = null) {
-  document.querySelectorAll(".dropdown-menu")
-    .forEach(menu => {
-      if (menu !== exceptMenu) {
-        menu.classList.remove("open");
-      }
-    });
+  document.querySelectorAll(".dropdown-menu").forEach(menu => {
+    if (menu !== exceptMenu) {
+      menu.classList.remove("open");
+    }
+  });
 }
-// function closeAll() {
-//   document.querySelectorAll(".dropdown-menu")
-//     .forEach(menu => menu.classList.remove("open"));
-// }
-
-titleBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const open = titleDropdown.classList.contains("open");
-  closeAll();
-  if (!open) titleDropdown.classList.add("open");
-});
-
-authorBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const open = authorDropdown.classList.contains("open");
-  closeAll();
-  if (!open) authorDropdown.classList.add("open");
-});
-
-libraryBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const open = allLibraryDropdown.classList.contains("open");
-  closeAll();
-  if (!open) allLibraryDropdown.classList.add("open");
-});
 
 document.addEventListener("click", closeAll);

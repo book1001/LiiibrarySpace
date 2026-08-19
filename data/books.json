@@ -7,8 +7,14 @@
     ],
     "url": "https://www.thedailystar.net/star-youth/news/why-the-disappearance-digital-third-spaces-matters-4084946",
     "library": [
-      "Central Liiibrary",
-      "secret-library"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "secret-library",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -20,8 +26,22 @@
     ],
     "url": "https://www.are.na/editorial/on-contamination",
     "library": [
-      "Central Liiibrary",
-      "SFPC.bbw"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "secret-library",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "Halim",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -33,8 +53,18 @@
     ],
     "url": "https://www.wrecka.ge/against-the-dark-forest/",
     "library": [
-      "Central Liiibrary",
-      "SFPC.bbw"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "secret-library",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -46,8 +76,10 @@
     ],
     "url": "https://www.technologyreview.com/2020/09/03/1007716/digital-gardens-let-you-cultivate-your-own-little-bit-of-the-internet",
     "library": [
-      "Central Liiibrary",
-      "Halim"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -59,8 +91,18 @@
     ],
     "url": "https://loriemerson.net/wp-content/uploads/2024/02/10.4324_9781003211662-14_chapterpdf.pdf",
     "library": [
-      "Central Liiibrary",
-      "Halim"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "Halim",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -73,8 +115,14 @@
     ],
     "url": "https://www.are.na/editorial/reimagining-privacy-online-through-gradients-of-intimacy",
     "library": [
-      "Central Liiibrary",
-      "SFPC.bbw"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#ffffff"
+      }
     ],
     "note": []
   },
@@ -86,8 +134,14 @@
     ],
     "url": "https://news.spencer.place/p/the-internet-has-no-benches",
     "library": [
-      "Central Liiibrary",
-      "SFPC.bbw"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -99,8 +153,14 @@
     ],
     "url": "https://en.wikipedia.org/wiki/Designs_for_the_Pluriverse",
     "library": [
-      "Central Liiibrary",
-      "SFPC.bbw"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -112,8 +172,14 @@
     ],
     "url": "https://enlacezapatista.ezln.org.mx/sdsl-en/",
     "library": [
-      "Central Liiibrary",
-      "SFPC.bbw"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -125,7 +191,10 @@
     ],
     "url": "https://en.wikipedia.org/wiki/Dither",
     "library": [
-      "Central Liiibrary"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -137,7 +206,10 @@
     ],
     "url": "https://www.e-flux.com/journal/10/61362/in-defense-of-the-poor-image",
     "library": [
-      "Central Liiibrary"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -149,8 +221,18 @@
     ],
     "url": "https://www.e-flux.com/journal/49/60004/too-much-world-is-the-internet-dead",
     "library": [
-      "Central Liiibrary",
-      "WWW"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "secret-library",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -162,8 +244,18 @@
     ],
     "url": "https://interfacecritique.net/book/olia-lialina-from-my-to-me/",
     "library": [
-      "Central Liiibrary",
-      "WWW"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "secret-library",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -175,8 +267,18 @@
     ],
     "url": "https://www.softwaresessions.com/episodes/bringing-geocities-back-with-kyle-drake/",
     "library": [
-      "Central Liiibrary",
-      "WWW"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "secret-library",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   },
@@ -188,8 +290,102 @@
     ],
     "url": "https://web.archive.org/web/20191026161600/http://www.uzine.net/article63.html",
     "library": [
-      "Central Liiibrary",
-      "WWW"
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "secret-library",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "17fbab9d-11e3-4ca4-89ab-ae5eb682cbe8",
+    "title": "the whimsy theory of change",
+    "author": [
+      "Spencer Chang"
+    ],
+    "url": "https://substack.com/home/post/p-207285497",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "92836991-65ef-4eba-9729-10d8a7674a2d",
+    "title": "There Is No Such Thing As Neutral Graphic Design",
+    "author": [
+      "Ellen Lupton",
+      "Leslie Xia"
+    ],
+    "url": "https://eyeondesign.aiga.org/there-is-no-such-thing-as-neutral-graphic-design",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "1f6cbef6-6772-4ed4-85e5-259156297167",
+    "title": "WHAT IS CODE?",
+    "author": [
+      "Paul Ford"
+    ],
+    "url": "https://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "f4229016-420a-488b-af49-6aec7dc58b35",
+    "title": "How to be super sick",
+    "author": [
+      "Josh Mattson"
+    ],
+    "url": "https://123movies.com",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "DaCoolPlace",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "6f4fac96-d828-4a3a-88fc-b2bcb0a0064d",
+    "title": "Bottlecalf",
+    "author": [
+      "Sam Cox"
+    ],
+    "url": "https://docs.google.com/document/d/1dssdfyTKOzGMk_SoYJxrqNIg0keqL0sX/edit?usp=drivesdk&ouid=112987481365894865729&rtpof=true&sd=true",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "Slaybrary",
+        "color": "#f2edcb"
+      }
     ],
     "note": []
   }

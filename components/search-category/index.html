@@ -1,0 +1,83 @@
+<style>
+
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown div::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 220px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid black;
+    z-index: 1000;
+  }
+
+  .dropdown-menu.open {
+    display: block;
+  }
+
+  .dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    /* overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; */
+  }
+
+  .dropdown-item:hover {
+    background: #f3f3f3;
+  }
+
+  .searchSub {
+    display: block;
+    font-size: 10px;
+    color: #22a632;
+    font-weight: bold;
+  }
+
+  .search-result-type {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    opacity: 0.5;
+  }
+
+  .search-result-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>
+
+<div class="dropdown">
+  <button id="authorBtn">
+    Author
+    <span class="material-symbols-outlined">keyboard_arrow_down</span>
+  </button>
+  <div id="authorDropdown" class="dropdown-menu"></div>
+</div>
+
+<div class="dropdown">
+  <button id="titleBtn">
+    Title
+    <span class="material-symbols-outlined">keyboard_arrow_down</span>
+  </button>
+  <div id="titleDropdown" class="dropdown-menu"></div>
+</div>
+
+<div class="dropdown">
+  <button id="libraryBtn">
+    Liiibrary
+    <span class="material-symbols-outlined">keyboard_arrow_down</span>
+  </button>
+  <div id="allLibraryDropdown" class="dropdown-menu"></div>
+</div>

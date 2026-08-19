@@ -20,27 +20,19 @@ export async function initBookList({
   bookList.classList.toggle("book-list-all", isAllMode);
   bookList.classList.toggle("book-list-filtered", !isAllMode);
 
-  function getSideCount() {
-    return Number(
-      getComputedStyle(bookList)
-        .getPropertyValue("--side-count")
-    );
-  }
+  let bookListL = null;
+  let bookListR = null;
 
-  function placeItems() {
-    if (!isAllMode) return;
+  if (isAllMode) {
+    bookList.innerHTML = "";
 
-    const sideCount = getSideCount();
-    const itemsPerRow = sideCount * 2;
+    bookListL = document.createElement("div");
+    bookListR = document.createElement("div");
 
-    [...bookList.children].forEach((item, index) => {
-      const positionInRow = index % itemsPerRow;
+    bookListL.id = "bookList-L";
+    bookListR.id = "bookList-R";
 
-      item.style.gridColumn =
-        positionInRow < sideCount
-          ? positionInRow + 1
-          : positionInRow + 2;
-    });
+    bookList.append(bookListL, bookListR);
   }
 
   function getVisibleBooks(books) {
@@ -53,7 +45,15 @@ export async function initBookList({
         return false;
       }
 
-      return book.library.includes(CURRENT_LIBRARY);
+      return book.library.some(item => {
+        // 이전 문자열 구조 지원
+        if (typeof item === "string") {
+          return item === CURRENT_LIBRARY;
+        }
+
+        // 새로운 객체 구조 지원
+        return item?.name === CURRENT_LIBRARY;
+      });
     });
   }
 
@@ -86,6 +86,12 @@ export async function initBookList({
       item.classList.add("book", "can-drag");
       item.setAttribute("can-mirror", "");
 
+      const libraryEntry = Array.isArray(book.library)
+        ? book.library.find(library => library?.name === CURRENT_LIBRARY)
+        : null;
+
+      item.style.backgroundColor = libraryEntry?.color || "#f2edcb";
+
       handle.classList.add("drag-handle");
 
       title.classList.add("book-title");
@@ -95,13 +101,13 @@ export async function initBookList({
 
       item.append(handle, title);
 
-      item.addEventListener("mousedown", (e) => {
+      item.addEventListener("mousedown", e => {
         startX = e.clientX;
         startY = e.clientY;
         wasDragging = false;
       });
 
-      item.addEventListener("mousemove", (e) => {
+      item.addEventListener("mousemove", e => {
         const moved =
           Math.abs(e.clientX - startX) > 5 ||
           Math.abs(e.clientY - startY) > 5;
@@ -133,24 +139,18 @@ export async function initBookList({
     const floor = document.getElementById("floor");
     if (!floor) return;
 
-    const floorLeft =
-      parseFloat(getComputedStyle(floor).left) || 0;
-
-    const floorTop =
-      parseFloat(getComputedStyle(floor).top) || 0;
+    const floorLeft = parseFloat(getComputedStyle(floor).left) || 0;
+    const floorTop = parseFloat(getComputedStyle(floor).top) || 0;
 
     const viewportCenterX = window.innerWidth / 2;
     const viewportCenterY = window.innerHeight / 2;
 
-    const centerX =
-      -floorLeft + viewportCenterX;
+    const centerX = -floorLeft + viewportCenterX;
+    const centerY = -floorTop + viewportCenterY;
 
-    const centerY =
-      -floorTop + viewportCenterY;
-
-    const otherBooks = [
-      ...bookList.querySelectorAll(".book")
-    ].filter(book => book !== newItem);
+    const otherBooks = [...bookList.querySelectorAll(".book")].filter(
+      book => book !== newItem
+    );
 
     const gap = 5;
 
@@ -172,25 +172,13 @@ export async function initBookList({
     let targetY;
 
     if (centerBook) {
-      const centerRect =
-        centerBook.getBoundingClientRect();
+      const centerRect = centerBook.getBoundingClientRect();
 
-      targetX =
-        -floorLeft +
-        centerRect.right +
-        gap;
-
-      targetY =
-        -floorTop +
-        centerRect.top;
+      targetX = -floorLeft + centerRect.right + gap;
+      targetY = -floorTop + centerRect.top;
     } else {
-      targetX =
-        centerX -
-        newItem.offsetWidth / 2;
-
-      targetY =
-        centerY -
-        newItem.offsetHeight / 2;
+      targetX = centerX - newItem.offsetWidth / 2;
+      targetY = centerY - newItem.offsetHeight / 2;
     }
 
     /*
@@ -207,14 +195,8 @@ export async function initBookList({
       const candidateRect = {
         left: floorLeft + targetX,
         top: floorTop + targetY,
-        right:
-          floorLeft +
-          targetX +
-          newItem.offsetWidth,
-        bottom:
-          floorTop +
-          targetY +
-          newItem.offsetHeight
+        right: floorLeft + targetX + newItem.offsetWidth,
+        bottom: floorTop + targetY + newItem.offsetHeight
       };
 
       const overlappingBook = otherBooks.find(book => {
@@ -229,14 +211,9 @@ export async function initBookList({
       });
 
       if (overlappingBook) {
-        const rect =
-          overlappingBook.getBoundingClientRect();
+        const rect = overlappingBook.getBoundingClientRect();
 
-        targetX =
-          -floorLeft +
-          rect.right +
-          gap;
-
+        targetX = -floorLeft + rect.right + gap;
         hasOverlap = true;
       }
     }
@@ -263,11 +240,11 @@ export async function initBookList({
 
       const books = await res.json();
 
-      // const visibleBooks = [...getVisibleBooks(books)].reverse();
+      // all 모드에서는 최신 책이 먼저 오도록 reverse
       const visibleBooks = isAllMode
         ? [...getVisibleBooks(books)].reverse()
         : getVisibleBooks(books);
-      
+
       const currentVisibleBookIds = new Set(
         visibleBooks.map(book => String(book.id))
       );
@@ -284,41 +261,74 @@ export async function initBookList({
 
       const renderer = renderers[mode] || renderers.currentLibrary;
 
-      bookList.innerHTML = "";
+      /*
+        ALL MODE
 
-      visibleBooks.forEach(book => {
-        const item = renderer(book);
+        visibleBooks:
+        [최신 ---------> 오래된]
 
-        bookList.appendChild(item);
+        앞쪽 절반 → #bookList-L
+        뒤쪽 절반 → #bookList-R
+      */
+      if (isAllMode) {
+        bookListL.innerHTML = "";
+        bookListR.innerHTML = "";
 
-        const isNewBook =
-          newBookIds.has(String(book.id));
+        const middleIndex = Math.ceil(
+          visibleBooks.length / 2
+        );
 
-        if (!isAllMode && isNewBook) {
-          placeNewBookNextToCenter(item);
-        }
+        visibleBooks.forEach((book, index) => {
+          const item = renderer(book);
 
-        // 위치를 먼저 지정한 다음 PlayHTML 연결
-        if (
-          !isAllMode &&
-          typeof window.setupPlayhtmlElement === "function"
-        ) {
-          window.setupPlayhtmlElement(item);
-        }
-      });
+          if (index < middleIndex) {
+            bookListL.appendChild(item);
+          } else {
+            bookListR.appendChild(item);
+          }
+        });
+      }
+
+      /*
+        CURRENT LIBRARY MODE
+      */
+      else {
+        bookList.innerHTML = "";
+
+        visibleBooks.forEach(book => {
+          const item = renderer(book);
+
+          bookList.appendChild(item);
+
+          const isNewBook = newBookIds.has(
+            String(book.id)
+          );
+
+          if (isNewBook) {
+            placeNewBookNextToCenter(item);
+          }
+
+          // 위치를 먼저 지정한 다음 PlayHTML 연결
+          if (
+            typeof window.setupPlayhtmlElement === "function"
+          ) {
+            window.setupPlayhtmlElement(item);
+          }
+        });
+      }
 
       previousVisibleBookIds = currentVisibleBookIds;
-
-      placeItems();
     } catch (error) {
       console.error(error);
     }
   }
 
   window.loadBooks = loadBooks;
+
   // ======================================================
   // Book Update Events
   // ======================================================
+
   async function handleBookUpdated(event) {
     const data = event.detail || event.data;
 
@@ -342,6 +352,7 @@ export async function initBookList({
   // ------------------------------------------------------
   // 현재 창에서 발생한 CustomEvent
   // ------------------------------------------------------
+
   if (bookList._bookUpdatedHandler) {
     window.removeEventListener(
       "book-updated",
@@ -359,11 +370,14 @@ export async function initBookList({
   // ------------------------------------------------------
   // 다른 탭 또는 팝업에서 발생한 BroadcastChannel
   // ------------------------------------------------------
+
   if (bookList._bookUpdateChannel) {
     bookList._bookUpdateChannel.close();
   }
 
-  const bookUpdateChannel = new BroadcastChannel("book-updates");
+  const bookUpdateChannel = new BroadcastChannel(
+    "book-updates"
+  );
 
   bookUpdateChannel.addEventListener(
     "message",
@@ -411,6 +425,7 @@ export async function initBookList({
   // ------------------------------------------------------
   // window.opener.postMessage()로 전달된 변경
   // ------------------------------------------------------
+
   if (bookList._bookMessageHandler) {
     window.removeEventListener(
       "message",
@@ -432,21 +447,6 @@ export async function initBookList({
   );
 
   // ------------------------------------------------------
-  if (isAllMode) {
-    if (bookList._resizeHandler) {
-      window.removeEventListener(
-        "resize",
-        bookList._resizeHandler
-      );
-    }
-
-    bookList._resizeHandler = placeItems;
-
-    window.addEventListener(
-      "resize",
-      placeItems
-    );
-  }
 
   await loadBooks();
 }

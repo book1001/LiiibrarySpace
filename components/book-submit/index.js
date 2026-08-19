@@ -139,7 +139,8 @@ async function getCurrentLibrary() {
   if (CURRENT_LIBRARY === "Central Liiibrary") {
     return {
       libraryName: "Central Liiibrary",
-      bookSharing: "open"
+      bookSharing: "open",
+      color: "#f2edcb"
     };
   }
 
@@ -223,6 +224,7 @@ async function registerNewBook({
   title,
   author,
   url,
+  library,
   password
 }) {
   const response = await fetch("/register-book", {
@@ -236,10 +238,14 @@ async function registerNewBook({
       url,
       library: [
         {
-          libraryName: CURRENT_LIBRARY,
-          password
+          name: library.libraryName,
+          color: library.color || "#f2edcb"
         }
-      ]
+      ],
+
+      // 인증용으로만 서버에 전송
+      // books.json의 newBook 객체에는 저장하지 않음
+      password
     })
   });
 
@@ -360,6 +366,7 @@ form.addEventListener("submit", async (e) => {
       title,
       author,
       url,
+      library: currentLibrary,
       password
     });
 

@@ -517,10 +517,10 @@ function getExistingBookLibraryNames(book) {
         library &&
         typeof library === "object"
       ) {
-        return library.libraryName;
+        return library.name || library.libraryName || "";
       }
 
-      return null;
+      return "";
     })
     .filter(Boolean);
 }
