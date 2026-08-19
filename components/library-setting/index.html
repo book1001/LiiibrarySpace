@@ -326,63 +326,25 @@
 
     <form id="passwordChangeForm">
       <div id="currentPasswordStep">
-        <label for="currentLibraryPassword">
-          Current password
-        </label>
-
-        <input
-          id="currentLibraryPassword"
-          name="currentPassword"
-          type="password"
-          autocomplete="current-password"
-        >
+        <label for="currentLibraryPassword">Current password</label>
+        <input id="currentLibraryPassword" name="currentPassword" type="password" autocomplete="current-password">
 
         <div class="setting-modal-buttons">
-          <button
-            id="passwordModalCancel"
-            type="button"
-          >
-            Cancel
-          </button>
-
-          <button
-            id="verifyCurrentPassword"
-            type="button"
-          >
-            Continue
-          </button>
+          <button id="passwordModalCancel" type="button">Cancel</button>
+          <button id="verifyCurrentPassword" type="button">Continue</button>
         </div>
       </div>
 
-      <div
-        id="newPasswordStep"
-        style="display: none;"
-      >
+      <div id="newPasswordStep" style="display: none;">
         <label for="newLibraryPassword">
           New password
         </label>
 
-        <input
-          id="newLibraryPassword"
-          name="newPassword"
-          type="password"
-          autocomplete="new-password"
-        >
+        <input id="newLibraryPassword" name="newPassword" type="password" autocomplete="new-password">
 
         <div class="setting-modal-buttons">
-          <button
-            id="newPasswordCancel"
-            type="button"
-          >
-            Cancel
-          </button>
-
-          <button
-            id="saveNewPassword"
-            type="submit"
-          >
-            Save
-          </button>
+          <button id="newPasswordCancel" type="button">Cancel</button>
+          <button id="saveNewPassword" type="submit">Save</button>
         </div>
       </div>
 
@@ -472,41 +434,15 @@
         This action cannot be undone.
       </p>
 
-      <label for="deleteLibraryPassword">
-        Current password
-      </label>
+      <label for="deleteLibraryPassword">Current password</label>
 
-      <input
-        type="hidden"
-        name="username"
-        autocomplete="username"
-        value=""
-        id="deleteLibraryUsername"
-      >
-      
-      <input
-        id="deleteLibraryPassword"
-        name="password"
-        type="password"
-        autocomplete="current-password"
-      >
-
+      <input type="hidden" name="username" autocomplete="username" value="" id="deleteLibraryUsername">
+      <input id="deleteLibraryPassword" name="password" type="password" autocomplete="current-password">
       <p id="deleteLibraryMessage"></p>
 
       <div class="setting-modal-buttons">
-        <button
-          id="deleteLibraryCancel"
-          type="button"
-        >
-          Cancel
-        </button>
-
-        <button
-          id="deleteLibraryConfirm"
-          type="submit"
-        >
-          Delete Forever
-        </button>
+        <button id="deleteLibraryCancel" type="button">Cancel</button>
+        <button id="deleteLibraryConfirm" type="submit">Delete Forever</button>
       </div>
     </form>
   </div>

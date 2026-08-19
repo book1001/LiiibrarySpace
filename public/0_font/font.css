@@ -44,7 +44,8 @@
 
 @font-face {
   font-family: 'HB-Regular-Underline';
-  src: url('HB1.31-RegularUnderline.woff2') format('woff2');
+  src: url('HB1.31-RegularUnderline_H.ttf') format('truetype');
+  /* src: url('HB1.31-RegularUnderline.woff2') format('woff2'); */
 }
 
 @font-face {

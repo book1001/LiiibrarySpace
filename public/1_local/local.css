@@ -255,7 +255,7 @@ button {
   left: calc(50% + 55px);
 }
 .is-editing {
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   /* outline: 1px dashed currentColor;
   outline-offset: 3px; */
   cursor: text;

@@ -34,9 +34,25 @@ html,body {
 
 input {
   border: none;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   outline: none;
   background: none;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: 'HB-Regular-Underline';
+  pointer-events: none;
+}
+
+.librarySubmit-border {
+  width: 100%;
 }
 
 .toast {
@@ -267,13 +283,12 @@ input {
 }
 
 .searchBar-border {
-  position: absolute;
   width: calc(100% - 50px);
   padding: 0;
-  border-bottom: 2px solid black;
-  transform: translateY(-3px);
+  /* border-bottom: 2px solid black;
+  transform: translateY(-3px); */
+  font-size: 24px;
 }
-
 
 .home-addbook {
   /* display: flex;

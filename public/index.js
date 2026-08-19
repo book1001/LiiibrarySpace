@@ -160,3 +160,32 @@ if (addBookBtn && submitField) {
 //   }
 // });
 
+
+// ======================================================
+// Input Border Underline
+// ======================================================
+function fillInputBorders() {
+  document.querySelectorAll(".input-border").forEach(el => {
+    el.textContent = "";
+
+    const test = document.createElement("span");
+    test.textContent = "_";
+    test.style.visibility = "hidden";
+    test.style.position = "absolute";
+    test.style.whiteSpace = "pre";
+    test.style.font = getComputedStyle(el).font;
+
+    document.body.appendChild(test);
+
+    const charWidth = test.getBoundingClientRect().width;
+    const divWidth = el.clientWidth;
+
+    test.remove();
+
+    const count = Math.floor(divWidth / charWidth);
+    el.textContent = "_".repeat(count);
+  });
+}
+
+fillInputBorders();
+window.addEventListener("resize", fillInputBorders);

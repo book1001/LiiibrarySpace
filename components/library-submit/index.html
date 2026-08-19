@@ -5,7 +5,10 @@
   <div class="card-item-name">
     <div>Liiibrary Name:</div>
     <!-- <div>*</div> -->
-    <input type="text" name="libraryName" id="libraryName" required>
+    <div class="input-container">
+      <input type="text" name="libraryName" id="libraryName" required>
+      <div class="input-border librarySubmit-border"></div>
+    </div>
     <div></div>
     <div></div>
     <div><div id="nameStatus"></div></div>
@@ -26,7 +29,10 @@
   <div class="card-item-required">
     <div>Password:</div>
     <!-- <div>*</div> -->
-    <input type="password" name="password" required>
+    <div class="input-container">
+      <input type="password" name="password" required>
+      <div class="input-border librarySubmit-border"></div>
+    </div>
   </div>
 
 
@@ -39,16 +45,23 @@
 
   <div class="card-item">
     <div>Description:</div>
-    <input id="description" name="description" type="text" placeholder="optional">
+    <div class="input-container">
+      <input id="description" name="description" type="text" placeholder="optional">
+      <div class="input-border librarySubmit-border"></div>
+    </div>
     <!-- <input id="description" name="description" type="text" placeholder="Short Description (optional)"> -->
   </div>
 
   <div class="card-item-required">
     <div>Liiibrary Color:</div>
     <!-- <div>*</div> -->
-    <label>
+    <div class="input-container">
       <input type="text" id="colorPicker" data-coloris autocomplete="off" spellcheck="false" value="#d35838">
-    </label>
+      <div class="input-border librarySubmit-border"></div>
+    </div>
+    <!-- <label>
+      <input type="text" id="colorPicker" data-coloris autocomplete="off" spellcheck="false" value="#d35838">
+    </label> -->
   </div>
 
   <div class="card-item-radio">

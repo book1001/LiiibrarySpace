@@ -87,7 +87,7 @@
     background: transparent;
     color: inherit;
     font: inherit;
-    border-bottom: 2px solid black;
+    /* border-bottom: 2px solid black; */
   }
 
   .board-input-wrapper textarea {
@@ -309,11 +309,17 @@
     </div>
 
     <div class="board-input-wrapper">
-      <input type="text" name="name" aria-label="Name" maxlength="50" required placeholder="Name">
+      <div class="input-container">
+        <input type="text" name="name" aria-label="Name" maxlength="50" required placeholder="Name">
+        <div class="input-border librarySubmit-border"></div>
+      </div>
     </div>
 
     <div class="board-input-wrapper">
-      <input type="text" name="message" maxlength="200" required placeholder="Message">
+      <div class="input-container" style="width: 100%;">
+        <input type="text" name="message" maxlength="200" required placeholder="Message">
+        <div class="input-border librarySubmit-border"></div>
+      </div>
       <!-- <textarea name="message" aria-label="Message" maxlength="2000" rows="1" required></textarea> -->
     </div>
 
