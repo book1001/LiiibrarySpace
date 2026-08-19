@@ -57,19 +57,10 @@ function checkBookForm() {
   const title = form.title.value.trim();
   const url = form.url.value.trim();
 
-  const hasAuthor = [
-    ...authorList.querySelectorAll(".authorInput")
-  ].some(input => input.value.trim());
+  const hasAuthor = [...authorList.querySelectorAll(".authorInput")].some(input => input.value.trim());
+  const hasLibrary = getSelectedLibraryCheckboxes().length > 0;
 
-  const hasLibrary =
-    getSelectedLibraryCheckboxes().length > 0;
-
-  submitBtn.disabled = !(
-    title &&
-    url &&
-    hasAuthor &&
-    hasLibrary
-  );
+  submitBtn.disabled = !(title && url && hasAuthor && hasLibrary);
 }
 
 form.title.addEventListener("input", checkBookForm);
@@ -84,23 +75,27 @@ function createAuthorRow({ removable = true } = {}) {
   const row = document.createElement("div");
   row.className = "author-row";
 
-  const input = document.createElement("input");
+  const inputContainer = document.createElement("div");
+  inputContainer.className = "input-container";
 
+  const input = document.createElement("input");
   input.type = "text";
   input.className = "authorInput";
   input.required = true;
 
-  row.appendChild(input);
+  const inputBorder = document.createElement("div");
+  inputBorder.className = "input-border librarySubmit-border";
+
+  row.appendChild(inputContainer);
+  inputContainer.appendChild(input);
+  inputContainer.appendChild(inputBorder);
 
   if (removable) {
     const removeButton = document.createElement("button");
 
     removeButton.type = "button";
     removeButton.className = "removeAuthorBtn";
-    removeButton.classList.add(
-      "material-symbols-outlined"
-    );
-
+    removeButton.classList.add("material-symbols-outlined");
     removeButton.textContent = "do_not_disturb_on";
 
     removeButton.addEventListener("click", () => {
@@ -124,9 +119,7 @@ addAuthorBtn.addEventListener("click", () => {
   });
 
   authorList.appendChild(row);
-
   row.querySelector(".authorInput").focus();
-
   checkBookForm();
 });
 

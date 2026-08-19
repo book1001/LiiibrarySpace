@@ -23,11 +23,11 @@
     </div>
   </div> -->
 
-  <div style="padding-bottom: 16px;">
-    Author:
+  <div class="card-item-author">
+    <div>Author:</div>
     <div id="authorList">
       <div class="author-row">
-        <input type="text" class="authorInput" required />
+        <input type="text" class="authorInput" required>
       </div>
     </div>
     <button type="button" id="addAuthorBtn" class="add-circle material-symbols-outlined">add_circle</button>
@@ -35,7 +35,10 @@
 
   <div class="card-item">
     <div>URL:</div>
-    <input type="url" name="url" required>
+    <div class="input-container">
+      <input type="url" name="url" required>
+      <div class="input-border librarySubmit-border"></div>
+    </div>
   </div>
 
   <div class="card-item">

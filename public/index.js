@@ -164,28 +164,126 @@ if (addBookBtn && submitField) {
 // ======================================================
 // Input Border Underline
 // ======================================================
-function fillInputBorders() {
+function fillInputBorder(el) {
+  const width = el.getBoundingClientRect().width;
+
+  if (width <= 0) {
+    requestAnimationFrame(() => fillInputBorder(el));
+    return;
+  }
+
+  const style = getComputedStyle(el);
+  const test = document.createElement("span");
+
+  test.style.position = "fixed";
+  test.style.left = "-99999px";
+  test.style.top = "-99999px";
+  test.style.visibility = "hidden";
+  test.style.pointerEvents = "none";
+  test.style.whiteSpace = "nowrap";
+
+  test.style.fontFamily = style.fontFamily;
+  test.style.fontSize = style.fontSize;
+  test.style.fontWeight = style.fontWeight;
+  test.style.fontStyle = style.fontStyle;
+  test.style.fontStretch = style.fontStretch;
+  test.style.letterSpacing = style.letterSpacing;
+
+  document.body.appendChild(test);
+
+  let text = "_";
+  test.textContent = text;
+
+  while (test.getBoundingClientRect().width <= width) {
+    text += "_";
+    test.textContent = text;
+  }
+
+  el.textContent = text.slice(0, -1);
+
+  test.remove();
+}
+
+const inputBorderObserver = new ResizeObserver(entries => {
+  entries.forEach(entry => {
+    fillInputBorder(entry.target);
+  });
+});
+
+function initInputBorders() {
   document.querySelectorAll(".input-border").forEach(el => {
-    el.textContent = "";
+    if (el.dataset.borderObserved) return;
 
-    const test = document.createElement("span");
-    test.textContent = "_";
-    test.style.visibility = "hidden";
-    test.style.position = "absolute";
-    test.style.whiteSpace = "pre";
-    test.style.font = getComputedStyle(el).font;
+    el.dataset.borderObserved = "true";
 
-    document.body.appendChild(test);
+    inputBorderObserver.observe(el);
 
-    const charWidth = test.getBoundingClientRect().width;
-    const divWidth = el.clientWidth;
-
-    test.remove();
-
-    const count = Math.floor(divWidth / charWidth);
-    el.textContent = "_".repeat(count);
+    requestAnimationFrame(() => {
+      fillInputBorder(el);
+    });
   });
 }
 
-fillInputBorders();
-window.addEventListener("resize", fillInputBorders);
+document.fonts.ready.then(() => {
+  initInputBorders();
+
+  requestAnimationFrame(() => {
+    initInputBorders();
+  });
+});
+
+window.addEventListener("load", initInputBorders);
+window.addEventListener("resize", initInputBorders);
+
+const mutationObserver = new MutationObserver(() => {
+  initInputBorders();
+});
+
+mutationObserver.observe(document.body, {
+  childList: true,
+  subtree: true
+});
+
+// function fillInputBorder(el) {
+//   const width = el.clientWidth;
+
+//   if (!width) return;
+
+//   const test = document.createElement("span");
+//   const style = getComputedStyle(el);
+
+//   test.style.position = "absolute";
+//   test.style.visibility = "hidden";
+//   test.style.whiteSpace = "nowrap";
+//   test.style.fontFamily = style.fontFamily;
+//   test.style.fontSize = style.fontSize;
+//   test.style.fontWeight = style.fontWeight;
+//   test.style.letterSpacing = style.letterSpacing;
+
+//   document.body.appendChild(test);
+
+//   let text = "_";
+//   test.textContent = text;
+
+//   while (test.getBoundingClientRect().width <= width) {
+//     text += "_";
+//     test.textContent = text;
+//   }
+
+//   el.textContent = text.slice(0, -1);
+
+//   test.remove();
+// }
+
+// document.fonts.ready.then(() => {
+//   const observer = new ResizeObserver(entries => {
+//     entries.forEach(entry => {
+//       fillInputBorder(entry.target);
+//     });
+//   });
+
+//   document.querySelectorAll(".input-border").forEach(el => {
+//     fillInputBorder(el);
+//     observer.observe(el);
+//   });
+// });

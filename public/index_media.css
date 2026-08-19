@@ -27,10 +27,18 @@
   #bookList-R {
     display: none;
   }
+
+  /* .search {
+    margin-left: 70px;
+  } */
 }
 
 
 @media only screen and (max-width:600px) { 
+  .vine {
+    display: none;
+  }
+  
   #libraryStreet {
     width: 100%;
     padding-left: 30px;

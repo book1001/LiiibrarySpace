@@ -56,15 +56,13 @@ function checkBookForm() {
   const title = form.title.value.trim();
   const url = form.url.value.trim();
 
-  const hasAuthor = [...authorList.querySelectorAll(".authorInput")]
-    .some(input => input.value.trim());
+  const hasAuthor = [...authorList.querySelectorAll(".authorInput")].some(input => input.value.trim());
 
   submitBtn.disabled = !(title && url && hasAuthor);
 }
 
 form.title.addEventListener("input", checkBookForm);
 form.url.addEventListener("input", checkBookForm);
-
 authorList.addEventListener("input", checkBookForm);
 
 // ======================================================
@@ -74,12 +72,20 @@ function createAuthorRow({ removable = true } = {}) {
   const row = document.createElement("div");
   row.className = "author-row";
 
+  const inputContainer = document.createElement("div");
+  inputContainer.className = "input-container";
+
   const input = document.createElement("input");
   input.type = "text";
   input.className = "authorInput";
   input.required = true;
 
-  row.appendChild(input);
+  const inputBorder = document.createElement("div");
+  inputBorder.className = "input-border librarySubmit-border";
+
+  row.appendChild(inputContainer);
+  inputContainer.appendChild(input);
+  inputContainer.appendChild(inputBorder);
 
   if (removable) {
     const removeButton = document.createElement("button");
@@ -109,9 +115,7 @@ addAuthorBtn.addEventListener("click", () => {
   });
 
   authorList.appendChild(row);
-
   row.querySelector(".authorInput").focus();
-
   checkBookForm();
 });
 
@@ -406,4 +410,10 @@ form.addEventListener("submit", async (e) => {
 // ======================================================
 // 최초 상태 설정
 // ======================================================
+authorList.appendChild(
+  createAuthorRow({
+    removable: false
+  })
+);
+
 checkBookForm();

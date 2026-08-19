@@ -34,9 +34,13 @@ html,body {
 
 input {
   border: none;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   outline: none;
   background: none;
+}
+
+.authorInput {
+  width: 100%;
 }
 
 #libraryForm input,
@@ -46,6 +50,8 @@ input {
 
 .input-container {
   position: relative;
+  display: inline;
+  /* width: 100%; */
 }
 
 .input-border {
@@ -99,6 +105,19 @@ input {
 }
 
 /* ============================================================= */
+/* Vine */
+/* ============================================================= */
+.vine {
+  display: none;
+  position: fixed; 
+  top: -30px; 
+  left: 3px; 
+  font-size: 80px; 
+  z-index: -1; 
+  pointer-events: none;
+}
+
+/* ============================================================= */
 /* Card */
 /* ============================================================= */
 
@@ -130,6 +149,22 @@ input {
 
 #libraryForm {
   font-size: 15px;
+}
+
+.card-item-author {
+  position: relative;
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-auto-rows: 1fr; 
+  grid-template-columns: 50px 150px 50px;
+  gap: 0 8px;
+  padding-bottom: 16px;
+}
+
+#addAuthorBtn {
+  position: absolute;
+  bottom: 23px;
+  right: 0;
 }
 
 .card-item-name {  
@@ -322,6 +357,7 @@ input {
   transform: translateY(4px);
   font-size: 20px;
   padding: 0;
+  text-align: left;
 }
 
 #addbook-submitField {
@@ -584,11 +620,16 @@ input {
 }
 
 #authorList {
-  display: inline;
+  width: 100%;
 }
 
 .author-row {
-  display: inline;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-template-columns: 160px 40px;
+  gap: 0 8px;
+  /* display: inline; */
 }
 
 
