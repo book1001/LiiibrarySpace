@@ -62,13 +62,19 @@
   #libraryForm {
     font-size: 13px;
   }
-  .board-header, .board-form, .board-row {
-    grid-template-columns: 140px 1fr 0;
+
+  .board-header, .board-form {
+    grid-template-columns: 100px 1fr !important;
+  }
+
+
+  .board-row {
+    grid-template-columns: 100px 1fr 20px !important;
   }
 
   .board-date-preview,
   .board-row-date {
-    display: none;
+    display: none !important;
   }
 
   .board {
