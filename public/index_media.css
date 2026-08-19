@@ -31,5 +31,47 @@
 
 
 @media only screen and (max-width:600px) { 
+  #libraryStreet {
+    width: 100%;
+    padding-left: 30px;
+  }
 
+  .search button {
+    margin-right: 0;
+    font-size: 18px;
+  }
+
+  #searchBar {
+    font-size: 18px;
+  }
+
+  .search .material-symbols-outlined {
+    transform: translateY(2px);
+    padding-left: 0;
+  }
+
+  p {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .main-submitField {
+    width: calc(100% - 40px);
+  }
+
+  #libraryForm {
+    font-size: 13px;
+  }
+  .board-header, .board-form, .board-row {
+    grid-template-columns: 140px 1fr 0;
+  }
+
+  .board-date-preview,
+  .board-row-date {
+    display: none;
+  }
+
+  .board {
+    font-size: 13px;
+  }
 }

@@ -97,16 +97,16 @@
 
 /* text: drag color ================================================ */
 ::selection {
-  color: #9eff8d;
-  /* background: black; */
-  text-shadow: 0 0px 6px black;
+  color: #ffffff;
+  background: #d0d0d0;
+  text-shadow: 0 0px 6px #ffffff;
   text-decoration: none;
 }
 
 ::-moz-selection { 
-  color: #9eff8d;
-  /* background: black; */
-  text-shadow: 0 0px 6px black;
+  color: #ffffff;
+  background: #d0d0d0;
+  text-shadow: 0 0px 6px #ffffff;
   text-decoration: none;
 }
 

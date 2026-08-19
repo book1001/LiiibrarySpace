@@ -598,7 +598,8 @@ body.is-resizing * {
   width: 380px;
   min-height: 480px;
   border: 1px solid black;
-  background: #9eff8d;
+  /* background: #9eff8d; */
+  background: #f2edcb;
   padding: 20px;
   display: none;
   z-index: 10;
