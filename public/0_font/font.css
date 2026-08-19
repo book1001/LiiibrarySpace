@@ -136,6 +136,7 @@ button {
   /* font-family: 'AmericanTypewriter'; */
   font-family: 'HB-Regular';
   color: black;
+  cursor: pointer;
 }
 
 input {

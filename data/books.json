@@ -388,5 +388,36 @@
       }
     ],
     "note": []
+  },
+  {
+    "id": "ea1bf6db-50d8-41e0-8a83-b5e11b6db890",
+    "title": "Dispersion",
+    "author": [
+      "Seth Price"
+    ],
+    "url": "http://www.distributedhistory.com/Dispersion2007.comp.pdf",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "334c5615-8457-459d-8d32-3a13ec1b38a9",
+    "title": "The Museum Interface",
+    "author": [
+      "Rob Giampietro",
+      "Sarah Hromack"
+    ],
+    "url": "https://www.artnews.com/art-in-america/features/the-museum-interface-63033/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
   }
 ]
