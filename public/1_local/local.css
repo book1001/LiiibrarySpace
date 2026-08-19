@@ -137,6 +137,15 @@ button {
   z-index: 5;
 }
 
+#addbook {
+  margin-right: 5px;
+}
+
+#addbook-submitField {
+  right: 0;
+  margin-top: 0 !important;
+}
+
 /* #addbook-submitField h1 {
   margin-block-start: 14px;
   margin-block-end: 11px;
@@ -255,7 +264,7 @@ button {
   left: calc(50% + 55px);
 }
 .is-editing {
-  /* border-bottom: 1px solid black; */
+  border-bottom: 1px solid black;
   /* outline: 1px dashed currentColor;
   outline-offset: 3px; */
   cursor: text;

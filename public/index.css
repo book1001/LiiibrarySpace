@@ -34,9 +34,14 @@ html,body {
 
 input {
   border: none;
-  /* border-bottom: 1px solid black; */
+  border-bottom: 1px solid black;
   outline: none;
   background: none;
+}
+
+#libraryForm input,
+.board input {
+  border-bottom: none;
 }
 
 .input-container {
@@ -304,6 +309,7 @@ input {
   cursor: pointer;
   transform: translateY(4px);
   padding: 0;
+  z-index: 3;
   /* display: none; */
   /* position: absolute; 
   top: 5px; 
@@ -326,6 +332,7 @@ input {
   width: 270px;
   margin: auto;
   background: white;
+  z-index: 2;
 }
 
 #addbook-submitField.is-open {
