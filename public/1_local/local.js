@@ -1363,7 +1363,7 @@ window.deletePlayhtmlElementData = function (type, id) {
 
 await window.loadLibraryTools();
 
-// playhtml.init();
+playhtml.init();
 
 // playhtml.init({
 //   cursors: {
@@ -1371,8 +1371,8 @@ await window.loadLibraryTools();
 //   },
 // });
 
-playhtml.init({
-  developmentMode: true
-});
+// playhtml.init({
+//   developmentMode: true
+// });
 
 setInterval(window.loadLibraryTools, 1000);
