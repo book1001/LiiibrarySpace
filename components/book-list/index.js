@@ -83,6 +83,8 @@ export async function initBookList({
       const title = document.createElement("div");
 
       item.id = book.id;
+      item.dataset.bookId = book.id;
+
       item.classList.add("book", "can-drag");
       item.setAttribute("can-mirror", "");
 
@@ -106,11 +108,11 @@ export async function initBookList({
       // ==================================================
       // BOOK TITLE CLICK
       // ==================================================
-      title.addEventListener("click", e => {
-        e.stopPropagation();
+      // title.addEventListener("click", e => {
+      //   e.stopPropagation();
 
-        if (typeof showBookCard === "function") showBookCard(book);
-      });
+      //   if (typeof showBookCard === "function") showBookCard(book);
+      // });
 
       return item;
     }
@@ -118,6 +120,7 @@ export async function initBookList({
 
 
   let previousVisibleBookIds = null;
+  let currentBooks = [];
 
 
   // ======================================================
@@ -229,6 +232,7 @@ export async function initBookList({
       if (!res.ok) throw new Error("Failed to load the book list");
 
       const books = await res.json();
+      currentBooks = books;
 
       const visibleBooks = isAllMode
         ? [...getVisibleBooks(books)].reverse()
@@ -430,6 +434,44 @@ export async function initBookList({
   };
 
   window.addEventListener("message", bookList._bookMessageHandler);
+
+  // ======================================================
+  // BOOK CLICK
+  // ======================================================
+  if (bookList._bookClickHandler) {
+    bookList.removeEventListener("click", bookList._bookClickHandler);
+  }
+
+  bookList._bookClickHandler = e => {
+    const title = e.target.closest(".book-title");
+
+    if (!title || !bookList.contains(title)) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const item = title.closest(".book");
+
+    if (!item) return;
+
+    const book = currentBooks.find(
+      book => String(book.id) === String(item.dataset.bookId)
+    );
+
+    if (!book) {
+      console.warn("Book data not found:", item.dataset.bookId);
+      return;
+    }
+
+    if (typeof showBookCard !== "function") {
+      console.error("showBookCard is not available.");
+      return;
+    }
+
+    showBookCard(book);
+  };
+
+  bookList.addEventListener("click", bookList._bookClickHandler);
 
 
   // ======================================================
