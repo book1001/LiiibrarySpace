@@ -12,21 +12,44 @@ export function initBookCard() {
   const addNoteSubmitBtn = document.getElementById("addNoteSubmitBtn");
   const closeBookCardBtn = document.getElementById("closeBookCardBtn");
 
-  // Library dropdown
   const addLibraryBtn = document.getElementById("addLibrary");
   const libraryDropdown = document.getElementById("libraryDropdown");
-  const libraryCheckboxList = document.getElementById(
-    "libraryCheckboxList"
-  );
+  const libraryCheckboxList = document.getElementById("libraryCheckboxList");
 
   let currentBookId = "";
   let currentBook = null;
   let currentBookUrl = "";
+  let allLibraries = [];
 
   const bookUpdateChannel = new BroadcastChannel("book-updates");
 
-  // 다른 Library 창에서 같은 책이 수정되면
-  // 현재 열려 있는 북 카드도 즉시 업데이트
+
+  // ======================================================
+  // BOOK UPDATE
+  // ======================================================
+  function notifyBookUpdated(detail = {}) {
+    const message = {
+      type: "book-updated",
+      ...detail
+    };
+
+    window.dispatchEvent(
+      new CustomEvent("book-updated", {
+        detail: message
+      })
+    );
+
+    bookUpdateChannel.postMessage(message);
+
+    if (window.opener && !window.opener.closed) {
+      window.opener.postMessage(message, window.location.origin);
+    }
+  }
+
+
+  // ======================================================
+  // 다른 창에서 같은 Book이 수정된 경우
+  // ======================================================
   bookUpdateChannel.addEventListener("message", event => {
     const message = event.data;
 
@@ -45,24 +68,10 @@ export function initBookCard() {
     renderLibraryCheckboxes();
   });
 
-  // window.addEventListener("book-updated", event => {
-  //   if (event.detail?.type !== "library-updated") {
-  //     return;
-  //   }
 
-  //   loadBooks();
-  // });
-
-  // bookUpdateChannel.addEventListener("message", event => {
-  //   if (event.data?.type !== "library-updated") {
-  //     return;
-  //   }
-
-  //   loadBooks();
-  // });
-
-  let allLibraries = [];
-
+  // ======================================================
+  // ESCAPE HTML
+  // ======================================================
   function escapeHtml(text) {
     return String(text || "")
       .replaceAll("&", "&amp;")
@@ -72,6 +81,10 @@ export function initBookCard() {
       .replaceAll("'", "&#039;");
   }
 
+
+  // ======================================================
+  // DATE
+  // ======================================================
   function getLocalTimeText() {
     const now = new Date();
 
@@ -83,7 +96,6 @@ export function initBookCard() {
 
     const minute = String(now.getMinutes()).padStart(2, "0");
     const second = String(now.getSeconds()).padStart(2, "0");
-
     const ampm = hour >= 12 ? "PM" : "AM";
 
     hour = hour % 12;
@@ -97,6 +109,7 @@ export function initBookCard() {
     return `${month}/${day}/${year}, ${hour}:${minute}:${second} ${ampm}`;
   }
 
+
   function getLocalDateText() {
     const now = new Date();
 
@@ -107,14 +120,17 @@ export function initBookCard() {
     return `${month}/${day}/${year}`;
   }
 
+
   function updateLiveNoteDate() {
     liveNoteDate.textContent = getLocalDateText();
   }
 
   updateLiveNoteDate();
 
-  // setInterval(updateLiveNoteDate, 1000);
 
+  // ======================================================
+  // NOTES
+  // ======================================================
   function renderNotes(notes) {
     if (Array.isArray(notes) && notes.length > 0) {
       cardNote.innerHTML = [...notes]
@@ -134,10 +150,10 @@ export function initBookCard() {
     }
   }
 
+
   // ======================================================
   // POPUP
   // ======================================================
-
   function openBookPopup(url) {
     if (!url) {
       return;
@@ -145,14 +161,8 @@ export function initBookCard() {
 
     const width = 1200;
     const height = 800;
-
-    const left =
-      window.screenX +
-      (window.outerWidth - width) / 2;
-
-    const top =
-      window.screenY +
-      (window.outerHeight - height) / 2;
+    const left = window.screenX + (window.outerWidth - width) / 2;
+    const top = window.screenY + (window.outerHeight - height) / 2;
 
     window.open(
       url,
@@ -161,8 +171,10 @@ export function initBookCard() {
     );
   }
 
-  // ======================================================
 
+  // ======================================================
+  // CARD LIBRARIES
+  // ======================================================
   function renderCardLibraries() {
     const bookLibraries = Array.isArray(currentBook?.library)
       ? currentBook.library
@@ -174,47 +186,41 @@ export function initBookCard() {
           return item;
         }
 
-        return item?.name || "";
+        return item?.name || item?.libraryName || "";
       })
       .filter(Boolean)
       .join(", ");
   }
 
-  /**
-   * libraries.json의 라이브러리 목록을 가져옵니다.
-   *
-   * 서버에서는 password를 제외하고
-   * libraryName과 bookSharing만 보내야 합니다.
-   */
+
+  // ======================================================
+  // LIBRARIES LOAD
+  // ======================================================
   async function loadLibraries() {
     try {
-      const response = await fetch("/libraries");
+      const response = await fetch(`/libraries?_=${Date.now()}`, {
+        cache: "no-store"
+      });
 
       if (!response.ok) {
-        throw new Error(
-          "Failed to load the library list"
-        );
+        throw new Error("Failed to load the library list");
       }
 
       const result = await response.json();
 
-      allLibraries = Array.isArray(result)
-        ? result
-        : [];
+      allLibraries = Array.isArray(result) ? result : [];
 
       renderLibraryCheckboxes();
     } catch (error) {
       console.error(error);
-
-      libraryCheckboxList.textContent =
-        "Failed to load the library list";
+      libraryCheckboxList.textContent = "Failed to load the library list";
     }
   }
 
-  /**
-   * 현재 책의 library 배열을 기준으로
-   * 체크박스를 생성합니다.
-   */
+
+  // ======================================================
+  // LIBRARY CHECKBOXES
+  // ======================================================
   function renderLibraryCheckboxes() {
     libraryCheckboxList.innerHTML = "";
 
@@ -222,591 +228,383 @@ export function initBookCard() {
       return;
     }
 
-    const currentLibraryNames = Array.isArray(
-      currentBook.library
-    )
+    const currentLibraryNames = Array.isArray(currentBook.library)
       ? currentBook.library
           .map(item => {
             if (typeof item === "string") {
               return item;
             }
 
-            return item?.name || "";
+            return item?.name || item?.libraryName || "";
           })
           .filter(Boolean)
       : [];
 
+
     // --------------------------------------------------
     // Central Liiibrary
-    // 항상 체크되어 있고 해제할 수 없음
     // --------------------------------------------------
+    const centralItem = document.createElement("div");
+    const centralCheckbox = document.createElement("input");
+    const centralLabel = document.createElement("label");
 
-    const centralItem =
-      document.createElement("div");
-
-    centralItem.className =
-      "library-checkbox-item";
-
-    const centralCheckbox =
-      document.createElement("input");
+    centralItem.className = "library-checkbox-item";
 
     centralCheckbox.type = "checkbox";
-    centralCheckbox.id =
-      "book-library-central";
+    centralCheckbox.id = "book-library-central";
     centralCheckbox.checked = true;
     centralCheckbox.disabled = true;
 
-    const centralLabel =
-      document.createElement("label");
+    centralLabel.htmlFor = "book-library-central";
+    centralLabel.textContent = "Central Liiibrary";
 
-    centralLabel.htmlFor =
-      "book-library-central";
+    centralItem.append(centralCheckbox, centralLabel);
+    libraryCheckboxList.appendChild(centralItem);
 
-    centralLabel.textContent =
-      "Central Liiibrary";
-
-    centralItem.append(
-      centralCheckbox,
-      centralLabel
-    );
-
-    libraryCheckboxList.appendChild(
-      centralItem
-    );
 
     // --------------------------------------------------
-    // libraries.json의 나머지 라이브러리
+    // Local Libraries
     // --------------------------------------------------
-
     allLibraries.forEach(library => {
-      const libraryName =
-        library.libraryName;
+      const libraryName = library.libraryName;
 
-      if (!libraryName) {
+      if (!libraryName || libraryName === "Central Liiibrary") {
         return;
       }
 
-      const item =
-        document.createElement("div");
+      const item = document.createElement("div");
+      const checkbox = document.createElement("input");
+      const label = document.createElement("label");
 
-      item.className =
-        "library-checkbox-item";
-
-      const checkbox =
-        document.createElement("input");
+      item.className = "library-checkbox-item";
 
       checkbox.type = "checkbox";
+      checkbox.checked = currentLibraryNames.includes(libraryName);
 
-      checkbox.checked =
-        currentLibraryNames.includes(
-          libraryName
-        );
-
-      const checkboxId =
-        `book-library-${libraryName.replace(
-          /[^A-Za-z0-9_-]/g,
-          "-"
-        )}`;
+      const checkboxId = `book-library-${libraryName.replace(/[^A-Za-z0-9_-]/g, "-")}`;
 
       checkbox.id = checkboxId;
-
-      const label =
-        document.createElement("label");
 
       label.htmlFor = checkboxId;
       label.textContent = libraryName;
 
-      if (
-        library.bookSharing === "private"
-      ) {
-        const lockMark =
-          document.createElement("span");
+      if (library.bookSharing === "private") {
+        const lockMark = document.createElement("span");
 
         lockMark.textContent = "❋";
-
-        lockMark.title =
-          "Password required to add or remove this library";
+        lockMark.title = "Password required to add or remove this library";
 
         label.append(" ", lockMark);
       }
 
-      checkbox.addEventListener(
-        "change",
-        async () => {
-          await updateBookLibrary({
-            library,
-            checkbox,
-            item
-          });
-        }
-      );
+      checkbox.addEventListener("change", async () => {
+        await updateBookLibrary({
+          library,
+          checkbox,
+          item
+        });
+      });
 
-      item.append(
-        checkbox,
-        label
-      );
-
-      libraryCheckboxList.appendChild(
-        item
-      );
+      item.append(checkbox, label);
+      libraryCheckboxList.appendChild(item);
     });
   }
 
-  /**
-   * 체크박스 변경 내용을 서버에 저장합니다.
-   */
-  async function updateBookLibrary({
-    library,
-    checkbox,
-    item
-  }) {
-    if (!currentBookId || !currentBook) {
-      checkbox.checked =
-        !checkbox.checked;
 
+  // ======================================================
+  // LIBRARY ADD / REMOVE
+  // ======================================================
+  async function updateBookLibrary({ library, checkbox, item }) {
+    if (!currentBookId || !currentBook) {
+      checkbox.checked = !checkbox.checked;
       return;
     }
 
-    const libraryName =
-      library.libraryName;
-
-    const shouldAdd =
-      checkbox.checked;
+    const libraryName = library.libraryName;
+    const shouldAdd = checkbox.checked;
 
     let password = "";
 
-    if (
-      library.bookSharing === "private"
-    ) {
-      const actionText =
-        shouldAdd
-          ? "add"
-          : "remove";
+    if (library.bookSharing === "private") {
+      const actionText = shouldAdd ? "add" : "remove";
+      const enteredPassword = window.prompt(
+        `Please enter the password to ${actionText} ${libraryName}`
+      );
 
-      const enteredPassword =
-        window.prompt(
-          `Please enter the password to ${actionText} ${libraryName}`
-        );
-
-      // Cancel을 누른 경우 기존 상태로 되돌리기
       if (enteredPassword === null) {
-        checkbox.checked =
-          !shouldAdd;
-
+        checkbox.checked = !shouldAdd;
         return;
       }
 
-      password =
-        enteredPassword;
+      password = enteredPassword;
     }
 
     checkbox.disabled = true;
-
-    item.classList.add(
-      "is-loading"
-    );
+    item.classList.add("is-loading");
 
     try {
+      // --------------------------------------------------
+      // Mirror 데이터 제거
+      // --------------------------------------------------
       if (!shouldAdd) {
         bookUpdateChannel.postMessage({
-          type:
-            "delete-book-mirror-data",
-
-          bookId:
-            currentBookId,
-
+          type: "delete-book-mirror-data",
+          bookId: currentBookId,
           libraryName
         });
-
-        /*
-          라이브러리 페이지에서 can-mirror 데이터를
-          삭제할 시간을 조금 확보합니다.
-        */
 
         await new Promise(resolve => {
           setTimeout(resolve, 300);
         });
       }
 
-      const response =
-        await fetch(
-          `/books/${encodeURIComponent(
-            currentBookId
-          )}/libraries`,
-          {
-            method: "PATCH",
 
-            headers: {
-              "Content-Type":
-                "application/json;charset=UTF-8"
-            },
+      // --------------------------------------------------
+      // 서버 업데이트
+      // --------------------------------------------------
+      const response = await fetch(
+        `/books/${encodeURIComponent(currentBookId)}/libraries`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8"
+          },
+          body: JSON.stringify({
+            libraryName,
+            action: shouldAdd ? "add" : "remove",
+            password
+          })
+        }
+      );
 
-            body: JSON.stringify({
-              libraryName,
+      const result = await response.json();
 
-              action:
-                shouldAdd
-                  ? "add"
-                  : "remove",
-
-              password
-            })
-          }
-        );
-
-      const result =
-        await response.json();
-
-      if (
-        !response.ok ||
-        !result.success
-      ) {
+      if (!response.ok || !result.success) {
         throw new Error(
           result.message ||
           "Failed to update the library information"
         );
       }
 
-      // 서버에서 반환된 최신 book 데이터로 교체
-      currentBook =
-        result.book;
+
+      // --------------------------------------------------
+      // 최신 Book 데이터
+      // --------------------------------------------------
+      currentBook = result.book;
 
       renderCardLibraries();
-
       renderLibraryCheckboxes();
 
-      // 현재 페이지의 다른 컴포넌트에 알림
-      window.dispatchEvent(
-        new CustomEvent(
-          "book-updated",
-          {
-            detail: {
-              type:
-                "book-updated",
 
-              action:
-                shouldAdd
-                  ? "add-library"
-                  : "remove-library",
-
-              bookId:
-                currentBookId,
-
-              libraries: [
-                libraryName
-              ],
-
-              book:
-                currentBook
-            }
-          }
-        )
-      );
-
-      // 다른 탭이나 팝업에 알림
-      bookUpdateChannel.postMessage({
-        type:
-          "book-updated",
-
-        action:
-          shouldAdd
-            ? "add-library"
-            : "remove-library",
-
-        bookId:
-          currentBookId,
-
-        libraries: [
-          libraryName
-        ],
-
-        book:
-          currentBook
+      // --------------------------------------------------
+      // 실시간 업데이트
+      // --------------------------------------------------
+      notifyBookUpdated({
+        action: shouldAdd ? "add-library" : "remove-library",
+        bookId: currentBookId,
+        libraryName,
+        libraries: [libraryName],
+        book: currentBook
       });
     } catch (error) {
       console.error(error);
 
-      // 저장 실패 시 체크 상태를 원래대로 복구
-      checkbox.checked =
-        !shouldAdd;
+      checkbox.checked = !shouldAdd;
 
       alert(error.message);
     } finally {
-      checkbox.disabled =
-        false;
-
-      item.classList.remove(
-        "is-loading"
-      );
+      checkbox.disabled = false;
+      item.classList.remove("is-loading");
     }
   }
 
-  // ======================================================
-  // BOOK CARD
-  // ======================================================
 
+  // ======================================================
+  // SHOW BOOK CARD
+  // ======================================================
   function showBookCard(book) {
     currentBook = book;
     currentBookId = book.id;
     currentBookUrl = book.url;
 
-    // openBookBtn.textContent = book.url || "";
-
     noteBorrowerInput.value = "";
     noteCommentInput.value = "";
-
     cardTitle.innerHTML = "";
 
-    const titleHeading =
-      document.createElement("h2");
+    const titleHeading = document.createElement("h2");
 
-    titleHeading.textContent =
-      book.title || "";
+    titleHeading.textContent = book.title || "";
+    cardTitle.appendChild(titleHeading);
 
-    cardTitle.appendChild(
-      titleHeading
-    );
-
-    // cardTitle이 a 태그인 경우
-    // 기본 링크 동작 제거
     cardTitle.removeAttribute("href");
     cardTitle.removeAttribute("target");
 
-    cardAuthor.textContent =
-      Array.isArray(book.author)
-        ? book.author.join(", ")
-        : "";
+    cardAuthor.textContent = Array.isArray(book.author)
+      ? book.author.join(", ")
+      : "";
 
     renderCardLibraries();
-
     renderLibraryCheckboxes();
-
     renderNotes(book.note);
 
-    libraryDropdown.classList.remove(
-      "is-open"
-    );
-
-    bookCard.style.display =
-      "block";
+    libraryDropdown.classList.remove("is-open");
+    bookCard.style.display = "block";
 
     noteBorrowerInput.focus();
   }
 
+
   // ======================================================
   // CARD TITLE
-  // popup으로 열기
   // ======================================================
+  cardTitle.addEventListener("click", event => {
+    event.preventDefault();
+    openBookPopup(currentBookUrl);
+  });
 
-  cardTitle.addEventListener(
-    "click",
-    event => {
-      event.preventDefault();
-
-      openBookPopup(
-        currentBookUrl
-      );
-    }
-  );
 
   // ======================================================
-
+  // NOTE SUBMIT
+  // ======================================================
   async function submitNote() {
     if (!currentBookId) {
       return;
     }
 
-    const borrower =
-      noteBorrowerInput.value.trim();
-
-    const comment =
-      noteCommentInput.value.trim();
+    const borrower = noteBorrowerInput.value.trim();
+    const comment = noteCommentInput.value.trim();
 
     if (!borrower && !comment) {
-      alert(
-        "Please enter a borrower or a comment"
-      );
-
+      alert("Please enter a borrower or a comment");
       return;
     }
 
     try {
-      const response =
-        await fetch(
-          `/books/${encodeURIComponent(
-            currentBookId
-          )}/notes`,
-          {
-            method: "POST",
+      const response = await fetch(
+        `/books/${encodeURIComponent(currentBookId)}/notes`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8"
+          },
+          body: JSON.stringify({
+            date: getLocalTimeText(),
+            borrower,
+            comment
+          })
+        }
+      );
 
-            headers: {
-              "Content-Type":
-                "application/json;charset=UTF-8"
-            },
+      const result = await response.json();
 
-            body: JSON.stringify({
-              date:
-                getLocalTimeText(),
-
-              borrower,
-              comment
-            })
-          }
-        );
-
-      const result =
-        await response.json();
-
-      if (
-        !response.ok ||
-        !result.success
-      ) {
+      if (!response.ok || !result.success) {
         throw new Error(
           result.message ||
           "Failed to save the note"
         );
       }
 
-      currentBook =
-        result.book;
+      currentBook = result.book;
 
-      noteBorrowerInput.value =
-        "";
+      noteBorrowerInput.value = "";
+      noteCommentInput.value = "";
 
-      noteCommentInput.value =
-        "";
+      renderNotes(currentBook.note);
 
-      renderNotes(
-        currentBook.note
-      );
+      notifyBookUpdated({
+        action: "update-note",
+        bookId: currentBookId,
+        book: currentBook
+      });
     } catch (error) {
       console.error(error);
-
       alert(error.message);
     }
   }
 
-  /**
-   * Add Library 버튼 클릭 시 드롭다운 토글
-   */
-  addLibraryBtn.addEventListener(
-    "click",
-    async event => {
-      event.preventDefault();
-
-      event.stopPropagation();
-
-      if (!currentBook) {
-        return;
-      }
-
-      const willOpen =
-        !libraryDropdown.classList.contains(
-          "is-open"
-        );
-
-      libraryDropdown.classList.toggle(
-        "is-open"
-      );
-
-      if (willOpen) {
-        await loadLibraries();
-      }
-    }
-  );
-
-  /**
-   * 드롭다운 내부를 클릭했을 때 닫히지 않도록 설정
-   */
-  libraryDropdown.addEventListener(
-    "click",
-    event => {
-      event.stopPropagation();
-    }
-  );
-
-  /**
-   * 드롭다운 바깥을 클릭하면 닫기
-   */
-  document.addEventListener(
-    "click",
-    event => {
-      if (
-        !libraryDropdown.contains(
-          event.target
-        ) &&
-        event.target !==
-          addLibraryBtn
-      ) {
-        libraryDropdown.classList.remove(
-          "is-open"
-        );
-      }
-    }
-  );
 
   // ======================================================
-  // NOTE
+  // LIBRARY DROPDOWN
   // ======================================================
+  addLibraryBtn.addEventListener("click", async event => {
+    event.preventDefault();
+    event.stopPropagation();
 
-  [
-    noteBorrowerInput,
-    noteCommentInput
-  ].forEach(input => {
-    input.addEventListener(
-      "keydown",
-      event => {
-        if (
-          event.key === "Enter"
-        ) {
-          event.preventDefault();
+    if (!currentBook) {
+      return;
+    }
 
-          submitNote();
-        }
-      }
-    );
+    const willOpen = !libraryDropdown.classList.contains("is-open");
+
+    libraryDropdown.classList.toggle("is-open");
+
+    if (willOpen) {
+      await loadLibraries();
+    }
   });
 
-  // ======================================================
-  // OPEN BOOK BUTTON
-  // popup으로 열기
-  // ======================================================
 
-  openBookBtn.addEventListener(
-    "click",
-    () => {
-      openBookPopup(
-        currentBookUrl
-      );
+  libraryDropdown.addEventListener("click", event => {
+    event.stopPropagation();
+  });
+
+
+  document.addEventListener("click", event => {
+    if (
+      !libraryDropdown.contains(event.target) &&
+      event.target !== addLibraryBtn
+    ) {
+      libraryDropdown.classList.remove("is-open");
     }
-  );
+  });
 
-  // ==============================================
-  // 토스트팝업
-  // ==============================================
 
+  // ======================================================
+  // NOTE ENTER
+  // ======================================================
+  [noteBorrowerInput, noteCommentInput].forEach(input => {
+    input.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submitNote();
+      }
+    });
+  });
+
+
+  if (addNoteSubmitBtn) {
+    addNoteSubmitBtn.addEventListener("click", event => {
+      event.preventDefault();
+      submitNote();
+    });
+  }
+
+
+  // ======================================================
+  // OPEN BOOK
+  // ======================================================
+  openBookBtn.addEventListener("click", () => {
+    openBookPopup(currentBookUrl);
+  });
+
+
+  // ======================================================
+  // TOAST
+  // ======================================================
   function showToast(message) {
-    const toast =
-      document.createElement("div");
+    const toast = document.createElement("div");
 
     toast.className = "toast";
-
     toast.textContent = message;
 
-    document.body.appendChild(
-      toast
-    );
+    document.body.appendChild(toast);
 
     requestAnimationFrame(() => {
-      toast.classList.add(
-        "show"
-      );
+      toast.classList.add("show");
     });
 
     setTimeout(() => {
-      toast.classList.remove(
-        "show"
-      );
+      toast.classList.remove("show");
 
       toast.addEventListener(
         "transitionend",
@@ -818,50 +616,39 @@ export function initBookCard() {
     }, 1800);
   }
 
-  copyBookURL.addEventListener(
-    "click",
-    async () => {
-      if (!currentBookUrl) {
-        return;
-      }
 
-      try {
-        await navigator.clipboard.writeText(
-          currentBookUrl
-        );
-
-        showToast(
-          "Book URL copied!"
-        );
-      } catch (error) {
-        showToast(
-          "Failed to copy URL."
-        );
-      }
+  // ======================================================
+  // COPY URL
+  // ======================================================
+  copyBookURL.addEventListener("click", async () => {
+    if (!currentBookUrl) {
+      return;
     }
-  );
+
+    try {
+      await navigator.clipboard.writeText(currentBookUrl);
+      showToast("Book URL copied!");
+    } catch (error) {
+      console.error(error);
+      showToast("Failed to copy URL.");
+    }
+  });
+
 
   // ======================================================
   // CLOSE BOOK CARD
   // ======================================================
+  closeBookCardBtn.addEventListener("click", () => {
+    bookCard.style.display = "none";
 
-  closeBookCardBtn.addEventListener(
-    "click",
-    () => {
-      bookCard.style.display =
-        "none";
+    currentBook = null;
+    currentBookId = "";
+    currentBookUrl = "";
 
-      currentBook = null;
-      currentBookId = "";
-      currentBookUrl = "";
+    noteBorrowerInput.value = "";
+    noteCommentInput.value = "";
+  });
 
-      noteBorrowerInput.value =
-        "";
-
-      noteCommentInput.value =
-        "";
-    }
-  );
 
   return {
     showBookCard

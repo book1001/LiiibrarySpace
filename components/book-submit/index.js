@@ -14,11 +14,9 @@ function notifyBookUpdated(detail = {}) {
   };
 
   // 현재 Library 창의 bookList 갱신
-  window.dispatchEvent(
-    new CustomEvent("book-updated", {
-      detail: message
-    })
-  );
+  window.dispatchEvent(new CustomEvent("book-updated", {
+    detail: message
+  }));
 
   // BroadcastChannel을 통해 다른 같은 출처 창에 알림
   bookUpdateChannel.postMessage(message);
@@ -36,9 +34,7 @@ function notifyBookUpdated(detail = {}) {
 // 예: /Test3/ → Test3
 // ======================================================
 function getCurrentLibraryName() {
-  const pathParts = window.location.pathname
-    .split("/")
-    .filter(Boolean);
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
 
   if (pathParts.length === 0) {
     return "Central Liiibrary";
@@ -55,7 +51,6 @@ const CURRENT_LIBRARY = getCurrentLibraryName();
 function checkBookForm() {
   const title = form.title.value.trim();
   const url = form.url.value.trim();
-
   const hasAuthor = [...authorList.querySelectorAll(".authorInput")].some(input => input.value.trim());
 
   submitBtn.disabled = !(title && url && hasAuthor);
@@ -126,7 +121,6 @@ function resetBookForm() {
   form.reset();
 
   authorList.innerHTML = "";
-
   authorList.appendChild(
     createAuthorRow({
       removable: false
@@ -148,16 +142,13 @@ async function getCurrentLibrary() {
     };
   }
 
-  const response = await fetch(
-    `/libraries/${encodeURIComponent(CURRENT_LIBRARY)}`
-  );
-
+  const response = await fetch(`/libraries/${encodeURIComponent(CURRENT_LIBRARY)}`);
   const result = await response.json();
 
   if (!response.ok) {
     throw new Error(
       result.message ||
-      `${CURRENT_LIBRARY} 정보를 불러오지 못했습니다.`
+      `Failed to load information for${CURRENT_LIBRARY}`
     );
   }
 
@@ -172,9 +163,7 @@ function requestLibraryPassword(library) {
     return "";
   }
 
-  const password = prompt(
-    `Enter the password for ${CURRENT_LIBRARY}`
-  );
+  const password = prompt(`Enter the password for ${CURRENT_LIBRARY}`);
 
   if (password === null) {
     return null;
@@ -183,7 +172,7 @@ function requestLibraryPassword(library) {
   const trimmedPassword = password.trim();
 
   if (!trimmedPassword) {
-    alert("패스워드를 입력해주세요.");
+    alert("Please enter the password.");
     return null;
   }
 
@@ -224,13 +213,7 @@ async function addCurrentLibraryToBook(bookId, password) {
 // ======================================================
 // 새 책 등록
 // ======================================================
-async function registerNewBook({
-  title,
-  author,
-  url,
-  library,
-  password
-}) {
+async function registerNewBook({ title, author, url, library, password }) {
   const response = await fetch("/register-book", {
     method: "POST",
     headers: {
@@ -243,7 +226,7 @@ async function registerNewBook({
       library: [
         {
           name: library.libraryName,
-          color: library.color || "#f2edcb"
+          color: "#f2edcb"
         }
       ],
 
@@ -274,9 +257,7 @@ form.addEventListener("submit", async (e) => {
   const title = form.title.value.trim();
   const url = form.url.value.trim();
 
-  const author = [
-    ...authorList.querySelectorAll(".authorInput")
-  ]
+  const author = [...authorList.querySelectorAll(".authorInput")]
     .map(input => input.value.trim())
     .filter(Boolean);
 
@@ -317,8 +298,7 @@ form.addEventListener("submit", async (e) => {
 
     if (!checkResponse.ok) {
       throw new Error(
-        checkResult.message ||
-        "Failed to check whether the book already exists"
+        checkResult.message || "Failed to check whether the book already exists"
       );
     }
 
@@ -354,9 +334,7 @@ form.addEventListener("submit", async (e) => {
       //   bookId: checkResult.book.id
       // });
 
-      alert(
-        `The existing book has been added to ${CURRENT_LIBRARY}`
-      );
+      alert(`The existing book has been added to ${CURRENT_LIBRARY}.`);
 
       resetBookForm();
       return;
@@ -410,10 +388,6 @@ form.addEventListener("submit", async (e) => {
 // ======================================================
 // 최초 상태 설정
 // ======================================================
-authorList.appendChild(
-  createAuthorRow({
-    removable: false
-  })
-);
+authorList.appendChild(createAuthorRow({ removable: false }));
 
 checkBookForm();

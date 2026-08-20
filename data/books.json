@@ -434,5 +434,260 @@
       }
     ],
     "note": []
+  },
+  {
+    "id": "6c4b4123-da35-49ec-ba1c-22eb8f0372c7",
+    "title": "A Guide for Co-Creating Access & Inclusion",
+    "author": [
+      "Taeyoon Choi"
+    ],
+    "url": "https://thecreativeindependent.com/guides/a-guide-for-co-creating-access-and-inclusion/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "74a3ef30-46ea-425b-be86-e09895bc67f1",
+    "title": "A Handmade Web",
+    "author": [
+      "J. R. CARPENTER"
+    ],
+    "url": "https://luckysoap.com/statements/handmadeweb.html",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "7edd8ee5-be8e-4ae6-89c2-3da82463c7ce",
+    "title": "Reboot the World",
+    "author": [
+      "Paul Ford"
+    ],
+    "url": "https://newrepublic.com/article/133889/reboot-world",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "a829bc15-68c4-45b9-8654-ae8ce7367661",
+    "title": "I had a couple drinks and woke up with 1,000 nerds",
+    "author": [
+      "Paul Ford"
+    ],
+    "url": "https://medium.com/message/tilde-club-i-had-a-couple-drinks-and-woke-up-with-1-000-nerds-a8904f0a2ebf",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "82b2f2cc-1e60-45fd-b678-52c884a35fa8",
+    "title": "Commons in Design",
+    "author": [
+      "Christine Schranz",
+      "FHNW Academy of Art and Design Basel"
+    ],
+    "url": "https://valiz.nl/images/Commons-in-Design.pdf",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "0c3f0202-83ee-4e79-85aa-7b645c3e7985",
+    "title": "Vernacular Web 1",
+    "author": [
+      "Olia Lialina"
+    ],
+    "url": "https://art.teleportacia.org/observation/vernacular/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "0e87227d-abfa-4a89-bd3a-66470f9e8448",
+    "title": "Vernacular Web 2",
+    "author": [
+      "Olia Lialina"
+    ],
+    "url": "https://contemporary-home-computing.org/vernacular-web-2/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "9b03371d-c234-4519-8ae6-002ce8f4d17f",
+    "title": "Vernacular Web 3",
+    "author": [
+      "Olia Lialina"
+    ],
+    "url": "https://contemporary-home-computing.org/prof-dr-style/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "2aa4ec95-6e24-4bef-b715-4669a8f66d61",
+    "title": "The ‘Enshittification’ of TikTok",
+    "author": [
+      "Cory Doctorow"
+    ],
+    "url": "https://www.wired.com/story/tiktok-platforms-cory-doctorow/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "5f7384bc-2514-4bce-b48d-b45fe1e3e12d",
+    "title": "Screen. Image. Text.",
+    "author": [
+      "Orit Gat"
+    ],
+    "url": "https://rhizome.org/editorial/2012/may/16/screen-image-text/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "17478b6b-6dd2-4865-9e91-306d6f2b4d60",
+    "title": "The Internet’s Back-to-the-Land Movement",
+    "author": [
+      "Becca Abbe"
+    ],
+    "url": "https://www.are.na/editorial/the-internet%27s-back-to-the-land-movement",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "2132d6c1-e327-4f05-a8df-4df3cef680b7",
+    "title": "The Off-Modern Mirror",
+    "author": [
+      "Svetlana Boym"
+    ],
+    "url": "https://www.e-flux.com/journal/19/67475/the-off-modern-mirror",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "22c2bcc6-0a93-499c-925e-107fe5479d24",
+    "title": "THE RIGHT TO THE CITY",
+    "author": [
+      "David Harvey"
+    ],
+    "url": "https://handmade-web.net/assets/harvey_right-to-the-city.pdf",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "fd09867a-9ef9-4421-9314-d1771a8c63f2",
+    "title": "Taking an Internet Walk",
+    "author": [
+      "Spencer Chang",
+      "Kristoffer Tjalve"
+    ],
+    "url": "https://syllabusproject.org/syllabus-for-taking-an-internet-walk/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "a281ebf4-da0f-41d6-b0ad-a63821c7e0fe",
+    "title": "A soft manifesto",
+    "author": [
+      "Cortney Cassidy"
+    ],
+    "url": "https://thecreativeindependent.com/essays/a-soft-manifesto/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "3b4457d1-c418-401b-9939-4c34a43b2f9d",
+    "title": "Anatomy of an AI System",
+    "author": [
+      "Kate Crawford",
+      "Vladan Joler"
+    ],
+    "url": "https://anatomyof.ai/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
   }
 ]

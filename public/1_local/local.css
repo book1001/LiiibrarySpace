@@ -572,7 +572,8 @@ body.is-resizing * {
 
 .book {
   writing-mode: horizontal-tb;
-  display: inline-table;
+  display: flex;
+  justify-content: center;
   width: 100px;
   height: 120px;
   padding: 0;

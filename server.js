@@ -672,9 +672,7 @@ app.patch("/libraries/:libraryName", (req, res) => {
 // ======================================================================
 // Library: Verify Password
 // ======================================================================
-app.post(
-  "/libraries/:libraryName/verify-password",
-  (req, res) => {
+app.post("/libraries/:libraryName/verify-password", (req, res) => {
     try {
       const { libraryName } = req.params;
       const { password } = req.body;
@@ -1244,13 +1242,15 @@ app.patch("/books/:id/libraries", (req, res) => {
 });
 
 // -------------------------------------------------------------
+// -------------------------------------------------------------
+// Book Register
+// -------------------------------------------------------------
 app.post("/register-book", (req, res) => {
   const {
     title,
     author,
     url,
-    library,
-    password = ""
+    library
   } = req.body;
 
   if (
@@ -1261,37 +1261,79 @@ app.post("/register-book", (req, res) => {
   ) {
     return res.status(400).json({
       success: false,
-      message: "필수 항목을 입력해주세요."
+      message: "Please fill in all required fields"
     });
   }
 
   const books = readBooks();
   const libraries = readLibraries();
 
+  // ============================================================
+  // 프론트에서 전달된 Library 데이터 정리
+  //
+  // 지원 형식:
+  //
+  // "MyLibrary"
+  //
+  // 또는
+  //
+  // {
+  //   libraryName: "MyLibrary",
+  //   password: "1234"
+  // }
+  //
+  // 기존 데이터 호환을 위해
+  //
+  // {
+  //   name: "MyLibrary"
+  // }
+  //
+  // 형식도 지원
+  // ============================================================
   const selectedLibraries = Array.isArray(library)
     ? [
         ...new Map(
           library
             .map(item => {
-              const name =
-                typeof item === "string"
-                  ? item
-                  : item?.name || "";
+              let name = "";
+              let password = "";
+              // let color = "#f2edcb";
 
-              if (!name) return null;
-
-              const color =
+              if (typeof item === "string") {
+                name = item.trim();
+              } else if (
                 item &&
-                typeof item === "object" &&
-                /^#[0-9a-fA-F]{6}$/.test(item.color)
-                  ? item.color
-                  : "#f2edcb";
+                typeof item === "object"
+              ) {
+                name = String(
+                  item.libraryName ||
+                  item.name ||
+                  ""
+                ).trim();
+
+                password = String(
+                  item.password || ""
+                );
+
+                // if (
+                //   /^#[0-9a-fA-F]{6}$/.test(
+                //     String(item.color || "")
+                //   )
+                // ) {
+                //   color = item.color;
+                // }
+              }
+
+              if (!name) {
+                return null;
+              }
 
               return [
                 name,
                 {
                   name,
-                  color
+                  password,
+                  color: "#f2edcb"
                 }
               ];
             })
@@ -1300,11 +1342,24 @@ app.post("/register-book", (req, res) => {
       ]
     : [];
 
-  // 요청된 private library 비밀번호 확인
+
+  // ============================================================
+  // 선택한 Library가 실제 존재하는지 확인
+  // + private Library password 확인
+  // ============================================================
   for (const selectedLibrary of selectedLibraries) {
+    // Central Liiibrary는 libraries.json에 없을 수도 있으므로 제외
+    if (
+      selectedLibrary.name ===
+      "Central Liiibrary"
+    ) {
+      continue;
+    }
+
     const libraryData = libraries.find(
       item =>
-        item.libraryName === selectedLibrary.name
+        item.libraryName ===
+        selectedLibrary.name
     );
 
     if (!libraryData) {
@@ -1316,52 +1371,215 @@ app.post("/register-book", (req, res) => {
     }
 
     if (
-      libraryData.bookSharing === "private" &&
-      String(password) !==
-        String(libraryData.password)
+      libraryData.bookSharing === "private"
     ) {
-      return res.status(403).json({
-        success: false,
-        message: "Incorrect password"
-      });
+      if (!selectedLibrary.password) {
+        return res.status(401).json({
+          success: false,
+          passwordRequired: true,
+          libraryName:
+            selectedLibrary.name,
+          message:
+            `Please enter the password for ${selectedLibrary.name}`
+        });
+      }
+
+      if (
+        String(selectedLibrary.password) !==
+        String(libraryData.password)
+      ) {
+        return res.status(403).json({
+          success: false,
+          passwordRequired: true,
+          libraryName:
+            selectedLibrary.name,
+          message:
+            `Incorrect password for ${selectedLibrary.name}`
+        });
+      }
     }
   }
 
+
+  // ============================================================
+  // Central Liiibrary는 항상 포함
+  // ============================================================
+  const bookLibraries =
+    selectedLibraries
+      .filter(item => item.name)
+      .map(item => ({
+        name: item.name,
+        color: item.color || "#f2edcb"
+      }));
+
+
   const hasCentralLibrary =
-    selectedLibraries.some(
+    bookLibraries.some(
       item =>
-        item.name === "Central Liiibrary"
+        item.name ===
+        "Central Liiibrary"
     );
 
+
+  if (!hasCentralLibrary) {
+    bookLibraries.unshift({
+      name: "Central Liiibrary",
+      color: "#f2edcb"
+    });
+  }
+
+
+  // ============================================================
+  // 새 Book 생성
+  // ============================================================
   const newBook = {
     id: createUniqueId(books),
+
     title: title.trim(),
+
     author: author
-      .map(authorName => authorName.trim())
+      .map(authorName =>
+        String(authorName).trim()
+      )
       .filter(Boolean),
+
     url: url.trim(),
 
-    library: hasCentralLibrary
-      ? selectedLibraries
-      : [
-          {
-            name: "Central Liiibrary",
-            color: "#f2edcb"
-          },
-          ...selectedLibraries
-        ],
+    library: bookLibraries,
 
     note: []
   };
 
+
   books.push(newBook);
+
   writeBooks(books);
+
 
   return res.json({
     success: true,
     book: newBook
   });
 });
+
+// app.post("/register-book", (req, res) => {
+//   const {
+//     title,
+//     author,
+//     url,
+//     library,
+//     password = ""
+//   } = req.body;
+
+//   if (
+//     !title ||
+//     !Array.isArray(author) ||
+//     author.length === 0 ||
+//     !url
+//   ) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "필수 항목을 입력해주세요."
+//     });
+//   }
+
+//   const books = readBooks();
+//   const libraries = readLibraries();
+
+//   const selectedLibraries = Array.isArray(library)
+//     ? [
+//         ...new Map(
+//           library
+//             .map(item => {
+//               const name =
+//                 typeof item === "string"
+//                   ? item
+//                   : item?.name || "";
+
+//               if (!name) return null;
+
+//               const color =
+//                 item &&
+//                 typeof item === "object" &&
+//                 /^#[0-9a-fA-F]{6}$/.test(item.color)
+//                   ? item.color
+//                   : "#f2edcb";
+
+//               return [
+//                 name,
+//                 {
+//                   name,
+//                   color
+//                 }
+//               ];
+//             })
+//             .filter(Boolean)
+//         ).values()
+//       ]
+//     : [];
+
+//   // 요청된 private library 비밀번호 확인
+//   for (const selectedLibrary of selectedLibraries) {
+//     const libraryData = libraries.find(
+//       item =>
+//         item.libraryName === selectedLibrary.name
+//     );
+
+//     if (!libraryData) {
+//       return res.status(404).json({
+//         success: false,
+//         message:
+//           `Library "${selectedLibrary.name}" was not found.`
+//       });
+//     }
+
+//     if (
+//       libraryData.bookSharing === "private" &&
+//       String(password) !==
+//         String(libraryData.password)
+//     ) {
+//       return res.status(403).json({
+//         success: false,
+//         message: "Incorrect password"
+//       });
+//     }
+//   }
+
+//   const hasCentralLibrary =
+//     selectedLibraries.some(
+//       item =>
+//         item.name === "Central Liiibrary"
+//     );
+
+//   const newBook = {
+//     id: createUniqueId(books),
+//     title: title.trim(),
+//     author: author
+//       .map(authorName => authorName.trim())
+//       .filter(Boolean),
+//     url: url.trim(),
+
+//     library: hasCentralLibrary
+//       ? selectedLibraries
+//       : [
+//           {
+//             name: "Central Liiibrary",
+//             color: "#f2edcb"
+//           },
+//           ...selectedLibraries
+//         ],
+
+//     note: []
+//   };
+
+//   books.push(newBook);
+//   writeBooks(books);
+
+//   return res.json({
+//     success: true,
+//     book: newBook
+//   });
+// });
 
 // ======================================================================
 app.post("/books/:id/notes", (req, res) => {

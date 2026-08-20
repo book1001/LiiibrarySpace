@@ -165,7 +165,7 @@ function updateLibraryDropdownButton() {
 
   submitLibraryDropdownBtn.innerHTML = `
     ${selectedLibraryNames.join(", ")}
-    <span class="add-circle material-symbols-outlined">add_circle</span>
+    <span class="add-circle material-symbols-outlined" style="cursor: pointer;">add_circle</span>
   `;
 }
 
@@ -356,20 +356,15 @@ async function loadLibraries() {
 // ======================================================
 // Dropdown 열기 / 닫기
 // ======================================================
-submitLibraryDropdownBtn.addEventListener(
-  "click",
-  event => {
+submitLibraryDropdownBtn.addEventListener("click", event => {
     event.stopPropagation();
-
     submitLibraryDropdown.classList.toggle("is-open");
   }
 );
 
 
 // Dropdown 내부 클릭 시 닫히지 않도록 설정
-submitLibraryDropdown.addEventListener(
-  "click",
-  event => {
+submitLibraryDropdown.addEventListener("click", event => {
     event.stopPropagation();
   }
 );
@@ -660,9 +655,9 @@ form.addEventListener("submit", async event => {
     .filter(Boolean);
 
   if (!title || !url || author.length === 0) {
-    alert(
-      "Please enter the title, author, and URL"
-    );
+    // alert(
+    //   "Please enter the title, author, and URL"
+    // );
 
     return;
   }
