@@ -66,6 +66,11 @@ input {
   width: 100%;
 }
 
+.librarySetting-border {
+  display: none;
+  width: 100%;
+}
+
 .toast {
   position: fixed;
   left: 50%;

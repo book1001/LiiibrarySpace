@@ -22,6 +22,8 @@ const deleteLibraryCancel = document.getElementById("deleteLibraryCancel");
 const deleteLibraryConfirm = document.getElementById("deleteLibraryConfirm");
 const deleteLibraryForm = document.getElementById("deleteLibraryForm");
 
+const librarySettingBorders = document.querySelectorAll(".librarySetting-border");
+
 const settingPassword = document.getElementById("settingPassword");
 const passwordChangeForm = document.getElementById("passwordChangeForm");
 
@@ -471,9 +473,12 @@ function startRepairMode() {
   settingDescription.spellcheck = false;
 
   // settingHouseWall.classList.add("is-editing");
-  settingHouseTitle.classList.add("is-editing");
-  settingTitle.classList.add("is-editing");
-  settingDescription.classList.add("is-editing");
+  // settingHouseTitle.classList.add("is-editing");
+  // settingTitle.classList.add("is-editing");
+  // settingDescription.classList.add("is-editing");
+  librarySettingBorders.forEach(element => {
+    element.style.display = "block";
+  });
 
   repairBtn.textContent = "check_circle";
   repairBtnCancel.style.display = "block";
@@ -505,9 +510,12 @@ function endRepairMode() {
   settingDescription.contentEditable = "false";
 
   // settingHouseWall.classList.remove("is-editing");
-  settingHouseTitle.classList.remove("is-editing");
-  settingTitle.classList.remove("is-editing");
-  settingDescription.classList.remove("is-editing");
+  // settingHouseTitle.classList.remove("is-editing");
+  // settingTitle.classList.remove("is-editing");
+  // settingDescription.classList.remove("is-editing");
+  librarySettingBorders.forEach(element => {
+    element.style.display = "none";
+  });
 
   repairBtn.textContent = "build_circle";
   repairBtnCancel.style.display = "none";

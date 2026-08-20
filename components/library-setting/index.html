@@ -40,9 +40,13 @@
     font-family: 'HB-Regular';
   }
 
+  #settingHouseTitle:focus {
+    outline: none;
+  }
+
   #settingTitle {
     display: inline-block;
-    margin-block-start: 13px;
+    margin-block-start: 0;
     margin-block-end: 0;
   }
 
@@ -286,10 +290,20 @@
   </div>
 </div>
 
-<h2 id="settingTitle"></h2>
+
+
+<div class="input-container" style="font-size: 20px;">
+  <h2 id="settingTitle"></h2>
+  <div class="input-border librarySetting-border"></div>
+</div>
+
 <h3 id="settingCreatedAt"></h3>
 
-<p id="settingDescription"></p>
+<div class="input-container" style="font-size: 14px;">
+  <p id="settingDescription"></p>
+  <div class="input-border librarySetting-border"></div>
+</div>
+
 
 <div class="holdingTitle">
   <div>Author</div>

@@ -155,6 +155,7 @@ h1 {
   margin-block-end: 0;
   /* font-family: 'AmericanTypewriter'; */
   font-family: 'HB-Regular';
+  font-weight: normal;
   /* font-weight: bold; */
   font-size: 24px;
   /* font-family: 'tacmitac';
@@ -165,13 +166,14 @@ h1 {
 h2 {
   /* font-family: 'AmericanTypewriter'; */
   font-family: 'HB-Regular';
-  font-weight: bold;
+  font-weight: normal;
+  font-size: 20px;
 }
 
 h3 {
   /* font-family: 'AmericanTypewriter'; */
   font-family: 'HB-Regular';
-  font-weight: bold;
+  font-weight: normal;
 }
 
 h4 {
