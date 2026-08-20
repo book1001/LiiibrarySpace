@@ -165,7 +165,7 @@ function updateLibraryDropdownButton() {
 
   submitLibraryDropdownBtn.innerHTML = `
     ${selectedLibraryNames.join(", ")}
-    <span class="add-circle material-symbols-outlined">add_circle</span>
+    <button class="add-circle material-symbols-outlined">add_circle</button>
   `;
 }
 

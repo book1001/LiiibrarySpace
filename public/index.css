@@ -208,7 +208,6 @@ input {
   padding-bottom: 16px;
 }
 
-.card-item input,
 .card-item-name input,
 .card-item-required input,
 .card-item-add input {
@@ -638,7 +637,7 @@ input {
   display: none;
   position: absolute;
   /* top: 100%; */
-  left: 64px;
+  right: 0;
   z-index: 1000;
 
   min-width: 220px;
@@ -674,6 +673,13 @@ input {
 .library-checkbox-item.is-loading {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.submit-library-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
 }
 
 
