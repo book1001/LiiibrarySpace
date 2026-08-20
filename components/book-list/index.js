@@ -78,10 +78,6 @@ export async function initBookList({
       const handle = document.createElement("div");
       const title = document.createElement("div");
 
-      let startX = 0;
-      let startY = 0;
-      let wasDragging = false;
-
       item.id = book.id;
       item.classList.add("book", "can-drag");
       item.setAttribute("can-mirror", "");
@@ -101,26 +97,11 @@ export async function initBookList({
 
       item.append(handle, title);
 
-      item.addEventListener("mousedown", e => {
-        startX = e.clientX;
-        startY = e.clientY;
-        wasDragging = false;
-      });
-
-      item.addEventListener("mousemove", e => {
-        const moved =
-          Math.abs(e.clientX - startX) > 5 ||
-          Math.abs(e.clientY - startY) > 5;
-
-        if (moved) {
-          wasDragging = true;
-        }
-      });
-
+      // ==================================================
+      // Book Title 클릭
+      // ==================================================
       title.addEventListener("click", e => {
         e.stopPropagation();
-
-        if (wasDragging) return;
 
         if (typeof showBookCard === "function") {
           showBookCard(book);
@@ -137,18 +118,30 @@ export async function initBookList({
     if (isAllMode) return;
 
     const floor = document.getElementById("floor");
+
     if (!floor) return;
 
-    const floorLeft = parseFloat(getComputedStyle(floor).left) || 0;
-    const floorTop = parseFloat(getComputedStyle(floor).top) || 0;
+    const floorLeft =
+      parseFloat(getComputedStyle(floor).left) || 0;
 
-    const viewportCenterX = window.innerWidth / 2;
-    const viewportCenterY = window.innerHeight / 2;
+    const floorTop =
+      parseFloat(getComputedStyle(floor).top) || 0;
 
-    const centerX = -floorLeft + viewportCenterX;
-    const centerY = -floorTop + viewportCenterY;
+    const viewportCenterX =
+      window.innerWidth / 2;
 
-    const otherBooks = [...bookList.querySelectorAll(".book")].filter(
+    const viewportCenterY =
+      window.innerHeight / 2;
+
+    const centerX =
+      -floorLeft + viewportCenterX;
+
+    const centerY =
+      -floorTop + viewportCenterY;
+
+    const otherBooks = [
+      ...bookList.querySelectorAll(".book")
+    ].filter(
       book => book !== newItem
     );
 
@@ -172,13 +165,25 @@ export async function initBookList({
     let targetY;
 
     if (centerBook) {
-      const centerRect = centerBook.getBoundingClientRect();
+      const centerRect =
+        centerBook.getBoundingClientRect();
 
-      targetX = -floorLeft + centerRect.right + gap;
-      targetY = -floorTop + centerRect.top;
+      targetX =
+        -floorLeft +
+        centerRect.right +
+        gap;
+
+      targetY =
+        -floorTop +
+        centerRect.top;
     } else {
-      targetX = centerX - newItem.offsetWidth / 2;
-      targetY = centerY - newItem.offsetHeight / 2;
+      targetX =
+        centerX -
+        newItem.offsetWidth / 2;
+
+      targetY =
+        centerY -
+        newItem.offsetHeight / 2;
     }
 
     /*
@@ -188,39 +193,71 @@ export async function initBookList({
     let hasOverlap = true;
     let safetyCount = 0;
 
-    while (hasOverlap && safetyCount < 100) {
+    while (
+      hasOverlap &&
+      safetyCount < 100
+    ) {
       hasOverlap = false;
       safetyCount += 1;
 
       const candidateRect = {
-        left: floorLeft + targetX,
-        top: floorTop + targetY,
-        right: floorLeft + targetX + newItem.offsetWidth,
-        bottom: floorTop + targetY + newItem.offsetHeight
+        left:
+          floorLeft +
+          targetX,
+
+        top:
+          floorTop +
+          targetY,
+
+        right:
+          floorLeft +
+          targetX +
+          newItem.offsetWidth,
+
+        bottom:
+          floorTop +
+          targetY +
+          newItem.offsetHeight
       };
 
-      const overlappingBook = otherBooks.find(book => {
-        const rect = book.getBoundingClientRect();
+      const overlappingBook =
+        otherBooks.find(book => {
+          const rect =
+            book.getBoundingClientRect();
 
-        return (
-          candidateRect.left < rect.right &&
-          candidateRect.right > rect.left &&
-          candidateRect.top < rect.bottom &&
-          candidateRect.bottom > rect.top
-        );
-      });
+          return (
+            candidateRect.left <
+              rect.right &&
+            candidateRect.right >
+              rect.left &&
+            candidateRect.top <
+              rect.bottom &&
+            candidateRect.bottom >
+              rect.top
+          );
+        });
 
       if (overlappingBook) {
-        const rect = overlappingBook.getBoundingClientRect();
+        const rect =
+          overlappingBook.getBoundingClientRect();
 
-        targetX = -floorLeft + rect.right + gap;
+        targetX =
+          -floorLeft +
+          rect.right +
+          gap;
+
         hasOverlap = true;
       }
     }
 
-    newItem.style.position = "absolute";
-    newItem.style.left = `${targetX}px`;
-    newItem.style.top = `${targetY}px`;
+    newItem.style.position =
+      "absolute";
+
+    newItem.style.left =
+      `${targetX}px`;
+
+    newItem.style.top =
+      `${targetY}px`;
   }
 
   async function loadBooks() {
@@ -235,31 +272,57 @@ export async function initBookList({
       // const res = await fetch("/books");
 
       if (!res.ok) {
-        throw new Error("Failed to load the book list");
+        throw new Error(
+          "Failed to load the book list"
+        );
       }
 
-      const books = await res.json();
+      const books =
+        await res.json();
 
       // all 모드에서는 최신 책이 먼저 오도록 reverse
-      const visibleBooks = isAllMode
-        ? [...getVisibleBooks(books)].reverse()
-        : getVisibleBooks(books);
+      const visibleBooks =
+        isAllMode
+          ? [
+              ...getVisibleBooks(
+                books
+              )
+            ].reverse()
+          : getVisibleBooks(
+              books
+            );
 
-      const currentVisibleBookIds = new Set(
-        visibleBooks.map(book => String(book.id))
-      );
+      const currentVisibleBookIds =
+        new Set(
+          visibleBooks.map(
+            book =>
+              String(book.id)
+          )
+        );
 
-      const newBookIds = new Set();
+      const newBookIds =
+        new Set();
 
-      if (previousVisibleBookIds !== null) {
-        currentVisibleBookIds.forEach(id => {
-          if (!previousVisibleBookIds.has(id)) {
-            newBookIds.add(id);
+      if (
+        previousVisibleBookIds !==
+        null
+      ) {
+        currentVisibleBookIds.forEach(
+          id => {
+            if (
+              !previousVisibleBookIds.has(
+                id
+              )
+            ) {
+              newBookIds.add(id);
+            }
           }
-        });
+        );
       }
 
-      const renderer = renderers[mode] || renderers.currentLibrary;
+      const renderer =
+        renderers[mode] ||
+        renderers.currentLibrary;
 
       /*
         ALL MODE
@@ -271,68 +334,104 @@ export async function initBookList({
         뒤쪽 절반 → #bookList-R
       */
       if (isAllMode) {
-        bookListL.innerHTML = "";
-        bookListR.innerHTML = "";
+        bookListL.innerHTML =
+          "";
 
-        const middleIndex = Math.ceil(
-          visibleBooks.length / 2
-        );
+        bookListR.innerHTML =
+          "";
 
-        visibleBooks.forEach((book, index) => {
-          const item = renderer(book);
+        const middleIndex =
+          Math.ceil(
+            visibleBooks.length /
+              2
+          );
 
-          if (index < middleIndex) {
-            bookListL.appendChild(item);
-          } else {
-            bookListR.appendChild(item);
+        visibleBooks.forEach(
+          (book, index) => {
+            const item =
+              renderer(book);
+
+            if (
+              index <
+              middleIndex
+            ) {
+              bookListL.appendChild(
+                item
+              );
+            } else {
+              bookListR.appendChild(
+                item
+              );
+            }
           }
-        });
+        );
       }
 
       /*
         CURRENT LIBRARY MODE
       */
       else {
-        bookList.innerHTML = "";
+        bookList.innerHTML =
+          "";
 
-        visibleBooks.forEach(book => {
-          const item = renderer(book);
+        visibleBooks.forEach(
+          book => {
+            const item =
+              renderer(book);
 
-          bookList.appendChild(item);
+            bookList.appendChild(
+              item
+            );
 
-          const isNewBook = newBookIds.has(
-            String(book.id)
-          );
+            const isNewBook =
+              newBookIds.has(
+                String(book.id)
+              );
 
-          if (isNewBook) {
-            placeNewBookNextToCenter(item);
+            if (isNewBook) {
+              placeNewBookNextToCenter(
+                item
+              );
+            }
+
+            // 위치를 먼저 지정한 다음 PlayHTML 연결
+            if (
+              typeof window.setupPlayhtmlElement ===
+              "function"
+            ) {
+              window.setupPlayhtmlElement(
+                item
+              );
+            }
           }
-
-          // 위치를 먼저 지정한 다음 PlayHTML 연결
-          if (
-            typeof window.setupPlayhtmlElement === "function"
-          ) {
-            window.setupPlayhtmlElement(item);
-          }
-        });
+        );
       }
 
-      previousVisibleBookIds = currentVisibleBookIds;
+      previousVisibleBookIds =
+        currentVisibleBookIds;
     } catch (error) {
       console.error(error);
     }
   }
 
-  window.loadBooks = loadBooks;
+  window.loadBooks =
+    loadBooks;
 
   // ======================================================
   // Book Update Events
   // ======================================================
 
-  async function handleBookUpdated(event) {
-    const data = event.detail || event.data;
+  async function handleBookUpdated(
+    event
+  ) {
+    const data =
+      event.detail ||
+      event.data;
 
-    if (data?.type !== "book-updated") {
+    if (
+      data?.type !==
+      "book-updated"
+    ) {
       return;
     }
 
@@ -341,7 +440,8 @@ export async function initBookList({
     if (
       !isAllMode &&
       data.libraryName &&
-      data.libraryName !== CURRENT_LIBRARY
+      data.libraryName !==
+        CURRENT_LIBRARY
     ) {
       return;
     }
@@ -353,14 +453,17 @@ export async function initBookList({
   // 현재 창에서 발생한 CustomEvent
   // ------------------------------------------------------
 
-  if (bookList._bookUpdatedHandler) {
+  if (
+    bookList._bookUpdatedHandler
+  ) {
     window.removeEventListener(
       "book-updated",
       bookList._bookUpdatedHandler
     );
   }
 
-  bookList._bookUpdatedHandler = handleBookUpdated;
+  bookList._bookUpdatedHandler =
+    handleBookUpdated;
 
   window.addEventListener(
     "book-updated",
@@ -371,39 +474,49 @@ export async function initBookList({
   // 다른 탭 또는 팝업에서 발생한 BroadcastChannel
   // ------------------------------------------------------
 
-  if (bookList._bookUpdateChannel) {
+  if (
+    bookList._bookUpdateChannel
+  ) {
     bookList._bookUpdateChannel.close();
   }
 
-  const bookUpdateChannel = new BroadcastChannel(
-    "book-updates"
-  );
+  const bookUpdateChannel =
+    new BroadcastChannel(
+      "book-updates"
+    );
 
   bookUpdateChannel.addEventListener(
     "message",
     async event => {
-      const message = event.data;
+      const message =
+        event.data;
 
       if (
         !message ||
-        message.type !== "delete-book-mirror-data" ||
-        message.libraryName !== CURRENT_LIBRARY
+        message.type !==
+          "delete-book-mirror-data" ||
+        message.libraryName !==
+          CURRENT_LIBRARY
       ) {
         return;
       }
 
-      const elementId = message.bookId;
+      const elementId =
+        message.bookId;
 
       if (
         window.playhtml &&
-        typeof window.playhtml.deleteElementData === "function"
+        typeof window.playhtml
+          .deleteElementData ===
+          "function"
       ) {
         try {
           const result =
-            await window.playhtml.deleteElementData(
-              "can-mirror",
-              elementId
-            );
+            await window.playhtml
+              .deleteElementData(
+                "can-mirror",
+                elementId
+              );
 
           console.log(
             "Deleted can-mirror data:",
@@ -420,26 +533,33 @@ export async function initBookList({
     }
   );
 
-  bookList._bookUpdateChannel = bookUpdateChannel;
+  bookList._bookUpdateChannel =
+    bookUpdateChannel;
 
   // ------------------------------------------------------
   // window.opener.postMessage()로 전달된 변경
   // ------------------------------------------------------
 
-  if (bookList._bookMessageHandler) {
+  if (
+    bookList._bookMessageHandler
+  ) {
     window.removeEventListener(
       "message",
       bookList._bookMessageHandler
     );
   }
 
-  bookList._bookMessageHandler = event => {
-    if (event.origin !== window.location.origin) {
-      return;
-    }
+  bookList._bookMessageHandler =
+    event => {
+      if (
+        event.origin !==
+        window.location.origin
+      ) {
+        return;
+      }
 
-    handleBookUpdated(event);
-  };
+      handleBookUpdated(event);
+    };
 
   window.addEventListener(
     "message",
