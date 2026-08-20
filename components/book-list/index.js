@@ -83,7 +83,7 @@ export async function initBookList({
       const title = document.createElement("div");
 
       item.id = book.id;
-      item.dataset.bookId = book.id;
+      // item.dataset.bookId = book.id;
 
       item.classList.add("book", "can-drag");
       item.setAttribute("can-mirror", "");
@@ -454,12 +454,14 @@ export async function initBookList({
 
     if (!item) return;
 
+    const bookId = item.id;
+
     const book = currentBooks.find(
-      book => String(book.id) === String(item.dataset.bookId)
+      book => String(book.id) === String(bookId)
     );
 
     if (!book) {
-      console.warn("Book data not found:", item.dataset.bookId);
+      console.warn("Book data not found:", bookId);
       return;
     }
 
