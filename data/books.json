@@ -66,7 +66,13 @@
         "color": "#f2edcb"
       }
     ],
-    "note": []
+    "note": [
+      {
+        "date": "08/25/2026, 03:39:25 PM",
+        "borrower": "Gumchum",
+        "comment": "yoyo hi"
+      }
+    ]
   },
   {
     "id": "f99ec99a-9faa-4e31-97b5-36be69e8c28e",
@@ -104,7 +110,13 @@
         "color": "#f2edcb"
       }
     ],
-    "note": []
+    "note": [
+      {
+        "date": "09/15/2026, 11:42:19 PM",
+        "borrower": "nick",
+        "comment": "hmm"
+      }
+    ]
   },
   {
     "id": "3e64995e-8692-47b5-b3ef-f91f1dba376f",
@@ -162,7 +174,13 @@
         "color": "#f2edcb"
       }
     ],
-    "note": []
+    "note": [
+      {
+        "date": "08/21/2026, 06:04:03 PM",
+        "borrower": "Todd",
+        "comment": "Very interesting!"
+      }
+    ]
   },
   {
     "id": "afe3d651-e64b-436f-8ced-65856e948a5b",
@@ -257,7 +275,13 @@
         "color": "#f2edcb"
       }
     ],
-    "note": []
+    "note": [
+      {
+        "date": "09/13/2026, 07:33:02 PM",
+        "borrower": "pp",
+        "comment": "random"
+      }
+    ]
   },
   {
     "id": "a9dd1f8a-a693-4d11-a336-a09d52829ae0",
@@ -366,6 +390,10 @@
       {
         "name": "DaCoolPlace",
         "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#325afb"
       }
     ],
     "note": []
@@ -477,7 +505,13 @@
         "color": "#f2edcb"
       }
     ],
-    "note": []
+    "note": [
+      {
+        "date": "09/21/2026, 02:32:38 PM",
+        "borrower": "puppi",
+        "comment": "hii"
+      }
+    ]
   },
   {
     "id": "7edd8ee5-be8e-4ae6-89c2-3da82463c7ce",
@@ -542,7 +576,13 @@
         "color": "#f2edcb"
       }
     ],
-    "note": []
+    "note": [
+      {
+        "date": "09/14/2026, 02:44:17 PM",
+        "borrower": "isa",
+        "comment": "hi"
+      }
+    ]
   },
   {
     "id": "0e87227d-abfa-4a89-bd3a-66470f9e8448",
@@ -555,9 +595,23 @@
       {
         "name": "Central Liiibrary",
         "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "SFPC.bbw",
+        "color": "#f2edcb"
       }
     ],
-    "note": []
+    "note": [
+      {
+        "date": "09/09/2026, 12:18:02 AM",
+        "borrower": "simon",
+        "comment": "not sure where 1 is"
+      }
+    ]
   },
   {
     "id": "9b03371d-c234-4519-8ae6-002ce8f4d17f",
@@ -584,6 +638,10 @@
     "library": [
       {
         "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "secret-library",
         "color": "#f2edcb"
       }
     ],
@@ -661,6 +719,14 @@
       {
         "name": "Central Liiibrary",
         "color": "#f2edcb"
+      },
+      {
+        "name": "Halim",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
       }
     ],
     "note": []
@@ -678,7 +744,13 @@
         "color": "#f2edcb"
       }
     ],
-    "note": []
+    "note": [
+      {
+        "date": "10/27/2026, 12:51:23 PM",
+        "borrower": "hanamej",
+        "comment": ":|"
+      }
+    ]
   },
   {
     "id": "3b4457d1-c418-401b-9939-4c34a43b2f9d",
@@ -711,6 +783,908 @@
       {
         "name": "SFPC.bbw",
         "color": "#ffffff"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "1d609c55-425d-468a-a30c-de6e39e41594",
+    "title": "Eel Slap",
+    "author": [
+      "Eelslap.com"
+    ],
+    "url": "http://eelslap.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "Todds-Palace-Of-Cool-Topics",
+        "color": "#f9de29"
+      },
+      {
+        "name": "Cool_place",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#0a4126"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "91facb45-09a0-4b47-b3a3-3237b809b02f",
+    "title": "No Play",
+    "author": [
+      "Ife Olujobi"
+    ],
+    "url": "https://lareviewofbooks.org/article/breaking-up-with-the-arts/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "theliminalspace",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "874fb393-df89-4a5c-ad75-ab4488a18e40",
+    "title": "Tom's crossing",
+    "author": [
+      "Mark Z. Danielewski"
+    ],
+    "url": "https://richardson.overdrive.com/media/11644690",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "The_Conservetory",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "dbb33015-1e76-4424-ae5b-778a8988c835",
+    "title": "the importance of taste – and how to acquire it",
+    "author": [
+      "Elizabeth Goodspeed"
+    ],
+    "url": "https://www.itsnicethat.com/articles/elizabeth-goodspeed-column-taste-technology-art-280224",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "0c039a69-c1fa-4a10-8961-9f266accf55c",
+    "title": "your ai slop bores me",
+    "author": [
+      "Mihir Maroju"
+    ],
+    "url": "https://youraislopbores.me/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#e33232"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "90f4e692-99e5-447d-badb-a374e3ff9c5c",
+    "title": "Stone Butch Blues",
+    "author": [
+      "Leslie Feinberg"
+    ],
+    "url": "https://www.lesliefeinberg.net/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#5539b8"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "75bf5f08-d988-486a-8b23-5b35abcb91a9",
+    "title": "Neal.fun",
+    "author": [
+      "Neal"
+    ],
+    "url": "https://neal.fun/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#5bbccf"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "6d7eca91-5edb-4e90-9c4c-1fccc59708f5",
+    "title": "Luna",
+    "author": [
+      "Clara Nolan"
+    ],
+    "url": "https://clara-nolan.github.io/luna/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#a190ff"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "c7c01640-0c26-4bca-acf2-03627803cccc",
+    "title": "Internet Hospital",
+    "author": [
+      "Kae"
+    ],
+    "url": "https://cyberhospital.neocities.org/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#a4dad0"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "97ac3f78-78d9-4b78-bb95-e2fc6fbe0a23",
+    "title": "Swirly Words",
+    "author": [
+      "index"
+    ],
+    "url": "https://writecards.github.io/how/index.html",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "6e098b7e-0d9e-45cd-96a9-49bca866647a",
+    "title": "Blosssoms",
+    "author": [
+      "blossoms"
+    ],
+    "url": "https://blossoms.jeraldlim.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#eb88bb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "3ad623f4-f817-4e50-82f7-acfbeab2f0a9",
+    "title": "Ducklings",
+    "author": [
+      "Ducklings.io"
+    ],
+    "url": "https://ducklings.io",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#f1d208"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "43717562-3d7b-43ba-9862-1d5abba8f883",
+    "title": "WPlace",
+    "author": [
+      "wplace"
+    ],
+    "url": "https://wplace.live/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#0af93e"
+      }
+    ],
+    "note": [
+      {
+        "date": "09/23/2026, 12:43:24 PM",
+        "borrower": "PZY",
+        "comment": "thanks :)"
+      }
+    ]
+  },
+  {
+    "id": "f1171869-0fae-4a7c-9d4b-4b880c9dc6f4",
+    "title": "Free Harvard Classes",
+    "author": [
+      "Harvard Law"
+    ],
+    "url": "https://pll.harvard.edu/catalog/free",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#b83030"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "f4060533-0e0d-441d-ab84-4b6e0dbedc50",
+    "title": "Dareabee Workouts",
+    "author": [
+      "Dareabee"
+    ],
+    "url": "https://darebee.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#f4d71e"
+      },
+      {
+        "name": "Puppiiii",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "1b3a562a-b065-4d33-8a06-f2290d4fd54e",
+    "title": "Scarleteen",
+    "author": [
+      "Scarleteen"
+    ],
+    "url": "https://www.scarleteen.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#ee106d"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "6e50b016-f2e8-40ad-821d-ec8ed7e7a374",
+    "title": "Calculus Made Easy",
+    "author": [
+      "Silvanus P. Thompson"
+    ],
+    "url": "https://calculusmadeeasy.org/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "88631654-9f94-4441-a6f4-ac1133b28899",
+    "title": "Jigsaw",
+    "author": [
+      "jigsawexplorer"
+    ],
+    "url": "https://www.jigsawexplorer.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "brarycoollibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "The_Conservetory",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "6d5cf085-c585-42f2-b8b7-51fee1775208",
+    "title": "concha",
+    "author": [
+      "toro"
+    ],
+    "url": "www.arteselektor.com",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "copacetic",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "0fde15ac-4e57-4e93-910c-3631be72d09a",
+    "title": "maybe 1?",
+    "author": [
+      "pp"
+    ],
+    "url": "https://docs.google.com/spreadsheets/d/1CWclP40JNNk__fmqXGNqtrXvpP2563IsMmCWu3q9V1s/edit?gid=341790754#gid=341790754",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZ",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "fbe05358-e5b8-40bf-83dd-1d0f2e182fca",
+    "title": "Size It Up",
+    "author": [
+      "PZ Games"
+    ],
+    "url": "https://sizeitup.games/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZ",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "77412663-a276-49d2-9924-e35b30d7868e",
+    "title": "Sporcle",
+    "author": [
+      "PZ Games"
+    ],
+    "url": "https://www.sporcle.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZ",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "ec24c4e1-f5f6-4352-8c80-9380b7d239a9",
+    "title": "Chess",
+    "author": [
+      "PZ Games"
+    ],
+    "url": "https://www.chess.com/home",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZ",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "09beef9b-3fd7-4723-a670-d413041a920d",
+    "title": "SVKM Portal",
+    "author": [
+      "PZ Acad"
+    ],
+    "url": "https://portal.svkm.ac.in/usermgmt/login",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZ",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "6d8815df-15db-4cfc-9e53-c810ae473dd1",
+    "title": "Size It Up",
+    "author": [
+      "PZY"
+    ],
+    "url": "https://sizeitup.games/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#789fcf"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "92facfb8-253f-4995-a08c-5fbbd087f78f",
+    "title": "W Place",
+    "author": [
+      "Brarycool"
+    ],
+    "url": "https://wplace.live/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#44a4e0"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "0dd593e3-a30a-4c27-b672-b7a051afb885",
+    "title": "Neal fun",
+    "author": [
+      "Brarycool"
+    ],
+    "url": "https://neal.fun/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#789fcf"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "d3f5e283-49a5-409a-b099-d6ce9e3dd62c",
+    "title": "Your AI Slop Bores Me",
+    "author": [
+      "Brarycool"
+    ],
+    "url": "https://youraislopbores.me/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#44a4e0"
+      }
+    ],
+    "note": [
+      {
+        "date": "10/13/2026, 08:28:16 PM",
+        "borrower": "Arin",
+        "comment": ""
+      }
+    ]
+  },
+  {
+    "id": "54416bb6-3c0b-4b06-919d-741986dea44b",
+    "title": "Cutle",
+    "author": [
+      "PZY"
+    ],
+    "url": "cutle.org",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#789fcf"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "346f2473-cb38-4665-a4ac-8a92f885f726",
+    "title": "Exit",
+    "author": [
+      "ADMIN"
+    ],
+    "url": "https://liiibrary.space/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#e32a5e"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "d445eaf0-c797-43be-9ef1-c92197ba691e",
+    "title": "The Eyeballing Game",
+    "author": [
+      "PZY"
+    ],
+    "url": "https://woodgears.ca/eyeball/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "7672c141-ca5a-4c02-a379-c39ed3e17852",
+    "title": "Kerntype",
+    "author": [
+      "PZY"
+    ],
+    "url": "https://type.method.ac/#",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "ab352df8-562f-4474-98d3-cf26d960577c",
+    "title": "The Bezier Game",
+    "author": [
+      "PZY"
+    ],
+    "url": "https://bezier.method.ac/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "ba1348e6-b034-49bb-886b-f2eb461103ea",
+    "title": "Better Web Type",
+    "author": [
+      "PZY"
+    ],
+    "url": "https://betterwebtype.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "3bce612b-d9db-4a4e-9a35-5ca946fa9517",
+    "title": "Color Game",
+    "author": [
+      "PZY"
+    ],
+    "url": "https://color.method.ac/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "6be93183-1c73-4b57-81f8-b3d5d8e10c01",
+    "title": "Harry Flip",
+    "author": [
+      "W2S"
+    ],
+    "url": "https://youtu.be/1QEDDs01-lY?t=624&si=1tbDU5KGZVh60l4j",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "1d7834bd-0b12-44df-b7c4-c8e8f27ff6bc",
+    "title": "from the desks of  EMILY & KONNAIRE",
+    "author": [
+      "Emily",
+      "Konnaire"
+    ],
+    "url": "https://vonkirschnell.haus/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "83db8dac-bce8-4791-820b-e8a810bf07f1",
+    "title": "Slavery Pure and Simple",
+    "author": [
+      "Claudio Lomnitz",
+      "Boston Review"
+    ],
+    "url": "https://www.bostonreview.net/articles/slavery-pure-and-simple/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "ThatPlaceWeCallAway",
+        "color": "#cbf2cd"
+      }
+    ],
+    "note": [
+      {
+        "date": "10/23/2026, 09:54:17 PM",
+        "borrower": "Seething",
+        "comment": "Put off reading this and as expected it is harrowing."
+      }
+    ]
+  },
+  {
+    "id": "3d78321b-4acf-4530-9c08-ed19fe3540f2",
+    "title": "Cloverpatch",
+    "author": [
+      "PZ"
+    ],
+    "url": "cloverpat.ch",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "4e7e477d-b980-49f0-87ec-6af8a0ef1160",
+    "title": "Perceptle",
+    "author": [
+      "PZ"
+    ],
+    "url": "https://perceptle.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "72246245-ea7f-4c62-ae6f-dd58d43ce6f0",
+    "title": "MantarJantar",
+    "author": [
+      "Taxi"
+    ],
+    "url": "https://mantarjantar.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "ea173e28-0629-4460-9e86-ae01a9595359",
+    "title": "Magnitudle",
+    "author": [
+      "PZ"
+    ],
+    "url": "https://magnitudle.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "5501e755-f25d-4e4c-bbf6-746b43f2127d",
+    "title": "Can't Unsee",
+    "author": [
+      "PZ"
+    ],
+    "url": "https://cantunsee.space/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "832c830b-9ad6-401b-a130-7aca3d5607c6",
+    "title": "Quickdraw",
+    "author": [
+      "PZ"
+    ],
+    "url": "https://quickdraw.withgoogle.com/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "PZYLBR",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "c83e1ede-97b0-4713-a0e3-e87edcd90776",
+    "title": "If you love a website, back it up",
+    "author": [
+      "Misty De Meo"
+    ],
+    "url": "https://blog.mistys-internet.website/post/2026/10/29/if-you-love-a-website-back-it-up/",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
+      }
+    ],
+    "note": []
+  },
+  {
+    "id": "b2a0343c-1493-4c19-8c3e-27e98b36276c",
+    "title": "the cuteness of white noise",
+    "author": [
+      "Laurel Schwulst"
+    ],
+    "url": "https://laurelschwulst.com/e/the-cuteness-of-white-noise",
+    "library": [
+      {
+        "name": "Central Liiibrary",
+        "color": "#f2edcb"
+      },
+      {
+        "name": "WWW",
+        "color": "#f2edcb"
       }
     ],
     "note": []
